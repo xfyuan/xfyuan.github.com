@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "A powerfull tool for developer, Vagrant"
+title: "A powerful tool for developer, Vagrant"
 description: ""
 category: tool
 tags: [vagrant]
