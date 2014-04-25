@@ -3,7 +3,7 @@ layout: post
 title: "Set up development environment and workflow using cygwin in windows7 A"
 description: ""
 category: tool
-tags: [cygwin vim tmux zsh git ruby]
+tags: [cygwin,vim,tmux,zsh,git,ruby]
 ---
 {% include JB/setup %}
 
