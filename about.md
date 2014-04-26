@@ -6,7 +6,6 @@ tags: []
 modified: 2014年4月25日
 image:
   feature: about.jpg
-  credit: Yuan
   creditlink: http://xfyuan.github.io
 ---
 
