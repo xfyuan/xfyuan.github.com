@@ -58,10 +58,18 @@ tags: [cygwin,vim,tmux,zsh,git,ruby]
 * curl
 * wget
 * tmux
+* ssh
 * ncurse(安装才可使用clear命令)
 * zshell
 * ctags
+* zip
+* unzip
+* ping
+* procps
+* tree
 * ruby
+* imagemagick
+* pngquant
 
 **Cygwin这里的选择方式和普通软件相比有些不同。你要在那个双箭头的图标上点击，就能看到旁边的文字会在install, skip, reinstall, uninstall等状态切换。你要确保想安装的软件包状态在“install”就对了。**
 
@@ -145,6 +153,16 @@ zshell是比bash更好用的一个shell，我现在已经离不开它了。要�
 
 	plugins=(git tmux history ruby)
 
+使用zshell有时会报类似这样的error：
+
+	compdef: xxxxxxx
+
+这时需要运行这个命令：
+
+	compinit
+
+回车后，对询问的问题，输入“y”，再回车。然后会发现home folder下会生成.zcompdump这个文件，同时还会存在一个.zcompdump-XXXXXXX。这时你需要记下后者的名字，然后删掉后者，再把前者名字改名为后者的。重启cygwin就看到恢复正常了。
+
 ###Ruby
 
 因为工作用到sass，所以必须要配置好相关Ruby环境。我们来看看具体过程。
@@ -186,7 +204,7 @@ x.x.x是各自版本号。注意务必先安装dependencies的gem，最后安装
 
 * **使用 vim/ctags 进行代码编辑；**
 * **使用 git 进行版本控制；**
-* **随时可 ssh 远程连入server进行操作；**
+* **随时可 ssh 远程连入 server 进行操作；**
 * **使用命令`compass watch`监控并自动编译sass；**
 * **zshell/tmux/tmuxinator 使工作效率更高效；**
 
