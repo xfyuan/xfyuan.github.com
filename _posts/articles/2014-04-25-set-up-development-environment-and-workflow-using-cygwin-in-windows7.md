@@ -2,8 +2,9 @@
 layout: post
 title: Set up development environment & workflow using cygwin in windows7
 excerpt: "使用Cygwin在Windows7下构建开发环境和工作流（上）"
-tags: [cygwin,vim,tmux,zsh,git,ruby]
 modified: 2014-04-24
+categories: articles
+tags: [cygwin,vim,tmux,zsh,git,ruby]
 comments: true
 ---
 

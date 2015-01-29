@@ -2,8 +2,9 @@
 layout: post
 title: A powerful tool for developer, Vagrant
 excerpt: "程序员的神兵利器－Vagrant"
-tags: [vagrant]
 modified: 2013-08-14
+categories: articles
+tags: [vagrant]
 comments: true
 ---
 

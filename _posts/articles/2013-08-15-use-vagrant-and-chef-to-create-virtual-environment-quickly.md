@@ -2,8 +2,9 @@
 layout: post
 title: Use vagrant and chef to create virtual environment quickly
 excerpt: "Vagrant＋Chef 快速部署虚拟机环境"
-tags: [vagrant]
 modified: 2013-08-15
+categories: articles
+tags: [vagrant]
 comments: true
 ---
 
