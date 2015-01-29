@@ -1,15 +1,19 @@
 ---
 layout: page
 title: "Search"
-date: 
+date:
 modified:
 excerpt:
 image:
   feature:
 search_omit: true
 sitemap: false
+image:
+  feature: header.jpg
+  credit: John Westrock
+  creditlink: https://www.flickr.com/photos/antrover/
 ---
-  
+
 <!-- Search form -->
 <form method="get" action="{{ site.url }}/search/" data-search-form class="simple-search">
   <label for="q">Search {{ site.title }} for:</label>

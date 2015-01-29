@@ -3,6 +3,10 @@ layout: page
 title: Tag Index
 excerpt: "An archive of posts sorted by tag."
 search_omit: true
+image:
+  feature: header.jpg
+  credit: John Westrock
+  creditlink: https://www.flickr.com/photos/antrover/
 ---
 
 {% capture site_tags %}{% for tag in site.tags %}{{ tag | first }}{% unless forloop.last %},{% endunless %}{% endfor %}{% endcapture %}
