@@ -1,71 +1,48 @@
-# Site wide configuration
+# Basic
+title: 晓岳晨峰
+subtitle: Tech blog just for development
+welcome_message: A ruby developer from living and eating in Chengdu. Creating the future in digital worlds, big and small at Jinshuju.
+description: Apple, Soccer, Vim and Ruby
+creator: <a href="http://xfyuan.github.io">@xfyuan</a>
 
-title: 西风悦
-locale: en_US
-description: Love Apple, Love Soccer, Love Development
-logo: site-logo.jpg
-search: true
-url: http://xfyuan.github.io
+url: "http://xfyuan.github.io"
 
-# Jekyll configuration
+permalink: /:year/:month/:title/
 
-permalink:   /:categories/:title/
-markdown:    kramdown
-highlighter: rouge
-sass:
-  sass_dir: _sass
-  style: compressed
-gems:
-  - jekyll-sitemap
-  - jekyll-gist
+# Format
+highlighter: plain
 
-kramdown:
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..2
-  enable_coderay: false
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: orange
 
-mathjax: true
+# The blog button should not be removed.
+blog_button:
+    title: Blog
+    description: Visit blog
 
-include: [".htaccess"]
-exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "vendor"]
+# Navigation buttons in the front page.
+nav:
+    - {title: Jinshuju, description: 金数据, url: 'https://www.jinshuju.net'}
+    # - {title: Another Button, description: A button, url: 'http://example.com'}
 
+# Pagination
+gems: [jekyll-paginate]
+paginate: 10
+paginate_path: "page/:num/"
 
-# Octopress
+# Comment
+comment:
+    disqus: xfyuan
+    # duoshuo:
 
-# Default extensions
-post_ext: md
-page_ext: md
+# Social
+social:
+    weibo: 昔有唐虞
+    github: xfyuan
+    twitter: apexy
+    mail: apexy2007@gmail.com
 
-# Found in _templates/
-post_layout: post
-page_layout: page
-
-# Format titles with titlecase?
-titlecase: true
-
-
-# Site owner
-owner:
-  name: Yuan
-  avatar: my-avatar.png
-  email: xfyuan@thoughtworks.com
-  disqus-shortname:
-  twitter: apexy
-  facebook: apexy
-  github: xfyuan
-  stackexchange: #http://stackoverflow.com/users/123456/username
-  linkedin: #username
-  instagram: #username
-  flickr: #username
-  tumblr: #username
-  pinterest: #username
-  weibo: #userid
-  google:
-    plus: #username
-    analytics:
-    verify:
-    ad-client:
-    ad-slot:
-  bing-verify:
+# Google Analytics
+ga:
+    # id: your_ga_id
+    # host: your_host

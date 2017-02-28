@@ -1,16 +1,20 @@
 ---
-layout: page
-title: Latest Posts
-excerpt: ""
-search_omit: true
-image:
-  feature: header.jpg
-  credit: John Westrock
-  creditlink: https://www.flickr.com/photos/antrover/
+layout: default
 ---
 
-<ul class="post-list">
-{% for post in site.posts limit:10 %} 
-  <li><article><a href="{{ site.url }}{{ post.url }}">{{ post.title }} <span class="entry-date"><time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %d, %Y" }}</time></span>{% if post.excerpt %} <span class="excerpt">{{ post.excerpt }}</span>{% endif %}</a></article></li>
-{% endfor %}
-</ul>
+<div class="main-post-list hidden">
+
+  <ol class="post-list">
+    {% for post in paginator.posts %}
+    <li>
+      <h2 class="post-list__post-title post-title"><a href="{{ post.url }}" title="访问 {{ post.title }}">{{ post.title }}</a></h2>
+      <p class="excerpt">{{ post.content | strip_html | strip_newlines | truncate: 250 }}&hellip;</p>
+      <div class="post-list__meta"><time datetime="{{post.date | date: date_to_xmlschema}}" class="post-list__meta--date date">{{ post.date | date: "%F"}}</time> &#8226; <span class="post-list__meta--tags tags">{{ post.tags | array_to_sentence_string }}</span><a class="btn-border-small" href={{ post.url }}>继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+    {% endfor %}
+  </ol>
+
+  {% include pagination.html %}
+
+</div>
