@@ -1,8 +1,8 @@
 # Basic
 title: 晓岳晨峰
 subtitle: Tech blog just for development
-welcome_message: A ruby developer from living and eating in Chengdu, China. Creating the future in digital worlds, big and small at Jinshuju.net
-description: Apple, Soccer, Vim and Ruby
+welcome_message: A developer from living and eating in Chengdu, China. Creating the future in digital worlds, big and small.
+description: Apple, Soccer, Vim, Ruby, Elixir
 creator: <a href="http://xfyuan.github.io">@xfyuan</a>
 
 url: "http://xfyuan.github.io"
@@ -13,7 +13,7 @@ permalink: /:year/:month/:title/
 highlighter: rouge
 
 # supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
-cover_color: orange
+cover_color: blue
 
 # The blog button should not be removed.
 blog_button:
