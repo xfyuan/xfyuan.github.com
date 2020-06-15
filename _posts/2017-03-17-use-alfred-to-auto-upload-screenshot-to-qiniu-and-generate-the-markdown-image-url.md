@@ -1,8 +1,13 @@
 ---
 layout: post
 title: 使用 Alfred workflow 上传截图到七牛并自动生成外链URL
-tags: [alfred]
+author: Mr.Z
+categories: [ Tool ]
+tags: [mac, alfred]
 comments: true
+image: assets/images/a005.jpg
+description: "Alfred workflow Tips"
+rating: 4
 ---
 
 今年准备多写点Blog文章了。
@@ -116,7 +121,7 @@ Bucket 就是上面提到的存储空间名字。
 
 pngpaste 的使用很简单：
 
-```
+```sh
 pngpaste /path/to/temp.png
 ```
 

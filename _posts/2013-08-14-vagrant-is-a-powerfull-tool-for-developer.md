@@ -1,15 +1,15 @@
 ---
 layout: post
 title: A powerful tool for developer, Vagrant
+author: Mr.Z
 excerpt: "程序员的神兵利器－Vagrant"
 modified: 2013-08-14
-categories: articles
+categories: [ Tool ]
 tags: [vagrant]
 comments: true
+image: assets/images/a001.jpg
+toc: true
 ---
-
-* Table of Contents
-{:toc}
 
 # 程序员的神兵利器－Vagrant
 

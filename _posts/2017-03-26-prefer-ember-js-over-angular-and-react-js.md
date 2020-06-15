@@ -1,8 +1,11 @@
 ---
 layout: post
 title: 为什么我偏爱 Ember.js 胜过 Angular 和 React.js
+author: Mr.Z
+categories: [ Frontend ]
 tags: [ember]
 comments: true
+image: assets/images/a006.jpg
 ---
 
 前几天看到了这篇文章：[Why I prefer Ember.js over Angular & React.js](http://voidcanvas.com/prefer-ember-js-angular-react-js/)，觉得对于国内期望了解 Ember.js 的开发者来说是一个不错的介绍。于是和该文的作者 [Paul Shan](http://voidcanvas.com/author/paulshan/) 联系取得翻译的授权，翻译了过来。译文如下：

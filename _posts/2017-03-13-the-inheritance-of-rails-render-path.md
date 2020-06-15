@@ -1,8 +1,11 @@
 ---
 layout: post
 title: Rails render path 继承关系一例
+author: Mr.Z
+categories: [ Ruby ]
 tags: [rails]
 comments: true
+image: assets/images/a004.jpg
 ---
 
 近两天在 Rails 的开发中，突然发现了关于 render path 的一个之前未曾注意到的有趣地方。
