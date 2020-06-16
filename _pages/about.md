@@ -1,6 +1,6 @@
 ---
 layout: page
-title: I'm a developer from living and eating in Chengdu, China. Creating the future in digital worlds, big and small.
+title: Hey, I’m an Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.
 permalink: /about
 comments: false
 image: assets/images/avatar.png
