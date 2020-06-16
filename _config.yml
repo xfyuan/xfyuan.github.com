@@ -46,7 +46,7 @@ paginate: 6
 paginate_path: /page:num/
 
 # Other
-highlighter: none
+highlighter: rouge
 markdown: kramdown
 kramdown:
    syntax_highlighter_opts:
@@ -70,4 +70,4 @@ sass:
   sass_dir: _sass
   style: compressed
 
-exclude: [changelog.md, LICENSE.txt, README.md, Gemfile, Gemfile.lock]
+exclude: [changelog.md, README.md, Gemfile, Gemfile.lock]
