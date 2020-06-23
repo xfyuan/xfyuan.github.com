@@ -2,8 +2,8 @@
 layout: post
 title: Rails render path 继承关系一例
 author: Mr.Z
-categories: [ Ruby ]
-tags: [rails]
+categories: [ Programming ]
+tags: [ruby, rails]
 comments: true
 image: assets/images/a004.jpg
 ---
