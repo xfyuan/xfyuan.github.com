@@ -2,7 +2,7 @@
 layout: post
 title: 《Programming Elixir >= 1.6》第二章：模式匹配
 author: Mr.Z
-categories: [ Translation ]
+categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
 image: assets/images/a011.jpg

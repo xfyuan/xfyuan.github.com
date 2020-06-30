@@ -2,7 +2,7 @@
 layout: post
 title: 《Programming Elixir >= 1.6》第一章(节选)
 author: Mr.Z
-categories: [ Translation ]
+categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
 image: assets/images/a010.jpg
