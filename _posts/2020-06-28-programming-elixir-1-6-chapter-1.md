@@ -12,7 +12,7 @@ image: assets/images/a010.jpg
 
 让我们来看看 Dave Thomas 在这里是怎么说的吧。
 
-[下面是正文]
+【下面是正文】
 
 ## 1. Take the Red Pill
 

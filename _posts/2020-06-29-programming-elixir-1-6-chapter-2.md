@@ -16,7 +16,7 @@ image: assets/images/a011.jpg
 
 让我们来看看 Dave Thomas 在这里是怎么介绍的吧。
 
-[下面是正文]
+【下面是正文】
 
 ## 2. Pattern Matching（模式匹配）
 

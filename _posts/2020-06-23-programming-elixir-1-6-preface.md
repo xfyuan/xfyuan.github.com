@@ -16,6 +16,8 @@ Elixir 是一门奇妙的语言。我本身是一名 Ruby 开发者，自从第�
 
 我想第一站从这本书的序言开始是最恰当的。这是 Dave Thomas 老爷子出于自身对 Elixir 语言亲身感受的一个心理历程的描述，很值得一看。
 
+【下面是正文】
+
 > ## A Vain Attempt at a Justification, Take Two
 
 > 我是个编程语言爱好者。我乐于尝试各种语言，喜欢思考它们的设计和实现。
