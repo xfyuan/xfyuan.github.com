@@ -15,3 +15,9 @@ imageshadow: true
 - Soccer
 - HearthStone
 - Detective Story
+
+### My main career:
+
+- ThoughtWorks
+- Jinshuju.net
+- Sudiyi (HiveBox now)
