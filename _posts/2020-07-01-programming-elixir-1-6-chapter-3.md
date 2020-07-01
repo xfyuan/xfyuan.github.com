@@ -8,7 +8,7 @@ comments: true
 image: assets/images/a013.jpg
 ---
 
-《Programming Elixir >= 1.6》第三章介绍了 Elixir 的另一块基石，**不可变性（Immutability）**。我阅读本书之后的个人体会，Elixir 一共有三大基石：**模式匹配、不可变性和 OTP**，以这三块基石为底，**José Valim（Elixir 的创建者，应读作：何塞·瓦里姆）**构建起了整个语言的宏伟大厦。
+《Programming Elixir >= 1.6》第三章介绍了 Elixir 的另一块基石，**不可变性（Immutability）**。我阅读本书之后的个人体会是，Elixir 一共有三大基石：**模式匹配、不可变性和 OTP**，以这三块基石为底，**José Valim（Elixir 的创建者。他的名字是葡萄牙语，应读作：何塞·瓦里姆）**构建起了整个语言的宏伟大厦。
 
 Dave Thomas 同样认识到了这一点，所以紧接着前一章说完模式匹配，这一章就马上对不可变性进行描述，而不是开始堆砌常规语法的说明。**因为前两者是 Elixir 基础编程的基石，而 OTP 是 Elixir 并发编程的基石。**理解了模式匹配和不可变性，再看后续的基础语法时很多地方才能融会贯通，否则就会一头雾水：OO里不是这样的啊？
 
