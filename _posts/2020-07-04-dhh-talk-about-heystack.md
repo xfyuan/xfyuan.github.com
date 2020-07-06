@@ -8,7 +8,16 @@ comments: true
 image: assets/images/a016.jpg
 ---
 
-近一周来，著名的 Basecamp 公司发布了新式的 Hey.com 的邮件服务，号称是针对当前诸如 GMail 等邮件服务的一次“革命”，在 Twitter 上引发了巨大的议论风暴。而作为公司创始人、Rails 创建者的 DHH 大神，在 Twitter 上也发了多个推，来说明 Hey.com 的卓越不凡。[其中一篇](https://twitter.com/dhh/status/1275901955995385856)更是列举了 Hey.com 当前使用的技术栈，他称之为**“Heystack”**，甚至分享了所用到的 [Gemfile](https://gist.github.com/dhh/782fb925b57450da28c1e15656779556)。
+近一周来，著名的 Basecamp 公司发布了新式的 Hey.com 的邮件服务，号称是针对当前诸如 GMail 等邮件服务的一次“革命”，在 Twitter 上引发了巨大的议论风暴。而作为公司创始人、Rails 创建者的 DHH 大神，在 Twitter 上也发了多个推，来说明 Hey.com 的卓越不凡。[其中一篇](https://twitter.com/dhh/status/1275901955995385856)更是列举了 Hey.com 当前使用的技术栈，他称之为**“Heystack”**（甚至分享了所用到的 [Gemfile](https://gist.github.com/dhh/782fb925b57450da28c1e15656779556)），如下：
+
+```markdown
+- Vanilla Ruby on Rails on the backend, running on edge
+- Stimulus, Turbolinks, Trix + NEW MAGIC on the front end
+- MySQL for DB (Vitess for sharding)
+- Redis for short-lived data + caching
+- ElasticSearch for indexing
+- AWS/K8S
+```
 
 由于 Hey.com 的（网页端）使用体验相当流畅顺滑（提供 7 天免费试用，有兴趣的同学可以去感受下。但正式使用的话则是按 $99/年 收费^_^），这个列表中的一项引发了诸多人的强烈兴趣：
 
