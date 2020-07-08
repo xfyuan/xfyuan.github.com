@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Tool ]
 tags: [font]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200708OuNhXm.jpg"
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200708z00pVA.jpg"
 ---
 
 作为一名开发者，在编程中使用等宽字体是很重要的。我最近几年一直使用的是 Adobe 公司的 Source Code Pro 字体。这款等宽字体的字形设计优美，间距适中，阅读时眼睛不易疲劳，完全可以排到等宽字体的 Top 3。不过再好的东西，时间长了也有审美疲劳。正好最近看到了这一篇文章[《从 DejaVu Sans Mono 换成 Hack 字体了》](https://zhuanlan.zhihu.com/p/89833093)，作者的审美甚合我心，于是打换一款试试。
@@ -44,5 +44,7 @@ fontforge -script nerd-font/font-patcher -s -c tmpfont/SFMono-Medium.otf -out ./
 
 即可看到 Patch 的过程在飞快进行。稍等片刻后，在 patched 目录下就能看到生成好的字体了。
 
-安装好字体，把 Terminal 和 Vim 的字体都设置为 SF Mono，随便打开一个文件看看效果吧（本文题头即是我本地效果图）。
+安装好字体，把 Terminal 和 Vim 的字体都设置为 SF Mono，随便打开一个文件看看效果吧：
+
+![20200708OuNhXm](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200708OuNhXm.jpg)
 
