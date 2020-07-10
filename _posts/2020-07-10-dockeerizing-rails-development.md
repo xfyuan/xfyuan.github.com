@@ -8,7 +8,7 @@ comments: true
 image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710UngNYW.jpg"
 ---
 
-*本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了一套成熟的 Rails 项目的 Docker 化开发环境如何搭建，怎样通过一些配置技巧让其高效运行。也谈到了这种模式下的开发流程和诀窍等问题。关于 Docker 作为开发环境的的做法早已不是新鲜事，相关文章更是有非常多了。但本文是真正卓越的 Ruby 开发者在两年开发实践中提炼出的经验之谈，解答了之前自己对 Docker 开发环境模式的种种疑惑，因此觉得很有价值，遂成此文。*
+*本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了一套成熟的 Rails 项目的 Docker 化开发环境如何搭建，怎样通过一些配置技巧让其高效运行。也谈到了这种模式下的开发流程和诀窍等问题。关于 Docker 作为开发环境的做法早已不是新鲜事，相关文章更是有非常多了。但本文是一名卓越的 Ruby 开发者在两年开发实践中提炼出的真正经验之谈，解答了之前自己对 Docker 开发环境模式的种种疑惑，因此觉得很有价值，遂成此文。*
 
 - 原文链接：[Ruby on Whales: Dockerizing Ruby and Rails development — Martian Chronicles, Evil Martians’ team blog](https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development)
 - 作者：[Vladimir Dementyev](https://twitter.com/palkan_tula)
