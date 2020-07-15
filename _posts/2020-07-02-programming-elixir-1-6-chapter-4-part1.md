@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: assets/images/a014.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a014.jpg"
 ---
 
 其他编程语言中的常规语法介绍在《Programming Elixir >= 1.6》里直到第四章才终于姗姗来迟。这一章介绍的是 Elixir 中全部的各种内置类型。函数在 Elixir 中也是一种类型，但会用单独的一章来专门介绍而不在本章之内。出人意料的是，字符串和结构体也不在本章里，因为它们不是 Elixir 的基本类型，而是由基本类型构成的高级类型。

@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: assets/images/a009.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a009.jpg"
 ---
 
 Elixir 是一门奇妙的语言。我本身是一名 Ruby 开发者，自从第一次接触到 Elixir，就被它类似 Ruby 的语法而同时又拥有的一系列独特特性所吸引。要学习一门新语言，当然是从最经典的书籍开始。而著名的老爷子 Dave Thomas 本身就具有业内卓越的号召力，他亲自撰写的《Programming Elixir >= 1.6》自然是我的首选。于是就从这本书开始我的 Elixir 之旅了。

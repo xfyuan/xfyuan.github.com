@@ -7,7 +7,7 @@ modified: 2013-08-15
 categories: [ Tool ]
 tags: [vagrant,chef]
 comments: true
-image: assets/images/a002.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a002.jpg"
 toc: true
 ---
 
@@ -91,7 +91,7 @@ Vagrant对Chef的使用方式全在每个虚拟机的Vagrantfile设定文件内�
 	  chef.data_bags_path = "../my-recipes/data_bags"
 	  chef.add_recipe "mysql"
 	  chef.add_role "web"
-
+	
 	  # You may also specify custom JSON attributes:
 	  chef.json = { :mysql_password => "foo" }
 	end
@@ -135,7 +135,7 @@ Vagrant对Chef的使用方式全在每个虚拟机的Vagrantfile设定文件内�
 接下来就是创建所需要的role文件了。所有role文件都放在roles目录下，新建一个role：web-server.rb：
 
 	name "web-server"
-
+	
 	override_attributes(
 	  "nginx"=> {
 	    "version" => "1.4.2",
@@ -153,7 +153,7 @@ Vagrant对Chef的使用方式全在每个虚拟机的Vagrantfile设定文件内�
 	    "server_debian_password" => "1234"
 	  }
 	)
-
+	
 	run_list(
 	  "recipe[yum::yum]",
 	  "recipe[yum::epel]",
@@ -199,7 +199,7 @@ run_list 表示了整个安装用到的全部cookbook列表。稍微要注意下
 	  chef.data_bags_path = "../chef/data_bags"
 	  # chef.add_recipe "mysql"
 	  chef.add_role "web-server"
-
+	
 	  # You may also specify custom JSON attributes:
 	  # chef.json = { :mysql_password => "foo" }
 	end

@@ -7,7 +7,7 @@ modified: 2013-08-14
 categories: [ Tool ]
 tags: [vagrant]
 comments: true
-image: assets/images/a001.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a001.jpg"
 toc: true
 ---
 
@@ -146,7 +146,7 @@ Yes！虚拟机已经正式在运行了。
 这个设定非常牛，它会把Host机器（就是安装Vagrant的机器）的8080端口转发（forwoard）到虚拟机的80端口。例如你部署到虚拟机的网站运行后，当你在Host机器上浏览器打开`http://localhost:8080`后，就会自动转到虚拟机正在运行的Apache或Nginx 80端口服务，也就是访问部署的网站。**实际上，这个功能是架起了Host机器和虚拟机之间沟通的桥梁。** 以此类推，我们可以增加更多的端口转发，如常用的MySQL 3306端口，Rails 的3000端口等。
 
 	config.vm.network :private_network, ip: "192.168.33.10"
-
+	
 	config.vm.network :public_network
 
 这两个是设定网络连接方式。前者把虚拟机网络设定为私有模式，和你Host机器同一网络的其他电脑是看不到它的。后者相反，设为公开模式，和你Host机器有类似的IP，同一网络的其他电脑都能看到它。**一般都采用前者，而且IP也建议不以“192.168”开头，以免冲突，例如可以设为“66.66.66.10”这样……**
@@ -168,22 +168,22 @@ Yes！虚拟机已经正式在运行了。
 在Vagrantfile设定文件里改成这样：
 
 	Vagrant.configure("2") do |config|
-
+	
 	  config.vm.define :web do |web|
 	    web.vm.box = "CentOS-64"
 	    web.vm.network :private_network, ip: "66.66.66.10"
 	  end
-
+	
 	  config.vm.define :db0 do |db|
 	    db.vm.box = "CentOS-64"
 	    db.vm.network :private_network, ip: "66.66.66.20"
 	  end
-
+	
 	  config.vm.define :db1 do |db|
 	    db.vm.box = "CentOS-64"
 	    db.vm.network :private_network, ip: "66.66.66.21"
 	  end
-
+	
 	end
 
 各项设定如同上述，只是名称分别使用了“web”、“db0”、“db1”，并且设定了不同的IP。
@@ -193,7 +193,7 @@ Yes！虚拟机已经正式在运行了。
 SSH可以指定连到哪一台去：
 
 	vagrant ssh web
-
+	
 	vagrant ssh db0
 
 酷得一塌糊涂啊！！

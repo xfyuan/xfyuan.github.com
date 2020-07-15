@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: assets/images/a010.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a010.jpg"
 ---
 
 《Programming Elixir >= 1.6》的第一章标题为“Take the Red Pill”。毫无疑问，这个说法的出处源自《黑客帝国1》中的红蓝小药片背景。不言而喻，Dave Thomas 老爷子明显是想表示如果你选择了 Elixir，就意味着选择了编程的“真相”。懂这个梗的人看到这里自然会会心一笑，有了想探究一下这个“真相”到底是什么的兴趣。

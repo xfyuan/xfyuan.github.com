@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Tool ]
 tags: [jekyll, github]
 comments: true
-image: assets/images/a007.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a007.jpg"
 toc: true
 ---
 

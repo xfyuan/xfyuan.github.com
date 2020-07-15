@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Programming ]
 tags: [ruby, rails, stimulus]
 comments: true
-image: assets/images/a016.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a016.jpg"
 ---
 
 近一周来，著名的 Basecamp 公司发布了新式的 Hey.com 的邮件服务，号称是针对当前诸如 GMail 等邮件服务的一次“革命”，在 Twitter 上引发了巨大的议论风暴。而作为公司创始人、Rails 创建者的 DHH 大神，在 Twitter 上也发了多个推，来说明 Hey.com 的卓越不凡。[其中一篇](https://twitter.com/dhh/status/1275901955995385856)更是列举了 Hey.com 当前使用的技术栈，他称之为**“Heystack”**（甚至分享了所用到的 [Gemfile](https://gist.github.com/dhh/782fb925b57450da28c1e15656779556)），如下：

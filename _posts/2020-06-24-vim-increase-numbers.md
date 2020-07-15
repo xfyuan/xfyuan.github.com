@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Vim ]
 tags: [vim]
 comments: true
-image: assets/images/vim-increase-numbers.gif
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715vim-increase-numbers.gif"
 ---
 
 众所周知，Vim 自带的默认快捷键`⌃-A`、`⌃-X`可以对单个数字进行增减操作，这在碰到适用的场景时当然非常方便。但是，编程中另一种场景也是经常遇到的：

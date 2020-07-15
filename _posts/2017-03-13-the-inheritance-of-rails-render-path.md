@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Programming ]
 tags: [ruby, rails]
 comments: true
-image: assets/images/a004.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a004.jpg"
 ---
 
 近两天在 Rails 的开发中，突然发现了关于 render path 的一个之前未曾注意到的有趣地方。

@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: assets/images/a011.jpg
+image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a011.jpg"
 ---
 
 《Programming Elixir >= 1.6》的结构形式与一般的编程语言入门书完全不同。常规的编程语言书一般都会从基本语法开始讲起，无非数字、字符串、函数、变量等等。但这本书不是。Dave Thomas 意识到 Elixir 拥有如此与众不同的语法特性，他认为让读者首先接触并理解这种特殊性才是更好学习该语言的方式，所以在第一步就首先介绍了 Elixir 最为特殊也最为重要的**模式匹配（Pattern Matching）**。
