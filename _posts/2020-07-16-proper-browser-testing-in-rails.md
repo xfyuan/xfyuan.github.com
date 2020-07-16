@@ -447,7 +447,7 @@ end
 
 ### In too Dip
 
-如果你使用 [Dip](https://github.com/bibendi/dip) 来管理 Docker 开发环境（我强烈建议你这么做，它使你获得容器的强大能力，而无需记忆所有 Docker CLI 命令的成本付出），那么你可以通过在`dip.yml`中添加自定义命令和在`docker-compose.yml`中添加一个额外 service 定义，来手动避免加载`chrome` service：
+如果你使用 [Dip](https://github.com/bibendi/dip) 来管理 Docker 开发环境（我强烈建议你这么做，它使你获得容器的强大能力，而无需记忆所有 Docker CLI 命令的成本付出），那么你可以通过在`dip.yml`中添加自定义命令和在`docker-compose.yml`中添加一个额外 service 定义，来避免手动加载`chrome` service：
 
 ```yaml
 # docker-compose.yml
