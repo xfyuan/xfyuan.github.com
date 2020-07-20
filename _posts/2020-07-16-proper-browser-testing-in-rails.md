@@ -143,7 +143,7 @@ Capybara.default_normalize_ws = true
 Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS", "./tmp/capybara")
 ```
 
-该文件也包含一个对于 Capybara 很有用的补丁，其母的我们稍后揭示：
+该文件也包含一个对于 Capybara 很有用的补丁，其目的我们稍后揭示：
 
 ```ruby
 # spec/system/support/capybara_setup.rb
