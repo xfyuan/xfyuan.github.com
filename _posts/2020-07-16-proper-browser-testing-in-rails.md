@@ -2,7 +2,7 @@
 layout: post
 title: 2020时代的Rails系统测试
 author: Mr.Z
-categories: [ Programming ]
+categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, docker]
 comments: true
 image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716IMG_20200703_181721.jpg"
