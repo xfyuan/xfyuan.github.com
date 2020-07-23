@@ -297,7 +297,7 @@ RSTAMP=sidekiq:inline rspec
 
 在[我们的指南](https://test-prof.evilmartians.io/#/rspec_stamp.md)里可以阅读到关于如何从`inline!`迁移到`fake!`的完整说明。
 
-### 附注
+### 附记
 
 TestProf 已经发布在 [GitHub](https://github.com/palkan/test-prof) 和 [rubygems.org](https://rubygems.org/gems/test-prof)，可随时用在你的应用中，帮助你提升测试套件的性能。
 
