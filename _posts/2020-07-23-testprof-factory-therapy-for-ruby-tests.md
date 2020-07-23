@@ -384,7 +384,7 @@ total      top-level                            name
 
 看起来完美，不是么？
 
-**小孩子才在 factories 和 fixtures 中做选择，成年人全都要！**
+**小孩子才对 factories 和 fixtures 做选择，我们全都要！**
 
 ## 附记
 
