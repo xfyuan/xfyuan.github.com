@@ -17,7 +17,11 @@ rating: 4
 
 *【下面是正文】*
 
+## 概述
+
 **编写测试是开发过程的重要部分，尤其是在 Ruby 和 Rails 社区。我们平常不会关注测试用例套件的性能，直到发现自己在对测试“绿点”的等待中已经耗费了太多时间为止。**
+
+## 前言
 
 我已经花费了许多时间用在分析测试套件的性能上，也开发了一些很有用的技术和工具来让测试跑得更快。我把所有这些集合到了一个称为 [TestProf](https://github.com/palkan/test-prof) 的 Gem 中，这是一个 Ruby 测试的分析工具箱。
 
@@ -297,7 +301,7 @@ RSTAMP=sidekiq:inline rspec
 
 在[我们的指南](https://test-prof.evilmartians.io/#/rspec_stamp.md)里可以阅读到关于如何从`inline!`迁移到`fake!`的完整说明。
 
-### 附记
+## 附记
 
 TestProf 已经发布在 [GitHub](https://github.com/palkan/test-prof) 和 [rubygems.org](https://rubygems.org/gems/test-prof)，可随时用在你的应用中，帮助你提升测试套件的性能。
 

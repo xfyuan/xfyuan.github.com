@@ -17,7 +17,11 @@ rating: 4
 
 *【下面是正文】*
 
+## 概述
+
 **学习如何把你的 Ruby 测试套件带回到健康满满、速度满满的路上，通过使用 [TestProf](https://test-prof.evilmartians.io/)——一个强大的工具包来诊断所有跟测试有关的问题。这一次，我们来聊聊 factories：它们如何拖慢你的测试，如何来估量那些负面影响，如何避免，以及如何让你的 factories 跟 fixtures 一样快。**
+
+## 前言
 
 [TestProf](https://test-prof.evilmartians.io/)，用于很多 Evil Martians 的项目，以缩短 [TDD](https://en.wikipedia.org/wiki/Test-driven_development) 的反馈环，对任何其测试运行时间超过一分钟的 Rails（或其他基于 Ruby 的）应用而言都是一个必备工具。它通过扩展有关功能而对 [RSpec](http://rspec.info/) 和 [minitest](https://github.com/seattlerb/minitest) 均可适用。
 
@@ -382,7 +386,7 @@ total      top-level                            name
 
 **小孩子才在 factories 和 fixtures 中做选择，成年人全都要！**
 
-### 附记
+## 附记
 
 感谢阅读！
 
