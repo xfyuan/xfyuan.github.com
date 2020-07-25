@@ -392,23 +392,7 @@ total      top-level                            name
 
 Factories 为你的测试数据生成带来了简单和灵活，但它们非常*脆弱*——cascade 如幽灵般出现，而重复地数据创建会消费大量的时间。
 
-照顾好你的 factories 吧，定期带它们去看看医生（[TestProf](https://test-prof.evilmartians.io/)）。让测试更快，开发者就更快乐！
+照顾好你的 factories 吧，定期带它们去看看医生（[TestProf](https://test-prof.evilmartians.io/)）。让测试更快速，开发者就更快乐！
 
 请阅读 [TestProf 介绍文章](https://evilmartians.com/chronicles/testprof-a-good-doctor-for-slow-ruby-tests) 以了解更多该项目和其他使用场景背后的初衷。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
