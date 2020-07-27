@@ -20,7 +20,9 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200727IMG_20200721_1
 
 效果非常不错！
 
-上面提到的一些资源列在这里：
+有兴趣的朋友可以直接看我的 [README.md](https://github.com/xfyuan/xfyuan) 是怎么做的。
+
+要是还想把 GitHub 个人页面弄得再酷炫一些的话，自己到下面这些资源列里翻找折腾吧：
 
 - [abhisheknaiidu/awesome-github-profile-readme](https://github.com/abhisheknaiidu/awesome-github-profile-readme)：各种新 README 收集大全，特别是 GitHub Actions 那部分，最有技术参考含量，能玩出的花样最多。
 - [GitHub 隐藏新功能！个人页还能这么玩？](https://zhuanlan.zhihu.com/p/161029860)
