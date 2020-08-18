@@ -27,3 +27,7 @@ Vladimir 也在 Twitter 上发布了中文版文档上线的消息:)
 ![20200818testprof-doc-cn-02](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818testprof-doc-cn-02.jpg)
 
 衷心希望 TestProf 的中文文档能够帮助所有国内的 Ruby 开发者把测试写得更加高效，也让编写测试成为一种乐趣，从而让 Ruby/Rails 程序更加完美！
+
+##### 附注
+
+TestProf 中文文档的 GitHub 地址是：[https://github.com/test-prof/docs-zh-cn](https://github.com/test-prof/docs-zh-cn)， 欢迎各位小伙伴针对文档中翻译不准确甚至有误的地方提 issue 给予反馈。
