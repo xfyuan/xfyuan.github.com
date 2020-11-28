@@ -25,7 +25,7 @@ body {
     background: #f4f4f4;
 }
 a {
-    color: darken($primary, 24%);
+    color: darken($yellow, 24%);
 }
 img {
     max-width:100%;
@@ -449,7 +449,7 @@ img, img:hover {
     }
     code {
         font-size: 15px;
-        color: #94918d;
+        color: $pink;
     }
     code[class*="language-"], pre[class*="language-"] {
         font-size:15px;
