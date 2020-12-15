@@ -9,7 +9,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201214_1707
 rating: 5
 ---
 
-*本文已获得原作者（Dmitry Tsepelev）和 Evil Martians 授权许可进行翻译。原文重点介绍了如何在 GraphQL 的世界里避免 N + 1 问题——以六种不同的方案。“六瞳之中见莲花开放，七尺红绫击排空巨浪”。*
+*本文已获得原作者（Dmitry Tsepelev）和 Evil Martians 授权许可进行翻译。原文重点介绍了如何在 GraphQL 的世界里避免 N + 1 问题——以六种不同的方案。“六瞳之中莲花开放，七尺红绫击排空巨浪”。*
 
 - 原文链接：[How to GraphQL with Ruby, Rails, Active Record, and no N+1](https://evilmartians.com/chronicles/how-to-graphql-with-ruby-rails-active-record-and-no-n-plus-one)
 - 作者：[Dmitry Tsepelev](https://twitter.com/dmitrytsepelev)
