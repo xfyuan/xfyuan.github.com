@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Build Docker时使用SSH Private Key的新玩法 | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Build Docker时使用SSH Private Key的新玩法 | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Build Docker时使用SSH Private Key的新玩法" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="在实际工作中，Build Docker 镜像时，经常碰上需要在 Docker 镜像内用到 SSH Private Key 的场景。比如 Docker 镜像内要从 GitHub、GitLab 的私有库 Clone 代码，或者要安装私有库的Gem、NPM Package等。而如果直接把自己的 SSH Private Key 打包到 Docker 镜像中的话，是存在很大安全风险的。如何解决这个问题？" />
+<meta property="og:description" content="在实际工作中，Build Docker 镜像时，经常碰上需要在 Docker 镜像内用到 SSH Private Key 的场景。比如 Docker 镜像内要从 GitHub、GitLab 的私有库 Clone 代码，或者要安装私有库的Gem、NPM Package等。而如果直接把自己的 SSH Private Key 打包到 Docker 镜像中的话，是存在很大安全风险的。如何解决这个问题？" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://raw.githubusercontent.com/xfyuan/ossimgs/master/uPic/IMG_20201015_122251.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-10-17T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-10-17T00:00:00+00:00","datePublished":"2020-10-17T00:00:00+00:00","description":"在实际工作中，Build Docker 镜像时，经常碰上需要在 Docker 镜像内用到 SSH Private Key 的场景。比如 Docker 镜像内要从 GitHub、GitLab 的私有库 Clone 代码，或者要安装私有库的Gem、NPM Package等。而如果直接把自己的 SSH Private Key 打包到 Docker 镜像中的话，是存在很大安全风险的。如何解决这个问题？","url":"/2020/10/build-docker-with-private-ssh-key/","@type":"BlogPosting","image":"https://raw.githubusercontent.com/xfyuan/ossimgs/master/uPic/IMG_20201015_122251.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/10/build-docker-with-private-ssh-key/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"Build Docker时使用SSH Private Key的新玩法","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">Build Docker时使用SSH Private Key的新玩法</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-10-17">17 Oct 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://raw.githubusercontent.com/xfyuan/ossimgs/master/uPic/IMG_20201015_122251.jpg" alt="Build Docker时使用SSH Private Key的新玩法">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>在实际工作中，Build Docker 镜像时，经常碰上需要在 Docker 镜像内用到 SSH Private Key 的场景。比如 Docker 镜像内要从 GitHub、GitLab 的私有库 Clone 代码，或者要安装私有库的Gem、NPM Package等。而如果直接把自己的 SSH Private Key 打包到 Docker 镜像中的话，是存在很大安全风险的。如何解决这个问题？</p>
+
+<p>在之前，我们往往是通过 Squash 或者 Docker Multi Stage 等方式来处理，但都有各自不足之处。而 Docker 在 18.09 版本后，推出了 BuildKit 的 SSH mount type。我们就可以用这个特性来解决了。</p>
+
+<p>首先，需要在 Dockerfile 的顶部添加这样一行来开启该实验特性：</p>
+
+<pre><code class="language-bash"># syntax=docker/dockerfile:1.0.0-experimental
+</code></pre>
+
+<p>然后，在 Dockerfile 中需要使用 SSH Private Key 的地方都加上</p>
+
+<pre><code class="language-bash">--mount=type=ssh
+</code></pre>
+
+<p>比如，Rails 项目安装有私有库的 Gem 包时，就写成这样：</p>
+
+<pre><code class="language-bash">RUN --mount=type=ssh bundle install
+</code></pre>
+
+<p>以此类推。Dockerfile 准备好之后，再设置一下环境变量以启用 BuildKit：</p>
+
+<pre><code class="language-bash">export DOCKER_BUILDKIT=1
+</code></pre>
+
+<p>最后，即可使用如下命令来 Build Docker 镜像了：</p>
+
+<pre><code class="language-bash">docker build --ssh default=/Users/xxxxx/.ssh/id_rsa -f Dockerfile -t rails-demo-dev:1.0.0 .
+</code></pre>
+
+<p>搞定。</p>
+
+<p>这种方式，既能正常使用上 SSH Private Key，又能使其在镜像中不留痕迹。完美！</p>
+
+<p>参考阅读：</p>
+
+<ul>
+  <li>https://medium.com/@tonistiigi/build-secrets-and-ssh-forwarding-in-docker-18-09-ae8161d066</li>
+  <li>https://medium.com/@amimahloof/securely-build-small-python-docker-image-from-private-git-repos-c3e6d5da4626</li>
+</ul>
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Build Docker时使用SSH Private Key的新玩法&url=/2020/10/build-docker-with-private-ssh-key/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/10/build-docker-with-private-ssh-key/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/10/build-docker-with-private-ssh-key/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Tool">Tool</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#docker">docker</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/a-awesome-neovim-lsp-plugin/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_131702.jpg" alt="让你的NeoVim Builtin LSP美轮美奂">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/a-awesome-neovim-lsp-plugin/">让你的NeoVim Builtin LSP美轮美奂</a>
+                
+            </h2>
+            <h4 class="card-text">在配置 NeoVim Builtin LSP 的过程中，发现它自带的原生 UI 界面实在简陋了些。虽然功能用起来没问题，但远远够不上赏心悦目的程度。这对于像我这样的“视觉动物”来说，实在是坚决不能容忍的“大罪”了。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">11 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/neovim-builtin-lsp-keymappings/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210225_130053.jpg" alt="行云流水般的NeoVim Builtin LSP操作">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/neovim-builtin-lsp-keymappings/">行云流水般的NeoVim Builtin LSP操作</a>
+                
+            </h2>
+            <h4 class="card-text">既然我们的 NeoVim 已经配置好 Builtin LSP 的 Server 和 Client，就该来看看如何使用它的问题了，也就是相关的 Keybinding 设定。好的 Keybinding 设定会让人在使用时运指如飞。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">06 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/02/neovim-builtin-lsp-basic-configuration/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115520.jpg" alt="NeoVim Builtin LSP的基本配置">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/02/neovim-builtin-lsp-basic-configuration/">NeoVim Builtin LSP的基本配置</a>
+                
+            </h2>
+            <h4 class="card-text">上一篇博客说过，现在官方对 NeoVim Builtin LSP 的配置已经做到了足够简洁易用的地步。这一篇就来看看怎样按照 NeoVim 官方的说明，一步一步把 LSP 给配置为可用于实际开发中。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">27 Feb 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

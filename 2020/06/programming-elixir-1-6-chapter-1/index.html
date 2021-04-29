@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>《Programming Elixir >= 1.6》第一章(节选) | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>《Programming Elixir &gt;= 1.6》第一章(节选) | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="《Programming Elixir &gt;= 1.6》第一章(节选)" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="《Programming Elixir &gt;= 1.6》的第一章标题为“Take the Red Pill”。毫无疑问，这个说法的出处源自《黑客帝国1》中的红蓝小药片背景。不言而喻，Dave Thomas 老爷子明显是想表示如果你选择了 Elixir，就意味着选择了编程的“真相”。懂这个梗的人看到这里自然会会心一笑，有了想探究一下这个“真相”到底是什么的兴趣。" />
+<meta property="og:description" content="《Programming Elixir &gt;= 1.6》的第一章标题为“Take the Red Pill”。毫无疑问，这个说法的出处源自《黑客帝国1》中的红蓝小药片背景。不言而喻，Dave Thomas 老爷子明显是想表示如果你选择了 Elixir，就意味着选择了编程的“真相”。懂这个梗的人看到这里自然会会心一笑，有了想探究一下这个“真相”到底是什么的兴趣。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a010.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-28T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-06-28T00:00:00+00:00","datePublished":"2020-06-28T00:00:00+00:00","description":"《Programming Elixir &gt;= 1.6》的第一章标题为“Take the Red Pill”。毫无疑问，这个说法的出处源自《黑客帝国1》中的红蓝小药片背景。不言而喻，Dave Thomas 老爷子明显是想表示如果你选择了 Elixir，就意味着选择了编程的“真相”。懂这个梗的人看到这里自然会会心一笑，有了想探究一下这个“真相”到底是什么的兴趣。","url":"/2020/06/programming-elixir-1-6-chapter-1/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a010.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/06/programming-elixir-1-6-chapter-1/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"《Programming Elixir &gt;= 1.6》第一章(节选)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">《Programming Elixir >= 1.6》第一章(节选)</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-06-28">28 Jun 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a010.jpg" alt="《Programming Elixir >= 1.6》第一章(节选)">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>《Programming Elixir &gt;= 1.6》的第一章标题为“Take the Red Pill”。毫无疑问，这个说法的出处源自《黑客帝国1》中的红蓝小药片背景。不言而喻，Dave Thomas 老爷子明显是想表示如果你选择了 Elixir，就意味着选择了编程的“真相”。懂这个梗的人看到这里自然会会心一笑，有了想探究一下这个“真相”到底是什么的兴趣。</p>
+
+<p>让我们来看看 Dave Thomas 在这里是怎么说的吧。</p>
+
+<p>【下面是正文】</p>
+
+<h2 id="1-take-the-red-pill">1. Take the Red Pill</h2>
+
+<p>Elixir 以小巧而现代的语法封装了函数式编程，包括不可变状态和基于 Actor 模式的并发。并且它运行在以工业化强度、高性能以及分布式著称的 Erlang VM 上。那么这一切意味着什么？</p>
+
+<p>这意味着你可以不用再担心目前困扰你的那些难题了。你不再需要苦苦思索多线程环境下确保数据一致性的事儿，也不用再想太多应用切分的事儿，同时最重要的是，你可以享受以一种不同的方式来编写代码。</p>
+
+<h3 id="programming-should-be-about-transforming-data">Programming Should Be About Transforming Data</h3>
+
+<p>如果你来自面向对象编程的世界，那你会习惯于用类和实例来思考问题。类定义行为，对象控制状态。开发者花费时间在复杂的类继承关系上，并尝试针对问题来建模，就好比维多利亚时期的科学家创建庞杂的蝴蝶分类学一样。</p>
+
+<p>当我们围绕对象编写代码时，我们要考虑的是状态。大部分时间都花在调用对象的方法和把它们传给其他对象上。基于此，对象更新它们的状态，或其他对象的状态。这个世界中，类就是国王般的存在——它定义每个实例能做什么，它掌控着实例数据的状态。我们的目标是把数据隐藏起来。</p>
+
+<p>但这并不是真实的世界。在真实的世界里，我们不想建模抽象等级（因为现实中并没有这么多真实的级别）。我们只想把事情完成，不想维护什么状态。</p>
+
+<p>现在，比如，我有一些空的文件，把它们转换成一些包含文本的文件。然后我把它们转换成你可以阅读的格式。还有，某个地方的 web 服务器会把你的下载请求转换为一个包含请求下载内容的 HTTP 响应。</p>
+
+<p>我不想隐藏数据，我只想转换它。</p>
+
+<h3 id="combine-transformations-with-pipelines">Combine Transformations with Pipelines</h3>
+
+<p>Unix 用户都习惯于小而精的命令行工具哲学，用不同的方式来随意组合。每个这样的工具都有内容输入、转换并以下一个工具所需要的格式来输出。</p>
+
+<p>这种哲学极其灵活，使得工具复用度极高。这些工具甚至能以其作者做梦都想不到的方式来组合使用。因此极大地倍增了工具相互间作用的潜能。</p>
+
+<p>这也是极为可靠的——每个小的工具只做好一件事，意味着其很容易测试。</p>
+
+<p>还有另外的好处。命令管道能同时运行。如果我写：</p>
+
+<pre><code class="language-bash">$ grep Elixir *.pml | wc -l
+</code></pre>
+
+<p>那么单词计数程序，wc，会跟 grep 命令同时运行。因为 wc 程序会消费 grep 的输出，只要 grep 有输出内容产生出来。一旦 grep 结束，几乎没有任何延迟就能得到单词计数的结果。</p>
+
+<p>为给你一点感觉，这里有一个 Elixir 的函数，名为 pmap。它输入一个 collection 和 function，返回一个把 collection 每个元素都调用 function 后的结果作为元素的列表。但……它是把每个元素转换都放到单独的进程中。先不要关心那些细节。</p>
+
+<pre><code class="language-elixir">defmodule Parallel do
+  def pmap(collection, func) do
+    collection
+    |&gt; Enum.map(&amp;(Task.async(fn -&gt; func.(&amp;1) end)))
+    |&gt; Enum.map(&amp;Task.await/1)
+  end
+end
+</code></pre>
+
+<p>我们可以运行这个函数来得到从 1 到 1000 的平方数。</p>
+
+<pre><code class="language-elixir">result = Parallel.pmap 1..1000, &amp;(&amp;1 * &amp;1)
+</code></pre>
+
+<p>当然，我刚刚启动了 1000 个后台进程，完全充分利用了自己电脑的全部多核处理器。</p>
+
+<p>这段代码你可能还很不习惯，没关系，等你读到本书的一半之后，就能自己写出这样风格的代码了。</p>
+
+<h3 id="functions-are-data-transformers">Functions Are Data Transformers</h3>
+
+<p>Elixir 让我们用和上述 Unix 同样的方式来解决问题。而除了命令行工具外，我们更拥有了函数。我们能把它们按照自己的意愿尽情使用。这些函数越小（更专注），我们越能灵活地组合使用它们。</p>
+
+<p>只要想，我们可以让这些函数并行地运行——Elixir 拥有简单而又强大的机制在它们之间通信。这可不是从你爸爸那个时候起就令人头疼的进程或线程——我们这里要谈论的是仅仅在一台电脑上就运行上百万个任务的潜力，以及在上百台电脑上的运行。Bruce Tate 对此的想法是这样的：“大多数开发者把线程和进程看作地狱一般；Elixir 开发者却把它们当作一种重要的简洁方案”。当我们跟随着此书的深入讲解，你会开始明白他这话的意思。</p>
+
+<p>这种转换理念是函数式编程的核心：函数将其输入转换为输出。三角函数 sin 就是一个例子——给它 π⁄4，返回 0.7071。一个 HTML 模版系统是一个函数，当它接收一个包含占位符和相应键值对的模版时，就生成一个完整的 HTML 文档。</p>
+
+<p>但这种强大是有代价的。你将不得不抛弃很多之前已有的编程理念。很多原有的直觉都将变成错的。这会成为一种阻力，因为你会感到自己完全变成了一个“新”手。</p>
+
+<p>从我个人角度看，这恰恰是乐趣所在。你并非在一夜之间就学会面向对象的编程，当然也不可能一顿早饭的时间就成为函数式编程的专家。</p>
+
+<p>不过某种角度看，你将开始以不同的方式来思考问题，并且会发现自己用很少的代码就能完成令人惊讶的事情。你会发现自己编写的小段代码能够被反复使用，而且通常以意想不到的方式（就象上面的 wc 和 grep）。</p>
+
+<p>你看待世界的视角甚至也开始改变，因为你不再考虑责任而开始考虑完成任务。每个人都会同意这是有趣的。</p>
+
+<p><strong>……（关于如何配置 Elixir 环境的一些步骤说明，略过）……</strong></p>
+
+<h3 id="think-differently">Think Different(ly)</h3>
+
+<p>这是一本不同凡”想”的书——接受一些对于编程的看法并非其全部：</p>
+
+<ul>
+  <li>面向对象并不是代码设计的唯一方法</li>
+  <li>函数式编程并不需要非常复杂或精确</li>
+  <li>编程的基础并不是赋值、if 语句和循环</li>
+  <li>并发不需要锁，信号量，监视器，以及类似的东西</li>
+  <li>进程并不是代价昂贵的资源</li>
+  <li>元编程并不是随便添加到语言上的东西</li>
+  <li>即使它是工作，编程也能很有趣</li>
+</ul>
+
+<p>当然，我并非要说 Elixir 就是那种灵丹妙药（好吧，技术确实是，你懂我的意思）。它不是编写代码的唯一方式。但它跟主流是如此不同，学习它会为你提供更多的视角，能让你拓展思维而看到新的思考编程的方式。</p>
+
+<p>那么，让我们开始吧。</p>
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=《Programming Elixir >= 1.6》第一章(节选)&url=/2020/06/programming-elixir-1-6-chapter-1/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/06/programming-elixir-1-6-chapter-1/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/06/programming-elixir-1-6-chapter-1/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#elixir">elixir</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

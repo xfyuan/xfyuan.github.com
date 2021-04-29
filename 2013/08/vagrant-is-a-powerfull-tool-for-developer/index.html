@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>A powerful tool for developer, Vagrant | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>A powerful tool for developer, Vagrant | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="A powerful tool for developer, Vagrant" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="程序员的神兵利器－Vagrant" />
+<meta property="og:description" content="程序员的神兵利器－Vagrant" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a001.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2013-08-14T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2013-08-14T00:00:00+00:00","datePublished":"2013-08-14T00:00:00+00:00","description":"程序员的神兵利器－Vagrant","url":"/2013/08/vagrant-is-a-powerfull-tool-for-developer/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a001.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2013/08/vagrant-is-a-powerfull-tool-for-developer/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"A powerful tool for developer, Vagrant","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">A powerful tool for developer, Vagrant</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2013-08-14">14 Aug 2013</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a001.jpg" alt="A powerful tool for developer, Vagrant">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    
+    <div class="toc mt-4 mb-4 lead">
+        <h3 class="font-weight-bold">Summary</h3>
+        <ul>
+  <li><a href="#程序员的神兵利器vagrant">程序员的神兵利器－Vagrant</a>
+          - {:.} <a href="#参考网址">参考网址：</a>
+    <ul>
+      <li><a href="#缘起">缘起</a></li>
+      <li><a href="#什么是vagrant">什么是Vagrant</a></li>
+      <li><a href="#安装">安装</a></li>
+      <li><a href="#基本使用">基本使用</a>
+        <ul>
+          <li><a href="#添加box源">添加Box源</a></li>
+          <li><a href="#开始第一个虚拟机">开始第一个虚拟机</a></li>
+          <li><a href="#打包自己的box">打包自己的Box</a></li>
+        </ul>
+      </li>
+      <li><a href="#虚拟机的设定">虚拟机的设定</a></li>
+      <li><a href="#多台虚拟机组合">多台虚拟机组合</a></li>
+    </ul>
+  </li>
+</ul>
+    </div>
+    
+    <!-- End Toc -->
+    <h1 id="程序员的神兵利器vagrant">程序员的神兵利器－Vagrant</h1>
+
+<p>2013年8月14日上午10:50</p>
+
+<h4 id="参考网址">参考网址：</h4>
+
+<p><a href="http://www.vagrantup.com">Vagrant官网</a></p>
+
+<p><a href="http://railscasts.com/episodes/292-virtual-machines-with-vagrant">Railscasts: Virtual Machines with Vagrant</a></p>
+
+<h2 id="缘起">缘起</h2>
+
+<p><img src="https://www.vagrantup.com/assets/images/logo-header@2x-990b8470.png" alt="Vagrant" /></p>
+
+<p>最近发现了一个超酷的东西——Vagrant，一见之下惊为天人。真是又高兴又伤心，高兴的是这东西简直太棒了，从此自己的“兵器谱”里又增加一件利器；伤心的是怎么现在才看到，实在是相见恨晚啊。</p>
+
+<h2 id="什么是vagrant">什么是Vagrant</h2>
+
+<p>简单来说，<strong>Vagrant 就是一个虚拟机的集成管理器</strong>。</p>
+
+<p>我们用它可以快速创建虚拟机，可以快速部署好所需的各种环境，无论你想要开发环境或是上线环境都能一键搞定。甚至你可以部署多台都没问题。</p>
+
+<p>想想看，假设一台Application Server，再加一台Master Database + 一台Slave Database，也许可以再来一台Monitor Server等等，全部都可以用你那台开发工作的电脑来实现，只要有足够内存。是不是很牛的样子？所以说，要让我们不用Vagrant，给个理由先？</p>
+
+<h2 id="安装">安装</h2>
+
+<p>我们所需要的实际是 Vagrant＋Virtualbox 这两样东西。</p>
+
+<p>Vagrant可以在上面列出的官网去下载软件包，目前最新版本是1.2.7。</p>
+
+<p>Vagrant支持的是Virtualbox这个虚拟机软件。Virtualbox是开源的，它以前是独立发布，现在已经被Oracle收购了，直接去官网下载安装即可。另外，Vagrant还支持VMvare虚拟机，不过这个功能是收费的，一般就不用考虑了。</p>
+
+<h2 id="基本使用">基本使用</h2>
+
+<h3 id="添加box源">添加Box源</h3>
+
+<p>我们要先确定使用什么系统，是准备用Ubuntu，还是上Centos，或者BSD系列。确定好后，我们就可以到<a href="http://vagrantbox.es">vagrantbox.es</a>这个地方查找。Vagrant把每个打包好的虚拟机系统叫做box。这里都是网络上的热心人已经打包好的box，各种系统都有，必有一款能满足你的需要。</p>
+
+<p>例如我习惯使用CentOS，就可以这样来添加一个box到Vagrant里：</p>
+
+<pre><code>vagrant box add CentOS-64 http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130427.box
+</code></pre>
+
+<p>这样Vagrant就会下载这个box，下载完成后添加到自己的box列表里。可以用：</p>
+
+<pre><code>vagrant box list
+</code></pre>
+
+<p>来查看。<strong><em>如果网速不够快，一个技巧就是可以先把这个box下载到本地，然后在上面命令中使用本地文件地址就好了。</em></strong></p>
+
+<p>每个box都相当一个系统的安装源，接下来我们就要用到了。</p>
+
+<h3 id="开始第一个虚拟机">开始第一个虚拟机</h3>
+
+<p>我们新建一个工作目录vm，然后在vm里使用这个命令：</p>
+
+<pre><code>vagrant init CentOS-64
+</code></pre>
+
+<p>然后我们会看到如下提示信息：</p>
+
+<pre><code>A `Vagrantfile` has been placed in this directory. You are now
+ready to `vagrant up` your first virtual environment! Please read
+the comments in the Vagrantfile as well as documentation on
+`vagrantup.com` for more information on using Vagrant.
+</code></pre>
+
+<p>Vagrant在vm目录生成了一个“Vagrantfile”的设定文件。全部的设定都在这个文件里，我们先不管，以后再研究。现在先让虚拟机跑起来！</p>
+
+<p>输入命令：</p>
+
+<pre><code>vagrant up
+</code></pre>
+
+<p>稍微等待一段时间后，我们就会看到Vagrant会输出很多行信息：</p>
+
+<pre><code>Bringing machine 'default' up with 'virtualbox' provider...
+[default] Setting the name of the VM...
+[default] Clearing any previously set forwarded ports...
+[default] Creating shared folders metadata...
+[default] Clearing any previously set network interfaces...
+[default] Preparing network interfaces based on configuration...
+[default] Forwarding ports...
+[default] -- 22 =&gt; 2222 (adapter 1)
+[default] Booting VM...
+[default] Waiting for VM to boot. This can take a few minutes.
+[default] VM booted and ready for use!
+[default] Configuring and enabling network interfaces...
+[default] Mounting shared folders...
+[default] -- /vagrant
+</code></pre>
+
+<p>Yes！虚拟机已经正式在运行了。</p>
+
+<p>那么怎么连上去呢？照常规那样开一个ftp软件，输入ip、帐号、密码去连接吗？No！</p>
+
+<pre><code>vagrant ssh
+</code></pre>
+
+<p>这个命令直接就把你送进虚拟机去了。默认帐户是vagrant，密码一样。现在开始折腾这台机器吧……</p>
+
+<p>另外，虚拟机已经有一个/vagrant目录，和我所在的vm目录是直接映射的。vm里的任何文件都能在/vagrant目录里看到和使用。酷吧？</p>
+
+<h3 id="打包自己的box">打包自己的Box</h3>
+
+<p>当你把自己的虚拟机做好所需的环境，例如我的CentOS-64会升级好yum软件包，安装好MySQL、PHP等环境后，不想以后每次都把这个过程重来一次，或者假如在团队里不想每个成员的开发环境各自五花八门乱七八糟，我就可以把这个做好的CentOS-64打包出来，分享给团队成员。</p>
+
+<pre><code>vagrant package
+</code></pre>
+
+<p>稍等一点时间后，Vagrant会在vm目录下输出一个package.box的文件。没错，这完全跟我们在上面vagrantbox.es下载的box文件一样的，实际上那里热心人分享的box文件都是这么来的。所以可以用同样的方法添加到box列表里去，例如：</p>
+
+<pre><code>vagrant box add CentOS-64S package.box
+</code></pre>
+
+<p>这样以后我们就可以直接使用这个新box来生成虚拟机：</p>
+
+<pre><code>vagrant init CentOS-64S
+</code></pre>
+
+<p>新虚拟机直接就是一个做好的PHP Server。</p>
+
+<p>原来的CentOS-64这个box完全可以删掉了，还可以节省一点空间：</p>
+
+<pre><code>vagrant box remove CentOS-64
+</code></pre>
+
+<h2 id="虚拟机的设定">虚拟机的设定</h2>
+
+<p>上面说到Vagrant会为每个虚拟机都生成一个Vagrantfile设定文件。</p>
+
+<p>用任意文本编辑器打开它，如果你对Ruby语言有一点了解的话，就会明白实际整个内容都是Ruby Code。而且Vagrant很贴心的准备了详尽到有些啰嗦的注释给你，这里强烈建议你仔细看看。实际对于每个选项设定都说的非常清楚了。</p>
+
+<p>主要的设定大概有这么些：</p>
+
+<p><strong><em>注：下面提到的设定有些是默认注释掉的，没有开启，务必要取消注释才会生效。</em></strong></p>
+
+<pre><code>config.vm.box = "CentOS-64"
+</code></pre>
+
+<p>这指定了虚拟机使用哪个Box源。</p>
+
+<pre><code>config.vm.network :forwarded_port, guest: 80, host: 8080
+</code></pre>
+
+<p>这个设定非常牛，它会把Host机器（就是安装Vagrant的机器）的8080端口转发（forwoard）到虚拟机的80端口。例如你部署到虚拟机的网站运行后，当你在Host机器上浏览器打开<code>http://localhost:8080</code>后，就会自动转到虚拟机正在运行的Apache或Nginx 80端口服务，也就是访问部署的网站。<strong>实际上，这个功能是架起了Host机器和虚拟机之间沟通的桥梁。</strong> 以此类推，我们可以增加更多的端口转发，如常用的MySQL 3306端口，Rails 的3000端口等。</p>
+
+<pre><code>config.vm.network :private_network, ip: "192.168.33.10"
+
+config.vm.network :public_network
+</code></pre>
+
+<p>这两个是设定网络连接方式。前者把虚拟机网络设定为私有模式，和你Host机器同一网络的其他电脑是看不到它的。后者相反，设为公开模式，和你Host机器有类似的IP，同一网络的其他电脑都能看到它。<strong>一般都采用前者，而且IP也建议不以“192.168”开头，以免冲突，例如可以设为“66.66.66.10”这样……</strong></p>
+
+<pre><code>vb.customize ["modifyvm", :id, "--memory", "1024"]
+</code></pre>
+
+<p>这个可以手工设定虚拟机使用多少内存，根据你自己情况来定就好。类似Linux这样的Server，一般512就够了。</p>
+
+<p>其他的设定还有些，不是特别重要，读者可以自行去了解看看了。</p>
+
+<h2 id="多台虚拟机组合">多台虚拟机组合</h2>
+
+<p>我们的产品正式部署上线的时侯，经常都可能不是一台而采用多台服务器的情况。例如 Database 要和 Application 分开，Database 有时还有 Master、Slave 之分，有时还需要 Balance Server 等等。更重要的是，这么多台机器之间都是需要相互沟通的。那么在正式部署前进行实况模拟就是很有必要的了。</p>
+
+<p><strong>这时就正是Vagrant的英雄用武之地，这可是Vagrant的“杀手级功能”。重头戏登场！</strong></p>
+
+<p>我们来架设一台Web Server，一台Master Database ＋ 一台Slave Database 的组合。</p>
+
+<p>在Vagrantfile设定文件里改成这样：</p>
+
+<pre><code>Vagrant.configure("2") do |config|
+
+  config.vm.define :web do |web|
+    web.vm.box = "CentOS-64"
+    web.vm.network :private_network, ip: "66.66.66.10"
+  end
+
+  config.vm.define :db0 do |db|
+    db.vm.box = "CentOS-64"
+    db.vm.network :private_network, ip: "66.66.66.20"
+  end
+
+  config.vm.define :db1 do |db|
+    db.vm.box = "CentOS-64"
+    db.vm.network :private_network, ip: "66.66.66.21"
+  end
+
+end
+</code></pre>
+
+<p>各项设定如同上述，只是名称分别使用了“web”、“db0”、“db1”，并且设定了不同的IP。</p>
+
+<p>然后我们使用<code>vagrant up</code>启动，可以看到跑出来很多行信息，注意到每行前面都有类似“[web]”、“[db0]”这样的开头，表示各自是哪一台机器。信息流停止后，表示我们的虚拟机组合跑起来了！</p>
+
+<p>SSH可以指定连到哪一台去：</p>
+
+<pre><code>vagrant ssh web
+
+vagrant ssh db0
+</code></pre>
+
+<p>酷得一塌糊涂啊！！</p>
+
+<p>再来看看各台虚拟机之间的连通。</p>
+
+<p>先进去到Web Server：</p>
+
+<pre><code>vagrant ssh web
+</code></pre>
+
+<p>在web机器里连接db0:</p>
+
+<pre><code>ssh 66.66.66.20
+</code></pre>
+
+<p>轻而易举大功告成！</p>
+
+<p>还有更牛的东西在后头呢。Vagrant允许你单独启动组合里某一台虚拟机，例如：</p>
+
+<pre><code>vagrant up web
+</code></pre>
+
+<p>只启动了Web Server，Database 机器并没有启动。</p>
+
+<p>Vagrant甚至允许你在启动时使用正则表达式：</p>
+
+<pre><code>vagrant up /db[0-9]/
+</code></pre>
+
+<p>现在你启动全部Database Server了，即使你有db0,db1,db2…db9 这么多台也没问题。</p>
+
+<p>现在对Vagrant有一个大概的了解了吧，就赶紧去试一试吧，相信你会像我一样喜欢上它。</p>
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=A powerful tool for developer, Vagrant&url=/2013/08/vagrant-is-a-powerfull-tool-for-developer/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2013/08/vagrant-is-a-powerfull-tool-for-developer/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2013/08/vagrant-is-a-powerfull-tool-for-developer/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Tool">Tool</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#vagrant">vagrant</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/a-awesome-neovim-lsp-plugin/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_131702.jpg" alt="让你的NeoVim Builtin LSP美轮美奂">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/a-awesome-neovim-lsp-plugin/">让你的NeoVim Builtin LSP美轮美奂</a>
+                
+            </h2>
+            <h4 class="card-text">在配置 NeoVim Builtin LSP 的过程中，发现它自带的原生 UI 界面实在简陋了些。虽然功能用起来没问题，但远远够不上赏心悦目的程度。这对于像我这样的“视觉动物”来说，实在是坚决不能容忍的“大罪”了。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">11 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/neovim-builtin-lsp-keymappings/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210225_130053.jpg" alt="行云流水般的NeoVim Builtin LSP操作">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/neovim-builtin-lsp-keymappings/">行云流水般的NeoVim Builtin LSP操作</a>
+                
+            </h2>
+            <h4 class="card-text">既然我们的 NeoVim 已经配置好 Builtin LSP 的 Server 和 Client，就该来看看如何使用它的问题了，也就是相关的 Keybinding 设定。好的 Keybinding 设定会让人在使用时运指如飞。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">06 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/02/neovim-builtin-lsp-basic-configuration/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115520.jpg" alt="NeoVim Builtin LSP的基本配置">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/02/neovim-builtin-lsp-basic-configuration/">NeoVim Builtin LSP的基本配置</a>
+                
+            </h2>
+            <h4 class="card-text">上一篇博客说过，现在官方对 NeoVim Builtin LSP 的配置已经做到了足够简洁易用的地步。这一篇就来看看怎样按照 NeoVim 官方的说明，一步一步把 LSP 给配置为可用于实际开发中。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">27 Feb 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

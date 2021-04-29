@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>“端口—适配器”模式的概念(3) | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>“端口—适配器”模式的概念(3) | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="“端口—适配器”模式的概念(3)" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="这是“端口—适配器”模式的概念梳理第三部分。" />
+<meta property="og:description" content="这是“端口—适配器”模式的概念梳理第三部分。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200813IMG_20200808_181906.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-08-13T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-08-13T00:00:00+00:00","datePublished":"2020-08-13T00:00:00+00:00","description":"这是“端口—适配器”模式的概念梳理第三部分。","url":"/2020/08/ports-and-adapters-pattern-part3/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200813IMG_20200808_181906.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/08/ports-and-adapters-pattern-part3/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"“端口—适配器”模式的概念(3)","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">“端口—适配器”模式的概念(3)</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-08-13">13 Aug 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200813IMG_20200808_181906.jpg" alt="“端口—适配器”模式的概念(3)">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    
+    <div class="toc mt-4 mb-4 lead">
+        <h3 class="font-weight-bold">Summary</h3>
+        <ul>
+  <li><a href="#6--pros-and-cons">6.- PROS AND CONS</a>
+    <ul>
+      <li><a href="#61---pros">6.1 - PROS</a>
+        <ul>
+          <li><a href="#611---testability-improvement">6.1.1 - TESTABILITY IMPROVEMENT</a></li>
+          <li><a href="#612---maintainability-improvement">6.1.2 - MAINTAINABILITY IMPROVEMENT</a></li>
+          <li><a href="#613---flexibility">6.1.3 - FLEXIBILITY</a></li>
+          <li><a href="#614---application-immune-to-technology-evolution">6.1.4 - APPLICATION IMMUNE TO TECHNOLOGY EVOLUTION</a></li>
+          <li><a href="#615---delay-technological-decisions">6.1.5 - DELAY TECHNOLOGICAL DECISIONS</a></li>
+        </ul>
+      </li>
+      <li><a href="#62---cons">6.2 - CONS</a>
+        <ul>
+          <li><a href="#621---complexity">6.2.1 - COMPLEXITY</a></li>
+          <li><a href="#622---build-process-performance">6.2.2 - BUILD PROCESS PERFORMANCE</a></li>
+          <li><a href="#623---indirection-and-mappings">6.2.3 - INDIRECTION AND MAPPINGS</a></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><a href="#7--when-to-hexagonal-this">7.- WHEN TO “HEXAGONAL THIS!”</a></li>
+  <li><a href="#8--implementation-steps">8.- IMPLEMENTATION STEPS</a>
+    <ul>
+      <li><a href="#81---test-driver-adapters--mock-driven-adapters">8.1 - TEST DRIVER ADAPTERS / MOCK DRIVEN ADAPTERS</a></li>
+      <li><a href="#82---real-driver-adapters--mock-driven-adapters">8.2 - REAL DRIVER ADAPTERS / MOCK DRIVEN ADAPTERS</a></li>
+      <li><a href="#83---test-driver-adapters--real-driven-adapters">8.3 - TEST DRIVER ADAPTERS / REAL DRIVEN ADAPTERS</a></li>
+      <li><a href="#84---real-driver-adapters--real-driven-adapters">8.4 - REAL DRIVER ADAPTERS / REAL DRIVEN ADAPTERS</a></li>
+    </ul>
+  </li>
+</ul>
+    </div>
+    
+    <!-- End Toc -->
+    <p>这是“端口—适配器”模式的概念梳理第三部分。</p>
+
+<h3 id="6--pros-and-cons">6.- PROS AND CONS</h3>
+
+<p>模块化和应用与技术的解耦，是六边形架构两个重要的特征。这些特征是优点和缺点的来源。下面是我发现的一些关于六边形架构的利与弊。</p>
+
+<h4 id="61---pros">6.1 - PROS</h4>
+
+<h5 id="611---testability-improvement">6.1.1 - TESTABILITY IMPROVEMENT</h5>
+
+<p>这个架构所提供的主要收益就是能够独立于其依赖的外部设备来测试应用程序。这通过两件事来实现：</p>
+
+<ul>
+  <li>对于每个驱动者端口，开发一个测试适配器以在该端口上测试其用例。</li>
+  <li>对于每个从动者端口，开发一个 mock 适配器。</li>
+</ul>
+
+<p>对六边形做隔离性测试对于这些很有用：</p>
+
+<ul>
+  <li>运行回归测试。当源代码因某种原因变更时（添加了新功能，修复了一个 bug，等等），这些测试运行来确保如上改动没有在任何已存在功能上的边际效应。要运行这些测试，驱动者适配器使用一个自动化测试框架。</li>
+  <li>做 <a href="https://dannorth.net/introducing-bdd">BDD (行为驱动开发)</a>。对于每个驱动者端口的功能，一套验收标准是由用户定义的。当所有验收标准都吻合时，该功能就被看作“完成了”。这些验收标准被称为 scenarios，将被测试用例通过测试适配器来运行。要运行这些验收测试，适配器可以使用如 <a href="https://cucumber.io/">Cucumber</a> 的工具。</li>
+</ul>
+
+<p>Nat Pryce（<a href="https://www.amazon.com/gp/product/0321503627">Growing Object-Oriented Software, Guided by Tests</a> 一书的合著者）在他的文章 <a href="http://www.natpryce.com/articles/000772.html">Visualising Test Terminology</a> 中定义了有关六边形架构各种不同的测试：</p>
+
+<ul>
+  <li>单元测试（<em>Unit Tests</em>）：测试六边形内的单个对象。</li>
+  <li>集成测试（<em>Integration Tests</em>）：测试适配器。它们确保在端口和外部世界之间的转换通过适配器正确地完成了。</li>
+  <li>验收测试（<em>Acceptance Tests</em>）：测试驱动者端口，比如，隔离中的六边形。它们检查应用程序有如用户预期那样的行为，符合他/她在之前用例中所定义的验收标准。</li>
+  <li>系统测试（<em>System Tests</em>）：一起测试整个系统，适配器和六边形。它们也测试系统的部署和启动。</li>
+</ul>
+
+<h5 id="612---maintainability-improvement">6.1.2 - MAINTAINABILITY IMPROVEMENT</h5>
+
+<p>可维护的系统是那种易于修改的系统。六边形架构提升了可维护性，因为它提供了关注点跟业务逻辑解耦的分离，使得查找我们要更改的代码更加容易。</p>
+
+<p>应用程序的可维护性是与技术债相关的长期概念。 可维护性越高，技术债就越少。因此，六边形架构减少了技术债。</p>
+
+<h5 id="613---flexibility">6.1.3 - FLEXIBILITY</h5>
+
+<p>在不同的技术之间切换是容易的。对一个给定的端口，你可以有多个适配器，每个使用特定的技术。要选择使用其中一个，你只用配置好哪个适配器用于该端口即可。这种配置可以如同调整一个外部配置参数文件一样容易。不用修改源代码，不用重新编译，不用重新构建。</p>
+
+<p>同样地，把一个新的特定技术的适配器添加到一个端口可以不用触及现有代码即可做到。这个适配器开发和编译它自己的。运行时，它会被检查并插入到该端口。</p>
+
+<h5 id="614---application-immune-to-technology-evolution">6.1.4 - APPLICATION IMMUNE TO TECHNOLOGY EVOLUTION</h5>
+
+<p>技术远比业务逻辑更频繁地进化着。在业务逻辑跟技术绑在一起的应用程序中，你不能进行技术变更而不触碰业务逻辑。这并不好，因为业务不应改变。</p>
+
+<p>使用六边形架构，你想要升级的技术是位于应用程序外部的适配器中。你只用更改适配器就好。应用程序本身保持不变性，因为它不依赖于适配器。</p>
+
+<h5 id="615---delay-technological-decisions">6.1.5 - DELAY TECHNOLOGICAL DECISIONS</h5>
+
+<p>当你开始开发写代码时，会只专注在业务逻辑上，而推迟决断将要使用哪个框架和技术。你可以晚一点来选择一种技术，并为其编写适配器。</p>
+
+<h4 id="62---cons">6.2 - CONS</h4>
+
+<h5 id="621---complexity">6.2.1 - COMPLEXITY</h5>
+
+<p>一个实现了六边形架构的软件项目有复杂的结构，使用了很多的模块和定义在它们之间的明确依赖。我所说的模块是指源代码子项目（比如，Maven 模块），用于物理上分离架构的不同元素。</p>
+
+<p>至少，会有一个用于六边形的模块，每个适配器一个模块，以及一个模块用于启动整个项目。你也必须定义模块之间的依赖：六边形不依赖任何东西，适配器依赖于六边形，而启动是依赖所有其他东西的。</p>
+
+<p>如果编程语言不允许六边形只暴露端口，那么就会有甚至更多的模块了。你不得不把六边形拆分为端口及实现。六边形的实现和适配器将依赖于端口，而端口不依赖任何东西。</p>
+
+<h5 id="622---build-process-performance">6.2.2 - BUILD PROCESS PERFORMANCE</h5>
+
+<p>由于我们已经看到的复杂性，如果项目太大，有太多适配器，那么编译、运行测试、把所有模块构建到一起，以及启动整个项目的过程将会花费许多许多的时间。</p>
+
+<h5 id="623---indirection-and-mappings">6.2.3 - INDIRECTION AND MAPPINGS</h5>
+
+<p>通过端口和适配器把应用程序跟技术解耦会增加间接性，比如，当适配器在端口和特定技术接口之间转换时对方法的额外调用。除此之外，可能还需要在应用程序跟外部世界对象之间进行映射。</p>
+
+<h3 id="7--when-to-hexagonal-this">7.- WHEN TO “HEXAGONAL THIS!”</h3>
+
+<p>或者你会这样说：“什么时候应该在项目上应用六边形架构？”好吧，答案恐怕令人不快：“得看情况”：</p>
+
+<ul>
+  <li>对于小项目，也许“治愈胜过疾病”，所以解决琐碎的问题不值得使用该架构来增加额外的复杂性。</li>
+  <li>对于中等/大型项目，有很长的生命周期，在其生涯中会进行多次修改，使用六边形架构就非常值得。</li>
+</ul>
+
+<p>有些人可能说如果他们确认项目中要用的技术或框架不会变更（比如，由于某些原因被绑定到了特定技术），就不需要六边形架构了。好吧，即使在这种情况下，“端口-适配器”模式也很有用，因为你可以添加 mock 适配器，以便在应用程序所依赖的设备/服务不可用时使用，或者你可以为不同的运行时环境（开发、测试、生产）添加适配器。</p>
+
+<h3 id="8--implementation-steps">8.- IMPLEMENTATION STEPS</h3>
+
+<p>起点是应用程序作为一个黑盒，所定义的端口接口围绕其四周，无论是在驱动者侧还是从动者侧，以此与外部世界进行交互。</p>
+
+<p>起初可能你无法完整定义每个从动者端口，因为你仍然不完全了解应用程序对端口用途的所有需求。或者你可能错过某些从动者端口。但这些需求将会随着六边形内的开发而产生，比如，驱动者端口的实现。</p>
+
+<p>所以，对于从头开发一个六边形应用程序，下面是适配器在驱动者与从动者两侧被构造和添加的顺序，直到完成所有工作：</p>
+
+<h4 id="81---test-driver-adapters--mock-driven-adapters">8.1 - TEST DRIVER ADAPTERS / MOCK DRIVEN ADAPTERS</h4>
+
+<ul>
+  <li>驱动者侧（<em>Driver side</em>）：对于每个驱动者端口，构造一个测试适配器，并由测试来驱动实现该驱动者端口。BDD 可被用于此处以实现驱动者端口，而测试用例会是 <a href="https://martinfowler.com/bliki/GivenWhenThen.html">GWT scenarios</a>。</li>
+  <li>从动者侧（<em>Driven side</em>）：当在实现一个驱动者端口时，你可能需要使用从动者端口。这样的情况下，为其构造 mock 适配器。</li>
+</ul>
+
+<p>一旦你实现了所有的驱动者端口和 mock 从动者端口，这一步就完成了。</p>
+
+<p>此时，六边形是完整的，有测试在驱动者侧，mock 在从动者侧。应用程序是可以被隔离性测试的。</p>
+
+<p>下一步是为每个端口添加所需的“真实”的驱动者适配器和从动者适配器，这依赖于外部世界的通信需求。例如，你可能需要 Web UI 和 REST API 适配器在驱动者侧，而 SQL 数据库和 app-to-app 适配器在从动者侧。</p>
+
+<h4 id="82---real-driver-adapters--mock-driven-adapters">8.2 - REAL DRIVER ADAPTERS / MOCK DRIVEN ADAPTERS</h4>
+
+<ul>
+  <li>驱动者侧（<em>Driver side</em>）：对于每个驱动者端口，构造并添加你需要的“真实”的驱动者适配器。例如，Web UI, REST API，等等。</li>
+  <li>从动者侧（<em>Driven side</em>）：保留你在步骤一中构造的 mock 适配器。</li>
+</ul>
+
+<p>这样你就可以测试新的驱动者适配器了。</p>
+
+<h4 id="83---test-driver-adapters--real-driven-adapters">8.3 - TEST DRIVER ADAPTERS / REAL DRIVEN ADAPTERS</h4>
+
+<ul>
+  <li>驱动者侧（<em>Driver side</em>）：配置每个驱动者端口以使用在步骤一中构造的测试驱动者适配器。</li>
+  <li>从动者侧（<em>Driven side</em>）：对于每个从动者端口，构造并添加你需要的“真实”的从动者适配器。例如，数据库适配器，邮件提醒适配器，等等。</li>
+</ul>
+
+<p>这样你就可以测试新的从动者适配器了。</p>
+
+<h4 id="84---real-driver-adapters--real-driven-adapters">8.4 - REAL DRIVER ADAPTERS / REAL DRIVEN ADAPTERS</h4>
+
+<ul>
+  <li>驱动者侧（<em>Driver side</em>）：配置每个驱动者端口使用在步骤二中构造的“真实”的驱动者适配器。</li>
+  <li>从动者侧（<em>Driven side</em>）：配置每个从动者端口使用在步骤三中构造的“真实”的从动者适配器。</li>
+</ul>
+
+<p>这样你就可以对应用程序进行端到端测试了，在驱动者侧和从动者侧都包含“真实”的适配器。</p>
+
+<p>到这一步你就全部完成了。你可以用期望的适配器来配置每个端口，并以端口与适配器配置的任意组合来运行应用程序。</p>
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=“端口—适配器”模式的概念(3)&url=/2020/08/ports-and-adapters-pattern-part3/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/08/ports-and-adapters-pattern-part3/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/08/ports-and-adapters-pattern-part3/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#architecture">architecture</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#ddd">ddd</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#go">go</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

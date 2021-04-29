@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>GraphQL on Rails——启程 | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>GraphQL on Rails——启程 | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="GraphQL on Rails——启程" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="本文已获得原作者（Dmitry Tsepelev）、（Polina Gurtovaya）和 Evil Martians 授权许可进行翻译。原文是 Rails + React 使用 GraphQL的系列教程第一篇，介绍了以 Rails 作为后端，React + Apollo 作为前端，如何经过基础的配置，构建一个简单图书馆列表页面。" />
+<meta property="og:description" content="本文已获得原作者（Dmitry Tsepelev）、（Polina Gurtovaya）和 Evil Martians 授权许可进行翻译。原文是 Rails + React 使用 GraphQL的系列教程第一篇，介绍了以 Rails 作为后端，React + Apollo 作为前端，如何经过基础的配置，构建一个简单图书馆列表页面。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201113_205558.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-11-12T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-11-12T00:00:00+00:00","datePublished":"2020-11-12T00:00:00+00:00","description":"本文已获得原作者（Dmitry Tsepelev）、（Polina Gurtovaya）和 Evil Martians 授权许可进行翻译。原文是 Rails + React 使用 GraphQL的系列教程第一篇，介绍了以 Rails 作为后端，React + Apollo 作为前端，如何经过基础的配置，构建一个简单图书馆列表页面。","url":"/2020/11/graphql-on-rails-series-1/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201113_205558.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/11/graphql-on-rails-series-1/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"GraphQL on Rails——启程","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">GraphQL on Rails——启程</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-11-12">12 Nov 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201113_205558.jpg" alt="GraphQL on Rails——启程">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p><em>本文已获得原作者（Dmitry Tsepelev）、（Polina Gurtovaya）和 Evil Martians 授权许可进行翻译。原文是 Rails + React 使用 GraphQL的系列教程第一篇，介绍了以 Rails 作为后端，React + Apollo 作为前端，如何经过基础的配置，构建一个简单图书馆列表页面。</em></p>
+
+<ul>
+  <li>原文链接：<a href="https://evilmartians.com/chronicles/graphql-on-rails-1-from-zero-to-the-first-query">GraphQL on Rails: From zero to the first query</a></li>
+  <li>作者：<a href="https://twitter.com/dmitrytsepelev">Dmitry Tsepelev</a>，<a href="https://github.com/HellSquirrel">Polina Gurtovaya</a></li>
+  <li>站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发人员博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。</li>
+</ul>
+
+<p><em>【正文如下】</em></p>
+
+<h2 id="引言">引言</h2>
+
+<p><strong>这是一个在后端使用 Rails、前端使用 React/Apollo 来开发 GraphQL 应用程序的旅行者指导。跟随该系列教程可通过范例学到既有基础的、也有高级的主题内容，让你领略现代技术的威力。</strong></p>
+
+<p><a href="https://graphql.org/">GraphQL</a> 是我们在任何地方（博客、会议、播客，甚至报纸）都能见到的新颖事物之一。听起来你应该抓紧时间，尽快开始以 GraphQL 而非 REST 来重写应用程序，对吧？事实并非如此。记住：没有银弹。在进行决策之前理解该技术的优劣是完全有必要的。</p>
+
+<p>本系列中，我们将给你一个 GraphQL 应用程序开发的简洁指南，不止谈到其优点，也会讨论其注意事项乃至陷阱（当然，还有如何处理它们的方法）。</p>
+
+<h2 id="graphql-in-a-nutshell">GraphQL in a nutshell</h2>
+
+<p>根据<a href="https://graphql.github.io/graphql-spec/">规范</a>，GraphQL是一种<em>查询语言</em>和 <em>runtime（或执行引擎）</em>。查询语言，<a href="https://en.wikipedia.org/wiki/Query_language">按照定义</a>，描述了如何与一个信息系统进行通信。Runtime 则负责实现数据的查询。</p>
+
+<p>每个 GraphQL 应用程序的核心都在于一个 <a href="https://graphql.org/learn/schema/"><em>schema</em></a>：它以有向图的形式描述底层数据。Runtime 必须根据该 schema（及规范中的一些通用规则）来执行查询。这意味着，每个有效的 GraphQL 服务端都以相同的方式运行查询，并以相同的格式返回相同 schema 的数据。换句话说，schema 就是客户端应了解到的关于 API 的一切。</p>
+
+<p>下面是一个简单的 GraphQL 查询的例子：</p>
+
+<pre><code class="language-graphql">query getProduct($id: Int!) {
+  product(id: $id) {
+    id
+    title
+    manufacturer {
+      name
+    }
+  }
+}
+</code></pre>
+
+<p>让我们来一行一行解析它：</p>
+
+<ul>
+  <li>我们定义了一个具名查询（<code>getProduct</code>是操作名），接收单独一个参数（<code>$id</code>）。操作名是可选的，但它会对可读性有所帮助，也能用于前端进行缓存。</li>
+  <li>我们从 schema 的“根”上“选择”了<code>product</code>字段，并传递<code>$id</code>值作为参数。</li>
+  <li>我们描述了期望获取的那些字段：该场景中，是想要得到 product 的<code>id</code>和<code>title</code>，以及 manufacturer 的<code>name</code>。</li>
+</ul>
+
+<p><strong>本质上，一个查询代表了 schema 的一个子图，这带来了 GraphQL 的第一个好处——我们可以在单个查询中，仅获取自己所需要的数据，也可以获取一次所需的所有数据。</strong></p>
+
+<p>这样，我们就解决了传统 REST API 的一个常见问题——<em>overfetching（过量获取）</em>。</p>
+
+<p>另一个关于 GraphQL schema 的明显特性是它们为强类型的（<em>strongly</em> <em>typed</em>）：客户端和 runtime 两边都确保了从应用程序的类型系统角度看，所传递的数据是合法的。例如，如果有人错误传递了一个字符串的值作为<code>$id</code>给上面的查询，客户端就会因抛出异常而失败，甚至不会尝试执行查询。</p>
+
+<p>最后但并非最终的一个好处是 schema 的<em>自省</em>：客户端可以从 schema 自身来学习 API，而无需任何额外的文档资源。</p>
+
+<p>那么，我们已经了解了 GraphQL 的不少理论部分。现在该来做一些代码练习了，以确保你不会明早起来就忘掉一切。</p>
+
+<h2 id="what-are-we-going-to-build">What are we going to build?</h2>
+
+<p>通过这个系列，我们将构建一个代表“Martian Library”的应用程序——一个影视、书籍及其他与《红色星球》有关的事物的个人在线收藏。</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/application-32576ed.png" alt="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/application-32576ed.png" /></p>
+
+<p>对于本教程，我们将使用：</p>
+
+<ul>
+  <li>后端使用Ruby 2.6 和 Rails 6（<a href="https://evilmartians.com/chronicles/rails-6-b-sides-and-rarities">RC 版本在此</a>）【译者注：Rails 6 正式版目前已经发布了】</li>
+  <li>前端使用 Node.js 9+，React 16.3+，和 Apollo（客户端版本 2+），要确保你已经根据<a href="https://yarnpkg.com/en/docs/install#mac-stable">指导</a>安装了 yarn。</li>
+</ul>
+
+<p>你可以在<a href="https://github.com/evilmartians/chronicles-gql-martian-library/tree/part-1">这里</a>找到源码——别忘了在首次运行前执行<code>bundle install &amp;&amp; yarn install</code>。<a href="https://github.com/evilmartians/chronicles-gql-martian-library">Master 分支</a>是该项目的当前最新状态。</p>
+
+<h2 id="setting-up-a-new-rails-project">Setting up a new Rails project</h2>
+
+<p>如果阅读本文的时候 Rails 6.0 还没有发布，那么你可能需要先安装 rc 版本：</p>
+
+<pre><code class="language-bash">$ gem install rails --pre
+$ rails -v
+=&gt; Rails 6.0.0.rc1
+</code></pre>
+
+<p>现在我们就可以来运行下面这个超级长的<code>rails new</code>命令了：</p>
+
+<pre><code class="language-bash">$ rails new martian-library -d postgresql --skip-action-mailbox --skip-action-text --skip-spring --webpack=react -T --skip-turbolinks
+</code></pre>
+
+<p>比起 Rails 官方的<a href="https://dhh.dk/2012/rails-is-omakase.html">“主厨精选”</a>，我们更喜欢自己来定制：略去所不需要的框架和库，选择 PostgreSQL 作为数据库，以预配置的 Webpacker 来使用 React，去掉了测试（别担心——我们会很快加上 RSpec 的）。</p>
+
+<p>在你开始之前，强烈建议关闭<code>config/application.rb</code>内所有不必要的生成器：</p>
+
+<pre><code class="language-ruby">config.generators do |g|
+  g.test_framework  false
+  g.stylesheets     false
+  g.javascripts     false
+  g.helper          false
+  g.channel         assets: false
+end
+</code></pre>
+
+<h2 id="preparing-the-data-model">Preparing the data model</h2>
+
+<p>我们需要至少两个 model：</p>
+
+<ul>
+  <li>用<code>Item</code>来描述任何我们想要存储在图书馆中的实体（书籍、电影等）。</li>
+  <li>用<code>User</code>来代表应用程序里能够管理收藏品中这些 items 的用户。</li>
+</ul>
+
+<p>让我们来生成它们：</p>
+
+<pre><code class="language-bash">$ rails g model User first_name last_name email
+$ rails g model Item title description:text image_url user:references
+</code></pre>
+
+<p>别忘了添加<code>has_many :items</code>的关联关系到<code>app/models/user.rb</code>：</p>
+
+<pre><code class="language-ruby"># app/models/user.rb
+class User &lt; ApplicationRecord
+  has_many :items, dependent: :destroy
+end
+</code></pre>
+
+<p>来添加一些预生成的数据到<code>db/seeds.rb</code>：</p>
+
+<pre><code class="language-ruby"># db/seeds.rb
+john = User.create!(
+  email: "john.doe@example.com",
+  first_name: "John",
+  last_name: "Doe"
+)
+
+jane = User.create!(
+  email: "jane.doe@example.com",
+  first_name: "Jane",
+  last_name: "Doe"
+)
+
+Item.create!(
+  [
+    {
+      title: "Martian Chronicles",
+      description: "Cult book by Ray Bradbury",
+      user: john,
+      image_url: "https://upload.wikimedia.org/wikipedia/en/4/45/The-Martian-Chronicles.jpg"
+    },
+    {
+      title: "The Martian",
+      description: "Novel by Andy Weir about an astronaut stranded on Mars trying to survive",
+      user: john,
+      image_url: "https://upload.wikimedia.org/wikipedia/en/c/c3/The_Martian_2014.jpg"
+    },
+    {
+      title: "Doom",
+      description: "A group of Marines is sent to the red planet via an ancient " \
+                   "Martian portal called the Ark to deal with an outbreak of a mutagenic virus",
+      user: jane,
+      image_url: "https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg"
+    },
+    {
+      title: "Mars Attacks!",
+      description: "Earth is invaded by Martians with unbeatable weapons and a cruel sense of humor",
+      user: jane,
+      image_url: "https://upload.wikimedia.org/wikipedia/en/b/bd/Mars_attacks_ver1.jpg"
+    }
+  ]
+)
+</code></pre>
+
+<p>最后，我们就可以来初始化数据库了：</p>
+
+<pre><code class="language-bash">$ rails db:create db:migrate db:seed
+</code></pre>
+
+<p>现在我们已经往自己的系统里塞入了一些内容，那就来添加访问它们的方式吧！</p>
+
+<h2 id="adding-a-graphql-endpoint">Adding a GraphQL endpoint</h2>
+
+<p>为了“制作”我们的 GraphQL API，将使用<a href="https://github.com/rmosolgo/graphql-ruby">graphql-ruby</a> gem：</p>
+
+<pre><code class="language-bash"># First, add it to the Gemfile
+$ bundle add graphql --version="~&gt; 1.9"
+# Then, run the generator
+$ rails generate graphql:install
+</code></pre>
+
+<p>你可能会惊讶于一个最小化的<code>graphql-ruby</code>应用程序所需文件的数量：如下的样板就是我们为上述所有物品所支付的代价。</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/generator-d6a5280.png" alt="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/generator-d6a5280.png" /></p>
+
+<p>首先，我们来看看 schema，<code>martian_library_schema.rb</code>：</p>
+
+<pre><code class="language-ruby"># app/graphql/martian_library_schema.rb
+class MartianLibrarySchema &lt; GraphQL::Schema
+  query(Types::QueryType)
+  mutation(Types::MutationType)
+end
+</code></pre>
+
+<p>该 schema 宣布了所有 query 都应该在<code>Types::QueryType</code>，而所有 mutation 都应该在<code>Types::MutationType</code>。我们将在本系列教程的第二部分来深入探讨 mutation。本文的目标则是学习如何编写和执行 query。因此，让我们打开<code>types/query_type.rb</code> 类——它是所有 query 的入口。里面有什么呢？</p>
+
+<pre><code class="language-ruby"># app/graphql/types/query_type.rb
+module Types
+  class QueryType &lt; Types::BaseObject
+    # Add root-level fields here.
+    # They will be entry points for queries on your schema.
+
+    # TODO: remove me
+    field :test_field, String, null: false,
+      description: "An example field added by the generator"
+    def test_field
+      "Hello World!"
+    end
+  end
+end
+</code></pre>
+
+<p>这证明了<code>QueryType</code>就是一个通用 type：其继承于<code>Types::BaseObject</code>（我们会把它用作所有 type 的基本类），并且它有 <em>field 定义</em>——我们数据图的节点。唯一使得<code>QueryType</code>有所不同的是 GraphQL 需要这个 type 必须存在（而<code>mutation</code>和<code>subscription</code> 两种 type 是可选而非必须）。</p>
+
+<p>注意到上面的代码实际上仅是一个”hello world”了吗？在继续往下走之前（且大量的代码使你厌倦），我们会向你展示如何在浏览器中获取该“hello world”的内容。</p>
+
+<p>让我们来看下生成器已经往<code>config/routes.rb</code>中添加了什么：</p>
+
+<pre><code class="language-ruby"># config/routes.rb
+Rails.application.routes.draw do
+  mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql" if Rails.env.development?
+  post "/graphql", to: "graphql#execute"
+end
+</code></pre>
+
+<p>Mount 的<code>GraphiQL::Rails::Engine</code>让我们能使用一个称为 <a href="https://github.com/graphql/graphiql">GraphiQL</a> 的 web 界面来测试自己的 query 和 mutation。如前所述，schema 是可被检查的，而 GraphiQL 则使用这个特性为我们来构建交互文档。来试一试吧！</p>
+
+<pre><code class="language-bash"># Let's run a Rails web server
+$ rails s
+</code></pre>
+
+<p>在浏览器中打开 http://localhost:3000/graphiql：</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/graphiql-4633e9d.png" alt="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/graphiql-4633e9d.png" /></p>
+
+<p>在左侧窗口，你可以输入一个 query 来执行，然后点击“play”按钮（或按下<em>Ctrl/Cmd+Enter</em>），即可在右侧窗口看到响应结果。点击右上角的“Docs”链接，你就可以浏览 schema。</p>
+
+<p>来看下日志——我们想要知道当按下执行按钮时发生了什么。</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/execute_log-e654371.png" alt="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/execute_log-e654371.png" /></p>
+
+<p>请求被发送到<code>GraphlController</code>，其也是由<code>graphql</code> gem 的生成器添加到应用程序的。</p>
+
+<p>看一眼<code>GraphlController#execute</code>方法：</p>
+
+<pre><code class="language-ruby"># app/controllers/graphql_controller.rb
+def execute
+  variables = ensure_hash(params[:variables])
+  query = params[:query]
+  operation_name = params[:operationName]
+  context = {
+    # Query context goes here, for example:
+    # current_user: current_user,
+  }
+  result = GraphqlSchema.execute(
+    query,
+    variables: variables,
+    context: context,
+    operation_name: operation_name
+  )
+  render json: result
+rescue StandardError =&gt; e
+  raise e unless Rails.env.development?
+
+  handle_error_in_development e
+end
+</code></pre>
+
+<p>该方法调用了<code>GraphqlSchema#execute</code>方法，以如下参数：</p>
+
+<ul>
+  <li><code>query</code>和<code>variables</code>分别代表一个 query 字符串和客户端发送的参数；</li>
+  <li><code>context</code>是一个任意 hash，在 query 执行的任何地方都是可用的；</li>
+  <li><code>operation_name</code>从进来的请求中取出一个命名操作来执行（可以为空）。</li>
+</ul>
+
+<p>所有的魔法都发生在这个方法内：它解析 query，检测所有将被用来构建响应的 type，并决定所有被请求到的字段。我们唯一需要做的事就是定义这些 type，并声明字段应该被怎样决定。</p>
+
+<h2 id="whats-in-the-martian-library">What’s in the Martian Library?</h2>
+
+<p>让我们从“hello world”转到更真实的东西：从<code>Types::QueryType</code>移除范例内容并注册一个称为<code>:items</code>的字段，其将返回所有图书馆的 items。我们也需要为该字段添加一个 resolver 方法（resolver 方法名必须匹配字段名）：</p>
+
+<pre><code class="language-ruby"># app/graphql/types/query_type.rb
+module Types
+  class QueryType &lt; Types::BaseObject
+    field :items,
+          [Types::ItemType],
+          null: false,
+          description: "Returns a list of items in the martian library"
+
+    def items
+      Item.all
+    end
+  end
+end
+</code></pre>
+
+<p>每个字段定义都包含一个名称，一个其结果类型，及一些选项。<code>:null</code>是需要的，必须设为<code>true</code>或者<code>false</code>。我们也定义了可选的<code>:description</code>——为字段添加易于阅读的信息是一种好的实践：它会被自动添加到文档中，为开发者提供更多相关信息。对于结果类型的数组表示，<code>[Types::ItemType]</code>，意味着字段的值必须是一个数组，且其每个元素都必须是<code>Types::ItemType</code>类型。</p>
+
+<p>但我们还没有定义<code>ItemType</code>，对吧？幸运的是，<code>graphql</code> gem 给了一个方便的生成器：</p>
+
+<pre><code class="language-bash">$ rails g graphql:object item
+</code></pre>
+
+<p>现在我们就可以修改新创建的<code>app/graphql/types/item_type.rb</code>为想要的样子了。</p>
+
+<pre><code class="language-ruby"># app/graphql/types/item_type.rb
+module Types
+  class ItemType &lt; Types::BaseObject
+    field :id, ID, null: false
+    field :title, String, null: false
+    field :description, String, null: true
+    field :image_url, String, null: true
+  end
+end
+</code></pre>
+
+<p>如上所见，我们在<code>ItemType</code>中暴露了三个字段：</p>
+
+<ul>
+  <li>非 null 的字段，<code>id</code>和<code>title</code></li>
+  <li>可为 null 的字段<code>description</code></li>
+</ul>
+
+<p>我们的执行引擎解析决定字段时是使用如下算法（略有简化）：</p>
+
+<ul>
+  <li>首先，它在 type 类自身内查找同名定义的方法（如同前面我们在<code>QueryType</code>中对<code>items</code>做的一样）；我们可以使用<code>object</code>方法来访问被解析决定的对象。</li>
+  <li>如果没有找到这样定义的方法，它就尝试在<code>object</code>上去调用同名方法。</li>
+</ul>
+
+<p>我们在 type 类中没有定义任何方法，因此假定底层实现了所有字段的方法。</p>
+
+<p>回到http://localhost:3000/graphiql，执行如下 query，确认在响应中获取到了所有 items 的列表：</p>
+
+<pre><code class="language-graphql">{
+  items {
+    id
+    title
+    description
+  }
+}
+</code></pre>
+
+<p>到目前为止，我们还没有添加任何体现 graph 威力的功能——当前的 graph 深度只有一层。让我们来添加一个非初始节点到<code>ItemType</code>上，让 graph 复杂一点。比如，添加一个<code>user</code>字段来代表 item 的创建者：</p>
+
+<pre><code class="language-ruby"># app/graphql/types/item_type.rb
+module Types
+  class ItemType &lt; Types::BaseObject
+    # ...
+    field :user, Types::UserType, null: false
+  end
+end
+</code></pre>
+
+<p>重复使用相同的生成器来创建一个新的 type 类：</p>
+
+<pre><code class="language-bash">$ rails g graphql:object user
+</code></pre>
+
+<p>这一次我们还想要添加一个计算字段——<code>full_name</code>：</p>
+
+<pre><code class="language-ruby"># app/graphql/types/user_type.rb
+module Types
+  class UserType &lt; Types::BaseObject
+    field :id, ID, null: false
+    field :email, String, null: false
+    field :full_name, String, null: false
+
+    def full_name
+      # `object` references the user instance
+      [object.first_name, object.last_name].compact.join(" ")
+    end
+  end
+end
+</code></pre>
+
+<p>使用如下 query 来跟 items 一起获取 users：</p>
+
+<pre><code class="language-graphql">{
+  items {
+    id
+    title
+    user {
+      id
+      email
+    }
+  }
+}
+</code></pre>
+
+<p>到这一步时，我们就可以把目光从后端移到前端了。让我们来为这个 API 构建一个客户端吧！</p>
+
+<h2 id="configuring-the-frontend-application">Configuring the frontend application</h2>
+
+<p>正如已经提到的，我们推荐你安装<a href="https://www.apollographql.com/docs/react/">Apollo</a> 框架来处理客户端的 GraphQL。</p>
+
+<p>要让一切顺利运转，我们需要安装所有需要的依赖库：</p>
+
+<pre><code class="language-bash">$ yarn add apollo-client apollo-cache-inmemory apollo-link-http apollo-link-error apollo-link graphql graphql-tag react-apollo
+</code></pre>
+
+<p>来看下所安装的一些库：</p>
+
+<ul>
+  <li>我们使用<code>graphql-tag</code>构建第一个 query。</li>
+  <li><code>apollo-client</code>是一个通用的、与框架无关的库，来执行并缓存 GraphQL 请求。</li>
+  <li><code>apollo-cache-inmemory</code>是一个 Apollo 缓存的存储实现。</li>
+  <li><code>react-apollo</code>包含一套 React 组件来展示数据。</li>
+  <li><code>apollo-link</code>与其他 <em>links</em> 给<code>apollo-client</code>的操作（你可以在<a href="https://www.apollographql.com/docs/link/overview.html">这里</a>找到更多细节）实现了一个中间件模式。</li>
+</ul>
+
+<p>现在我们需要为前端应用程序创建一个入口。从<code>packs</code>目录移除<code>hello_react.jsx</code>并添加<code>index.js</code>：</p>
+
+<pre><code class="language-ruby">$ rm app/javascript/packs/hello_react.jsx &amp;&amp; touch app/javascript/packs/index.js
+</code></pre>
+
+<p>为了调试目的，加入如下内容：</p>
+
+<pre><code class="language-js">// app/javascript/packs/index.js
+console.log('👻');
+</code></pre>
+
+<p>生成一个用于前端的 controller：</p>
+
+<pre><code class="language-bash">$ rails g controller Library index --skip-routes
+</code></pre>
+
+<p>更新<code>app/views/library/index.html.erb</code>以包含 React 根元素及一个到 <em>pack</em> 的<code>javascript_pack_tag</code>：</p>
+
+<pre><code class="language-erb">&lt;!-- app/views/library/index.html.erb --&gt;
+&lt;div id="root" /&gt;
+&lt;%= javascript_pack_tag 'index' %&gt;
+</code></pre>
+
+<p>最后，在<code>config/routes.rb</code>注册一个新的路由：</p>
+
+<pre><code class="language-ruby"># config/routes.rb
+root 'library#index'
+</code></pre>
+
+<p>重启 Rails server，确认看到那个 👻 出现在浏览器的 console 中。</p>
+
+<h2 id="configuring-apollo">Configuring Apollo</h2>
+
+<p>创建一个文件来存储 Apollo 的配置：</p>
+
+<pre><code class="language-bash">$ mkdir -p app/javascript/utils &amp;&amp; touch app/javascript/utils/apollo.js
+</code></pre>
+
+<p>该文件中，我们想要配置 Apollo 应用的两个核心东西，客户端和缓存（或更准确地说，是创建二者的函数）：</p>
+
+<pre><code class="language-js">// app/javascript/utils/apollo.js
+
+// client
+import { ApolloClient } from 'apollo-client';
+// cache
+import { InMemoryCache } from 'apollo-cache-inmemory';
+// links
+import { HttpLink } from 'apollo-link-http';
+import { onError } from 'apollo-link-error';
+import { ApolloLink, Observable } from 'apollo-link';
+export const createCache = () =&gt; {
+  const cache = new InMemoryCache();
+  if (process.env.NODE_ENV === 'development') {
+    window.secretVariableToStoreCache = cache;
+  }
+  return cache;
+};
+</code></pre>
+
+<p>让我们花一点时间来看看缓存是如何工作的。</p>
+
+<p>每个 query 响应结果都被放到缓存中（相应的请求通常被用做缓存的 key）。在进行请求之前，<code>apollo-client</code>确保响应结果还未被缓存，而如果其已被缓存——请求就不会被执行。该行为是可配置化的：比如，我们可以为某一个特别请求关闭缓存，或者让客户端查找一个不同的 query 的缓存数据。</p>
+
+<p>关于缓存机制，对本教程而言，一个我们需要了解的重要事情是，默认情况下，缓存的 key 是<code>id</code>和<code>__typename</code>的组合串。因此，获取同样对象两次也只会导致一个请求。</p>
+
+<p>回到代码上来。由于我们使用 HTTP POST 作为传输，所以需要附带一个适当的 CSRF token 到每个请求上以通过 Rails 中的 <a href="https://guides.rubyonrails.org/security.html#cross-site-request-forgery-csrf">forgery protection check</a>。我们可以从<code>meta[name="csrf-token"]</code>拿到它（其是通过<code>&lt;%= csrf_meta_tags %&gt;</code>生成的）：</p>
+
+<pre><code class="language-js">// app/javascript/utils/apollo.js
+// ...
+// getToken from meta tags
+const getToken = () =&gt;
+  document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+const token = getToken();
+const setTokenForOperation = async operation =&gt;
+  operation.setContext({
+    headers: {
+      'X-CSRF-Token': token,
+    },
+  });
+// link with token
+const createLinkWithToken = () =&gt;
+  new ApolloLink(
+    (operation, forward) =&gt;
+      new Observable(observer =&gt; {
+        let handle;
+        Promise.resolve(operation)
+          .then(setTokenForOperation)
+          .then(() =&gt; {
+            handle = forward(operation).subscribe({
+              next: observer.next.bind(observer),
+              error: observer.error.bind(observer),
+              complete: observer.complete.bind(observer),
+            });
+          })
+          .catch(observer.error.bind(observer));
+        return () =&gt; {
+          if (handle) handle.unsubscribe();
+        };
+      })
+  );
+</code></pre>
+
+<p>来看下我们如何记录错误日志：</p>
+
+<pre><code class="language-js">// app/javascript/utils/apollo.js
+//...
+// log erors
+const logError = (error) =&gt; console.error(error);
+// create error link
+const createErrorLink = () =&gt; onError(({ graphQLErrors, networkError, operation }) =&gt; {
+  if (graphQLErrors) {
+    logError('GraphQL - Error', {
+      errors: graphQLErrors,
+      operationName: operation.operationName,
+      variables: operation.variables,
+    });
+  }
+  if (networkError) {
+    logError('GraphQL - NetworkError', networkError);
+  }
+})
+</code></pre>
+
+<p>生产环境上，更好的做法是使用异常追踪服务（exception tracking service）（比如，Sentry 或者 Honeybadger）：只用覆盖<code>logError</code>函数把错误发送到外部系统即可。</p>
+
+<p>曙光在前了——让我们把入口告知客户端以进行查询：</p>
+
+<pre><code class="language-js">// app/javascript/utils/apollo.js
+//...
+// http link
+const createHttpLink = () =&gt; new HttpLink({
+  uri: '/graphql',
+  credentials: 'include',
+})
+</code></pre>
+
+<p>最后，我们就可以创建 Apollo 客户端的实例了：</p>
+
+<pre><code class="language-js">// app/javascript/utils/apollo.js
+//...
+export const createClient = (cache, requestLink) =&gt; {
+  return new ApolloClient({
+    link: ApolloLink.from([
+      createErrorLink(),
+      createLinkWithToken(),
+      createHttpLink(),
+    ]),
+    cache,
+  });
+};
+</code></pre>
+
+<h2 id="the-very-first-query">The very first query</h2>
+
+<p>我们将使用<a href="https://reactjs.org/docs/context.html#contextprovider">provider pattern</a>来把客户端实例传给 React 组件：</p>
+
+<pre><code class="language-bash">$ mkdir -p app/javascript/components/Provider &amp;&amp; touch app/javascript/components/Provider/index.js
+</code></pre>
+
+<p>这是我们第一次使用<code>react-apollo</code>的<code>ApolloProvider</code>组件：</p>
+
+<pre><code class="language-js">// app/javascript/components/Provider/index.js
+import React from 'react';
+import { ApolloProvider } from 'react-apollo';
+import { createCache, createClient } from '../../utils/apollo';
+
+export default ({ children }) =&gt; (
+  &lt;ApolloProvider client={createClient(createCache())}&gt;
+    {children}
+  &lt;/ApolloProvider&gt;
+);
+</code></pre>
+
+<p>修改<code>index.js</code>以使用新创建的 provider：</p>
+
+<pre><code class="language-js">// app/javascript/packs/index.js
+import React from 'react';
+import { render } from 'react-dom';
+import Provider from '../components/Provider';
+
+render(&lt;Provider&gt;👻&lt;/Provider&gt;, document.querySelector('#root'));
+</code></pre>
+
+<p>如果你使用了<code>Webpacker v3</code>，则需要导入<code>babel-polyfill</code>以用上诸如 <code>async/await</code>等很酷的 JavaScript 特性。不用担心 polyfill 的大小。<code>babel-preset-env</code>会帮你移除掉所不需要的一起。</p>
+
+<p>我们来创建一个<code>Library</code>组件，在页面上展示 items 的列表：</p>
+
+<pre><code class="language-bash">$ mkdir -p app/javascript/components/Library &amp;&amp; touch app/javascript/components/Library/index.js
+</code></pre>
+
+<p>我们会使用<code>react-apollo</code>的<code>Query</code>组件，接收<code>query</code>字符串作为 property 以获取所 mount 的数据：</p>
+
+<pre><code class="language-js">// app/javascript/components/Library/index.js
+import React from 'react';
+import { Query } from 'react-apollo';
+import gql from 'graphql-tag';
+
+const LibraryQuery = gql`
+  {
+    items {
+      id
+      title
+      user {
+        email
+      }
+    }
+  }
+`;
+
+export default () =&gt; (
+  &lt;Query query={LibraryQuery}&gt;
+    {({ data, loading }) =&gt; (
+      &lt;div&gt;
+        {loading
+          ? 'loading...'
+          : data.items.map(({ title, id, user }) =&gt; (
+              &lt;div key={id}&gt;
+                &lt;b&gt;{title}&lt;/b&gt; {user ? `added by ${user.email}` : null}
+              &lt;/div&gt;
+            ))}
+      &lt;/div&gt;
+    )}
+  &lt;/Query&gt;
+);
+</code></pre>
+
+<p>我们可以通过相应的<code>loading</code>和<code>data</code> property 分别访问载入状态和已加载数据（使用所谓的<a href="https://reactjs.org/docs/render-props.html">render-props 模式</a>传递）。</p>
+
+<p>别忘了把组件添加到主页面上：</p>
+
+<pre><code class="language-js">// app/javascript/packs/index.js
+import React from 'react';
+import { render } from 'react-dom';
+import Provider from '../components/Provider';
+import Library from '../components/Library';
+
+render(
+  &lt;Provider&gt;
+    &lt;Library /&gt;
+  &lt;/Provider&gt;,
+  document.querySelector('#root')
+);
+</code></pre>
+
+<p>如果你刷新页面，将会看到 items 列表，以及添加它们的用户的 email：</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/items-b791b9f.png" alt="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/items-b791b9f.png" /></p>
+
+<p>祝贺你！你刚刚迈出了通向 GraphQL 的第一步。很棒！</p>
+
+<h2 id="and-the-very-first-problem">…And the very first problem</h2>
+
+<p>一切看起来都工作得很好，但来看一眼我们的服务端日志：</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/n_plus_one-77d1121.png" alt="https://cdn.evilmartians.com/front/posts/graphql-on-rails-1-from-zero-to-the-first-query/n_plus_one-77d1121.png" /></p>
+
+<p>SQL 查询<code>SELECT * FROM users WHERE id = ?</code>被执行了四次，意味着我们撞上了著名的 <em>N+1</em> 问题——服务端对集合中的每个 item 都进行了一次查询，以获取相应的用户信息。</p>
+
+<p>在修复这个问题之前，我们需要确保进行代码调整是安全的，不会搞坏任何东西——所以，来写测试吧，少年！</p>
+
+<h2 id="writing-some-specs">Writing some specs</h2>
+
+<p>现在该来安装配置 RSpec 了，更准确地说，是<code>rspec-rails</code> gem：</p>
+
+<pre><code class="language-bash"># Add gem to the Gemfile
+$ bundle add rspec-rails --version="4.0.0.beta2" --group="development,test"
+# Generate the initial configuration
+$ rails generate rspec:install
+</code></pre>
+
+<p>为了易于生成测试数据，也安装上 <a href="https://github.com/thoughtbot/factory_bot">factory_bot</a>：</p>
+
+<pre><code class="language-bash">$ bundle add factory_bot_rails --version="~&gt; 5.0" --group="development,test"
+</code></pre>
+
+<p>为了让 factory 方法（<code>create</code>，<code>build</code>等）在测试中全局可见，添加<code>config.include FactoryBot::Syntax::Methods</code>到<code>rails_helper.rb</code>中。</p>
+
+<p>由于我们在添加 Factory Bot 之前就创建了 model，所以我们得手动生成 factory。单独创建一个文件，<code>spec/factories.rb</code>，如下：</p>
+
+<pre><code class="language-ruby"># spec/factories.rb
+FactoryBot.define do
+  factory :user do
+    # Use sequence to make sure that the value is unique
+    sequence(:email) { |n| "user-#{n}@example.com" }
+  end
+
+  factory :item do
+    sequence(:title) { |n| "item-#{n}" }
+    user
+  end
+end
+</code></pre>
+
+<p>现在已经准备好写我们的第一个测试了。来为<code>QueryType</code>创建一个 spec 文件：</p>
+
+<pre><code class="language-bash">$ mkdir -p spec/graphql/types
+$ touch spec/graphql/types/query_type_spec.rb
+</code></pre>
+
+<p>最简单的 query 测试，就像下面这样：</p>
+
+<pre><code class="language-ruby"># spec/graphql/types/query_type_spec.rb
+require "rails_helper"
+
+RSpec.describe Types::QueryType do
+  describe "items" do
+    let!(:items) { create_pair(:item) }
+
+    let(:query) do
+      %(query {
+        items {
+          title
+        }
+      })
+    end
+
+    subject(:result) do
+      MartianLibrarySchema.execute(query).as_json
+    end
+
+    it "returns all items" do
+      expect(result.dig("data", "items")).to match_array(
+        items.map { |item| { "title" =&gt; item.title } }
+      )
+    end
+  end
+end
+</code></pre>
+
+<p>首先，我们创建在数据库中创建一对 items。然后，定义了要被测试的 query 和subject（<code>result</code>），后者通过调用<code>MartianLibrarySchema.execute</code>方法所得到。还记得我们在<code>GraphqlController#execute</code>那里有一行类似的代码吗？</p>
+
+<p>这个用例非常简单：我们对<code>execute</code>的调用既没有传递<code>variables</code>也没有传递<code>context</code>，当然，有需要的时候我们显然可以这么做。</p>
+
+<p>现在，我们就有足够自信来修复上面的 N+1 问题了！</p>
+
+<h2 id="graphql-vs-n1-problem">GraphQL vs. N+1 problem</h2>
+
+<p>最简单的避免 N+1 问题的方式是使用 <a href="https://guides.rubyonrails.org/active_record_querying.html#eager-loading-associations">eager loading</a>。我们这里，需要在进行查询以获取<code>QueryType</code>中的 items 时预加载用户：</p>
+
+<pre><code class="language-ruby"># /app/graphql/types/query_type.rb
+module Types
+  class QueryType &lt; Types::BaseObject
+    # ...
+
+    def items
+      Item.preload(:user)
+    end
+  end
+end
+</code></pre>
+
+<p>这个方案在简单的场景下是有用的，但并非十分高效：比如，如下代码也会预加载用户，即使客户端不需要它们时：</p>
+
+<pre><code class="language-graphql">items {
+  title
+}
+</code></pre>
+
+<p>要讨论解决 N+1 问题的其他方式，值得单独写一篇文章，已经超出了本文的范畴。</p>
+
+<p>大多数解决方案都不外乎以下两种：</p>
+
+<ul>
+  <li>lazy eager loading（比如，使用 <a href="https://github.com/DmitryTsepelev/ar_lazy_preload">ar_lazy_preload</a> gem）</li>
+  <li>batch loading（比如，使用 <a href="https://github.com/Shopify/graphql-batch">graphql-batch</a> gem）</li>
+</ul>
+
+<p>本文就到这儿了！我们学习了关于 GraphQL 的很多东西，完成了配置后端和前端应用程序的常规工作，进行了第一个查询，甚至还发现并修复了第一个 bug。而这只是我们旅程中微小的一步（尽管文章的篇幅并不微小）。我们会很快回来的，届时将推出如何使用 GraphQL 的 mutation 来操作数据，以及 subscription 来使数据保持最新的内容。敬请关注！</p>
+
+
+</div>
+
+<!-- Rating -->
+
+<div class="rating mt-4 mb-4 d-flex align-items-center">
+    <strong class="mr-1">Rating:</strong> <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="4">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+</div>
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=GraphQL on Rails——启程&url=/2020/11/graphql-on-rails-series-1/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/11/graphql-on-rails-series-1/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/11/graphql-on-rails-series-1/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#graphql">graphql</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rails">rails</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#ruby">ruby</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    <script type="application/ld+json">
+    {
+    "@context": "http://schema.org/",
+    "@type": "Review",
+    "itemReviewed": {
+    "@type": "Thing",
+    "name": "GraphQL on Rails——启程"
+    },
+    "author": {
+    "@type": "Person",
+    "name": "Mr.Z"
+    },
+    "datePublished": "2020-11-12",
+    "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "4",
+    "bestRating": "5"
+    }
+    }
+    </script>
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

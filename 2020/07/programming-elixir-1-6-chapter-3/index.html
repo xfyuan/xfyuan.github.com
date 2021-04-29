@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>《Programming Elixir >= 1.6》第三章：不可变性 | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>《Programming Elixir &gt;= 1.6》第三章：不可变性 | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="《Programming Elixir &gt;= 1.6》第三章：不可变性" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="《Programming Elixir &gt;= 1.6》第三章介绍了 Elixir 的另一块基石，不可变性（Immutability）。我阅读本书之后的个人体会是，Elixir 一共有三大基石：模式匹配、不可变性和 OTP，以这三块基石为底，José Valim（Elixir 的创建者。他的名字是葡萄牙语，应读作：何塞·瓦里姆）构建起了整个语言的宏伟大厦。" />
+<meta property="og:description" content="《Programming Elixir &gt;= 1.6》第三章介绍了 Elixir 的另一块基石，不可变性（Immutability）。我阅读本书之后的个人体会是，Elixir 一共有三大基石：模式匹配、不可变性和 OTP，以这三块基石为底，José Valim（Elixir 的创建者。他的名字是葡萄牙语，应读作：何塞·瓦里姆）构建起了整个语言的宏伟大厦。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a013.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-01T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-07-01T00:00:00+00:00","datePublished":"2020-07-01T00:00:00+00:00","description":"《Programming Elixir &gt;= 1.6》第三章介绍了 Elixir 的另一块基石，不可变性（Immutability）。我阅读本书之后的个人体会是，Elixir 一共有三大基石：模式匹配、不可变性和 OTP，以这三块基石为底，José Valim（Elixir 的创建者。他的名字是葡萄牙语，应读作：何塞·瓦里姆）构建起了整个语言的宏伟大厦。","url":"/2020/07/programming-elixir-1-6-chapter-3/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a013.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/07/programming-elixir-1-6-chapter-3/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"《Programming Elixir &gt;= 1.6》第三章：不可变性","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">《Programming Elixir >= 1.6》第三章：不可变性</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-07-01">01 Jul 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a013.jpg" alt="《Programming Elixir >= 1.6》第三章：不可变性">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>《Programming Elixir &gt;= 1.6》第三章介绍了 Elixir 的另一块基石，<strong>不可变性（Immutability）</strong>。我阅读本书之后的个人体会是，Elixir 一共有三大基石：<strong>模式匹配、不可变性和 OTP</strong>，以这三块基石为底，<strong>José Valim（Elixir 的创建者。他的名字是葡萄牙语，应读作：何塞·瓦里姆）</strong>构建起了整个语言的宏伟大厦。</p>
+
+<p>Dave Thomas 同样认识到了这一点，所以紧接着前一章说完模式匹配，这一章就马上对不可变性进行描述，而不是开始堆砌常规语法的说明。<strong>因为前两者是 Elixir 基础编程的基石，而 OTP 是 Elixir 并发编程的基石。</strong>理解了模式匹配和不可变性，再看后续的基础语法时很多地方才能融会贯通，否则就会一头雾水：OO里不是这样的啊？</p>
+
+<p>来看一下 Dave Thomas 对 Elixir 的不可变性是如何介绍的吧。</p>
+
+<p>【下面是正文】</p>
+
+<h2 id="3-immutability">3. Immutability</h2>
+
+<p>如果你听说过函数式编程狂热爱好者，那你应该知道人们针对不可变性做了大量工作——事实上对于一门函数式语言，数据一旦创建就不可被更改。</p>
+
+<p>确实，Elixir 强制实行了不可变数据。</p>
+
+<p>为什么？</p>
+
+<h3 id="you-already-have-some-immutable-data">You Already Have (Some) Immutable Data</h3>
+
+<p>先忘掉 Elixir 一会儿。想一想你现在选用的编程语言，假设你写了这样的代码：</p>
+
+<pre><code class="language-ruby">count = 99
+do_something_with(count)
+print(count)
+</code></pre>
+
+<p>你期望输出结果 99。当它没有这样输出时你会很吃惊。在你心中，99 就应该一直是 99。</p>
+
+<p>现在，你当然能绑定一个新的值到你的变量，但这不能改变 99 就是 99 的事实。</p>
+
+<p>想象一下，你到了一个无法值得依赖的语言世界中编程——在这里，你的一些代码可能在多处同时运行，且能改变 99 的值。函数<code>do_something_with</code>在后台被调用着，99 作为参数被传递进去。而传递过去的参数内容能被改变。突然间，99 变成了 100。</p>
+
+<p>你彻底混乱了（理所当然）。更糟的是，你无法再保证自己的代码一定能得到正确的运行结果了。</p>
+
+<p>还是你上面的语言，看下这个：</p>
+
+<pre><code class="language-ruby">array = [ 1, 2, 3 ]
+do_something_with(array)
+print(array)
+</code></pre>
+
+<p>和前面一样，你还是期望<code>print</code>方法输出<code>[1, 2, 3]</code>。但很多语言中，<code>do_something_with</code>会把接收的 array 作为指针。当它改变第二个元素或者完全删除内容时，输出将不再符合你的期望。这样看你的代码以及它做了什么就更困难了。</p>
+
+<p>再进一步——在多个线程，且每个都能访问该 array 的情况下，谁能知道全部线程都开始修改操作后这个 array 的状态会怎样？</p>
+
+<p>导致所有这些问题的原因就在于很多语言中的复合数据结构都是可变的——你可以修改其全部或部分的内容。当你的代码会在多处同时去操作数据时，悲剧就产生了。</p>
+
+<p>巧合的是，在我撰写本章的那天，Jessica Kerr (@jessitron) 恰好发推说：</p>
+
+<blockquote>
+  <p>GOTO was evil because we asked, “how did I get to this point of execution?” Mutability leaves us with, “how di I get to this state?”</p>
+</blockquote>
+
+<p>说得对极了。</p>
+
+<h3 id="immutable-data-is-known-data">Immutable Data Is Known Data</h3>
+
+<p>Elixir 避开了这些问题。Elixir 中，所有的值都是不可变的。即使是特别复杂的嵌套列表（list）、数据库记录——都跟最简单的整数一样，全都不可变。</p>
+
+<p>在 Elixir 中，一旦一个变量指向了一个列表（list），如<code>[1, 2, 3]</code>，你就能确信它总是指同样的值，除非你重新绑定它到其他。这就让并发的处理不会再是困扰了。</p>
+
+<p>那么如何把 100 加到<code>[1, 2, 3]</code>的每个元素上呢？Elixir 通过产生一个初始对象的拷贝并包含新的值来实现。初始对象保持不变，这样刚才的操作不会影响到任何使用该初始对象的代码。</p>
+
+<p>这完美契合了编程就是关于数据转换的思想。当我们修改<code>[1, 2, 3]</code>时，并不直接修改，而是把它转换为新的数据。</p>
+
+<h3 id="performance-implications-of-immutability">Performance Implications of Immutability</h3>
+
+<p>很容易就会认定这种方式效率低下。毕竟，任何情况下你只要修改数据就必须创建一份它的拷贝，而且会留下太多旧数据作为垃圾回收。那么我们来依次看一下。</p>
+
+<h4 id="copying-data">Copying Data</h4>
+
+<p>尽管一般都认为数据拷贝是效率低下的，但这里恰恰相反。因为 Elixir 知道现有数据不可变，所以在构建新结构时，就能部分或整体的重用它。</p>
+
+<p>来看下面的代码。（它使用了一个新操作符，<code>[head|tail]</code>，用来生成一个新列表。<code>head</code>作为其第一元素，<code>tail</code>作为余下的元素。我们后面会用一整章来讲列表和递归。这里先直接用好了。）</p>
+
+<pre><code class="language-elixir">iex&gt; list1 = [ 3, 2, 1 ]
+[3, 2, 1]
+iex&gt; list2 = [ 4 | list1 ]
+[4, 3, 2, 1]
+</code></pre>
+
+<p>很多语言中，list2 会通过创建一个包含 4，3，2，1 的新列表来得到。list1 中的三个元素会被复制到 list2 的尾部。因为 list1 可变，所以这是必须的。</p>
+
+<p>但是 Elixir 知道 list1 永不改变，所以它只需要简单地构建一个头部为 4 和尾部为 list1 的新列表就行了。</p>
+
+<h4 id="garbage-collection">Garbage Collection</h4>
+
+<p>另一个关于数据转换式语言性能的诟病是，当你从旧数据创建新数据时（拷贝方式），经常会遗留下不再使用的旧数据。这会留下太多东西在内存堆栈中，而不得不让垃圾回收器去处理它们。</p>
+
+<p>很多现代语言都有垃圾回收器，而开发者们越来越怀疑其作用——它们会在背后悄悄地影响性能。</p>
+
+<p>然而 Elixir 厉害的地方在于，你可以在代码中用很多很多的进程，而每个进程都有自己的内存堆栈。程序的数据在这些进程中是分开的，所以每个堆栈都非常非常小，远比把全部数据放在一个大的内存堆栈中要小。结果就是，垃圾回收器运行更快。如果一个进程在它的堆栈满了之前就终止，其所有数据被丢弃——那甚至根本都不需要垃圾回收器了。</p>
+
+<h3 id="coding-with-immutable-data">Coding with Immutable Data</h3>
+
+<p>一旦你接受了这个概念，那么以不可变数据来编程会简单的出奇。你只需要记住任何转换数据的函数都会返回一个该数据的新拷贝。因此，我们永远不会把一个字符串转换为大写字母，而是返回一个该字符串被大写字母化后的拷贝。</p>
+
+<pre><code class="language-elixir">iex&gt; name = "elixir"
+"elixir"
+iex&gt; cap_name = String.capitalize name
+"Elixir"
+iex&gt; name
+"elixir"
+</code></pre>
+
+<p>如果你之前是用面向对象语言，也许你会不喜欢我们使用<code>String.capitalize name</code>而不是<code>name.capitalize()</code>的写法。但在面向对象语言中，对象通常都拥有可变的状态。当你进行诸如<code>name.capitalize()</code>之类的调用时，无法立即清楚这是要更改名称的内部表示，或返回大写字母副本，还是两者都有。有太多产生歧义的空间了。</p>
+
+<p>函数式语言总是转换数据，从不会去修改它。其语法都会时时刻刻提醒我们。</p>
+
+<p>理论知识讲得够多了。该是开始学习它的时候了。下一章我们将快速概览基本的数据类型和一些语法，也会看到函数（function）和模块（module）。</p>
+
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=《Programming Elixir >= 1.6》第三章：不可变性&url=/2020/07/programming-elixir-1-6-chapter-3/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/07/programming-elixir-1-6-chapter-3/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/07/programming-elixir-1-6-chapter-3/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#elixir">elixir</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>The Tragedy of XY</title>
+    <description>The Tragedy of XY</description>
+    <link>/</link>
+    <atom:link href="/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Thu, 29 Apr 2021 01:29:36 +0000</pubDate>
+    <lastBuildDate>Thu, 29 Apr 2021 01:29:36 +0000</lastBuildDate>
+    <generator>Jekyll v4.1.0</generator>
+    
+      <item>
+        <title>Hotwire: 没有JavaScript的Reactive Rails</title>
+        <description>&lt;p&gt;&lt;em&gt;本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：&lt;strong&gt;Hotwire&lt;/strong&gt;。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。&lt;/em&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;原文链接：&lt;a href=&quot;https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript&quot;&gt;Hotwire: Reactive Rails with no JavaScript?&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;作者：&lt;a href=&quot;https://twitter.com/palkan_tula&quot;&gt;Vladimir Dementyev&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发人员博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;em&gt;【正文如下】&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;引言&quot;&gt;引言&lt;/h2&gt;
+
+&lt;p&gt;到传播 DHH 及其公司久经考验的&lt;a href=&quot;https://twitter.com/dhh/status/1275901955995385856&quot;&gt;新魔法&lt;/a&gt;的时候了，并且在超过 5 分钟的教学中学习使用 &lt;a href=&quot;https://hotwire.dev/&quot;&gt;Hotwire&lt;/a&gt;。自从今年揭开其面纱以来，这个用于构建现代 Web 界面而似乎无需任何 JavaScript 的技术的名字就备受欢迎。这个 &lt;strong&gt;HTML-over-the-wire&lt;/strong&gt; 的方案正在 Rails 世界里激发起层层涟漪：不计其数的博客文章、reddit 社区帖子、录屏视频，以及&lt;a href=&quot;https://railsconf.com/program&quot;&gt;今年 RailsConf 的五个演讲&lt;/a&gt;，而其中会包含你所期望的内容。本文中，我想要对 Hotwire 进行彻底地解释——借助代码示例和测试策略。就像我最爱的摇滚乐队说的那样，让我们 Hotwired 来……&lt;del&gt;self destruct&lt;/del&gt; 学习新技巧吧！【译者注：摇滚乐队 Metallica 2016 年发行了专辑《Hardwired … To Self-Destruct》，作者在这儿使用了名称的谐音】&lt;/p&gt;
+
+&lt;h2 id=&quot;life-is-short&quot;&gt;Life is short&lt;/h2&gt;
+
+&lt;p&gt;&lt;strong&gt;要概览 Hotwire 在 Rails 6 中进行使用的全貌，毋需再费其他功夫，看&lt;a href=&quot;https://github.com/anycable/anycable_rails_demo/pull/16&quot;&gt;这个 PR&lt;/a&gt; 就足够了。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;接下来的文章会解释上述 PR 代码——在很多细节上。它是我的 &lt;a href=&quot;https://railsconf.com/&quot;&gt;RailsConf 2021&lt;/a&gt; 演讲：&lt;a href=&quot;https://railsconf.com/program/sessions#session-1118&quot;&gt;“Frontendless Rails frontend”&lt;/a&gt; 的一个改编和扩展版本，所有 RailsConf 的参会者都已能够在线观看。如果你没有大会门票也不用担心：可以在&lt;a href=&quot;https://noti.st/palkan/eVl0xO/frontendless-rails-frontend&quot;&gt;这里&lt;/a&gt;看到其简报，而且该页面会更新演讲视频，一旦演讲可以公开发布的话。&lt;/p&gt;
+
+&lt;h2 id=&quot;this-is-the-way&quot;&gt;“This is the way”&lt;/h2&gt;
+
+&lt;p&gt;过去五年中，我一直主要在做纯后端的开发：REST 和 GraphQL APIs、WebSocket、gRPC、数据库、缓存等。&lt;/p&gt;
+
+&lt;p&gt;整个前端的进化像巨浪一样席卷了我：我仍然不理解为什么我们需要为每个 Web 应用都使用 &lt;em&gt;reacts&lt;/em&gt; 和 &lt;em&gt;webpacks&lt;/em&gt;。传统的 HTML-first 的 &lt;strong&gt;Rails 方式&lt;/strong&gt; 才是我的方式（或者说捷径😉）。还记得那些 JavaScript 在你的应用中无需什么 MVC（或 MVVM）的日子吗？我怀念那种日子。而这些日子正在悄悄地卷土重来。&lt;/p&gt;
+
+&lt;p&gt;今天，我们目睹了 &lt;em&gt;HTML-over-the-wire&lt;/em&gt; 的崛起（是的，现在它是一个实际名词了）。由 &lt;a href=&quot;https://github.com/phoenixframework/phoenix_live_view&quot;&gt;Phoenix LiveView&lt;/a&gt; 率先提出，&lt;a href=&quot;https://stimulusreflex.com/&quot;&gt;StimulusReflex&lt;/a&gt; 系列 gems 对其发扬光大，这种基于后端通过 WebSocket 把渲染的模板推送到所有所连接的客户端的方案，在 Rails 社区获得了极大的吸引力。最终，DHH 本人于今年初把 &lt;a href=&quot;https://hotwire.dev/&quot;&gt;Hotwire&lt;/a&gt; 呈现于世界面前。&lt;/p&gt;
+
+&lt;p&gt;我们是否正站在 Web 开发的另一个全球范式转变的边缘？回到服务端渲染模板的简单思维模型，这一次花费很少的精力就可实现各种花里胡哨的反应式界面吗？绞尽脑汁后，我认识到这是一厢情愿的想法：技术领域已经有太多的投资在客户端渲染的应用上而很难回头了。2020 时代的前端开发已经是一种独立的&lt;strong&gt;资质&lt;/strong&gt;和有其自身需求的独立行业，我们将没办法再成为“全栈”了。&lt;/p&gt;
+
+&lt;p&gt;然而，HOTWire（看到那个首字母缩写吗？Basecamp 这方面很聪明，是吧？），为复杂的，或者我们应该说“错综复杂的”，航天科学一般针对浏览器的现代客户端编程，提供了一种急需的替代方案。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;对于厌倦了只做 API 应用而无法掌控其呈现，以及怀念创建卓越用户体验而摆脱每周 40 小时充斥着 SQL 和 JSON 的一名 Rails 开发者而言，Hotwire 就如他所渴望能带来新鲜气息的呼吸一般，让 Web 开发重拾乐趣。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;本文中，我会演示如何把 HTML-over-the-wire 哲学通过 Hotwire 用到现有的 Rails 应用上。就像我最近的大多数文章一样，我会使用 &lt;a href=&quot;https://github.com/anycable/anycable_rails_demo&quot;&gt;AnyCable demo 应用&lt;/a&gt;作为小白鼠。&lt;/p&gt;
+
+&lt;p&gt;这个应用很应景：交互和反应，Turbolinks 驱动，以及少量自定义 JavaScripts，还有相当好的系统测试覆盖率（这意味着我们可以进行安全地重构）。我们的 &lt;em&gt;Hotwire 化&lt;/em&gt; 将会按照如下步骤进行：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#from-turbolinks-to-turbo-drive&quot;&gt;From Turbolinks to Turbo Drive&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#framing-with-turbo-frames&quot;&gt;Framing with Turbo Frames&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#streaming-with-turbo-streams&quot;&gt;Streaming with Turbo Streams&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#beyond-turbo-or-using-stimulus-and-custom-elements&quot;&gt;Beyond Turbo, or using Stimulus and custom elements&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;from-turbolinks-to-turbo-drive&quot;&gt;From Turbolinks to Turbo Drive&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/turbolinks/turbolinks&quot;&gt;Turbolinks&lt;/a&gt; 在 Rails 世界里很长时间久负盛名；其&lt;a href=&quot;https://github.com/turbolinks/turbolinks-classic/commit/41dd321407f837d9705de9d893f2847537676904&quot;&gt;第一个主要版本&lt;/a&gt;在 2013 年早期发布。然而，在我的开发生涯初期，Rails 开发者有一个经验之谈：&lt;em&gt;如果你的前端出毛病了，尝试一下禁用Turbolinks&lt;/em&gt;。让第三方 JS 库的代码跟 Turbolinks 的伪导航（参考：&lt;code&gt;pushState&lt;/code&gt; + AJAX）兼容可不像在公园里散步那样容易。&lt;/p&gt;
+
+&lt;p&gt;当 &lt;a href=&quot;https://stimulus.hotwire.dev/&quot;&gt;StimulusJS&lt;/a&gt; 出来以后，我就不再躲避 Turbolinks 了。它通过依靠现代的 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver&quot;&gt;DOM mutation APIs&lt;/a&gt; 而从根本上解决了“连接”和“断开连接” JavaScript 的问题。Turbolinks 与 Stimulus 的代码组合，DOM 操作仅以 React-Angular 几分之一的开发成本就轻而易举产生了“SPA”般的体验。&lt;/p&gt;
+
+&lt;p&gt;昔日诸般好处的 Turbolinks 现在更名为 &lt;em&gt;Turbo Drive&lt;/em&gt;，就如字面上那样它驱动了 &lt;a href=&quot;https://turbo.hotwire.dev/&quot;&gt;Turbo&lt;/a&gt; —— Hotwire 包的核心。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;如果你的应用已经使用了 Turbolinks（如我一般），切换到 Turbo Drive 不费吹灰之力。不过是一些重命名的事儿罢了。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;所有你需要做的就是把&lt;code&gt;package.json&lt;/code&gt;中的&lt;code&gt;turbolinks&lt;/code&gt;替换为&lt;code&gt;@hotwired/turbo-rails&lt;/code&gt;，以及把&lt;code&gt;Gemfile&lt;/code&gt;中的&lt;code&gt;turbolinks&lt;/code&gt;替换为&lt;code&gt;turbo-rails&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;初始化代码稍有差异，现在的更简洁了：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;- import Turbolinks from 'turbolinks';
+
+- Turbolinks.start();
++ import &quot;@hotwired/turbo&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，我们现在不需要手动启动 Turbo Drive 了（当然你可以&lt;a href=&quot;https://github.com/hotwired/turbo/issues/198&quot;&gt;不这么做&lt;/a&gt;）。&lt;/p&gt;
+
+&lt;p&gt;还有些“查找 &amp;amp; 替换”工作要做：把所有 HTML 的 data 属性的&lt;code&gt;data-turbolinks&lt;/code&gt;更新为&lt;code&gt;data-turbo&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;这些变更中唯一花费了我一点时间而值得一提的是处理 &lt;strong&gt;forms 和 redirects&lt;/strong&gt;。之前使用 Turbolinks 时，我使用的是 remote forms（&lt;code&gt;remote: true&lt;/code&gt;）和 &lt;a href=&quot;https://github.com/turbolinks/turbolinks-rails/blob/master/lib/turbolinks/redirection.rb&quot;&gt;Redirection concern&lt;/a&gt; 来响应以 JavaScript 模板。Turbo Drive 已经内置了对表单拦截的支持，所以&lt;code&gt;remote: true&lt;/code&gt;就不再需要了。然而，事实证明 redirection 代码必须进行更新，或者更精确地说，是 redirection &lt;strong&gt;status code&lt;/strong&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;- redirect_to workspace
++ redirect_to workspace, status: :see_other
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用有些晦涩的 &lt;em&gt;See Other&lt;/em&gt; HTTP response code (303) 是一个聪明的选择：它允许 Turbo 依赖原生 Fetch API 的 &lt;code&gt;redirect: &quot;follow&quot; &lt;/code&gt; 选项，这样在表单提交后你就不必明确发起另一个请求以获取新内容。根据&lt;a href=&quot;https://fetch.spec.whatwg.org/#concept-http-redirect-fetch&quot;&gt;其规范&lt;/a&gt;，“&lt;em&gt;if status is 303 and request’s method is not &lt;code&gt;GET&lt;/code&gt; or &lt;code&gt;HEAD&lt;/code&gt;&lt;/em&gt;”，GET 请求必须被自动执行。把这个跟 “&lt;em&gt;if status is 301 or 302 and request’s method is &lt;code&gt;POST&lt;/code&gt;&lt;/em&gt;” 比较一下——看到区别了吗？&lt;/p&gt;
+
+&lt;p&gt;其他的 3xx 状态仅适用于 POST 请求，而 Rails 中我们通常使用 POST, PATCH, PUT, 和 DELETE。&lt;/p&gt;
+
+&lt;h2 id=&quot;framing-with-turbo-frames&quot;&gt;Framing with Turbo Frames&lt;/h2&gt;
+
+&lt;p&gt;该来看一些真正的新东西了：Turbo Frames。&lt;/p&gt;
+
+&lt;p&gt;Turbo Frames 带来了页面在局部上的无缝更新（不像 Turbo Drive 是在整个页面上）。我们可以说它非常类似于&lt;code&gt;&amp;lt;iframe&amp;gt;&lt;/code&gt;所做的，但却不用创建单独的 windows、DOM 树以及与之俱来的那些安全噩梦。&lt;/p&gt;
+
+&lt;p&gt;我们来看看实际的例子。&lt;/p&gt;
+
+&lt;p&gt;AnyCable demo 应用（称为 &lt;em&gt;AnyWork&lt;/em&gt;）允许你创建 dashboards，其带多个 ToDo 列表和一个聊天室。用户可以与不同列表中的条目进行交互：添加、删除以及把其标注为已完成。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_frames.av1-d92b50b.gif&quot; alt=&quot;turbo_frames.av1-d92b50b&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;起初，完成和删除这些条目是通过 AJAX 请求和&lt;a href=&quot;https://github.com/anycable/anycable_rails_demo/blob/fdb1353b3fa4aae2598b5eaceba838b73d09254e/frontend/controllers/list_controller.js&quot;&gt;一个自定义 Stimulus controller&lt;/a&gt; 来做到的。我决定使用 Turbo Frames 来重写这部分功能以全部使用 HTML。&lt;/p&gt;
+
+&lt;p&gt;我们如何来解构这些 ToDo 列表项以处理单个条目的更新呢？把每个条目都转化为一个 frame！&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- _item.html.rb --&amp;gt;
+&amp;lt;%= turbo_frame_tag dom_id(item) do %&amp;gt;
+  &amp;lt;div class=&quot;any-list--item&amp;lt;%= item.completed? ? &quot; checked&quot; : &quot;&quot;%&amp;gt;&quot;&amp;gt;
+    &amp;lt;%= form_for item do |f| %&amp;gt;
+      &amp;lt;!-- ... --&amp;gt;
+    &amp;lt;% end %&amp;gt;
+    &amp;lt;%= button_to item_path(item), method: :delete %&amp;gt;
+      &amp;lt;!-- ... --&amp;gt;
+    &amp;lt;% end %&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这里我们做了三个重要的事情：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;通过 helper 传递一个唯一识别符（来自&lt;code&gt;ActionView&lt;/code&gt;的可爱的 &lt;a href=&quot;https://api.rubyonrails.org/classes/ActionView/RecordIdentifier.html#method-i-dom_id&quot;&gt;dom_id&lt;/a&gt; 方法），把单个条目包裹在一个&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt; tag 之内；&lt;/li&gt;
+  &lt;li&gt;添加一个 HTML form，使得 Turbo 拦截表单提交并更新该 frame 的内容；以及&lt;/li&gt;
+  &lt;li&gt;使用&lt;code&gt;button_to&lt;/code&gt; helper 并带 &lt;code&gt;method: :delete&lt;/code&gt; 参数，在该代码处也创建了一个 HTML form。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;现在，任何时候该 frame 内有表单提交，Turbo 都会拦截该提交，执行 AJAX 请求，从响应返回的 HTML 中提取出有相同 ID 的 frame，把其内容替换到该 frame 上。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;所有上述工作没有一行自己手写的 JavaScript！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;来看一下更新过后的 controller 代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;class ItemsController &amp;lt; ApplicationController
+  def update
+    item.update!(item_params)
+
+    render partial: &quot;item&quot;, locals: { item }
+  end
+
+  def destroy
+    item.destroy!
+
+    render partial: &quot;item&quot;, locals: { item }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，当我们删除条目时，以同样的 partial 进行了响应。但我们需要移除该条目的 HTML 节点而非更新它。要如何做呢？我们可以用一个空 frame 来响应！更新 partial 为如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- _item.html.rb --&amp;gt;
+&amp;lt;%= turbo_frame_tag dom_id(item) do %&amp;gt;
+  &amp;lt;% unless item.destroyed? %&amp;gt;
+    &amp;lt;div class=&quot;any-list--item&amp;lt;%= item.completed? ? &quot; checked&quot; : &quot;&quot;%&amp;gt;&quot;&amp;gt;
+      &amp;lt;!-- ... --&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;% end %&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你可能会问自己一个问题：“当标注一个条目为完成时如何触发表单提交呢？”换句话说，如何让 checkbox 的状态变更来触发提交表单？我们可以通过定义一个&lt;em&gt;行内事件监听器&lt;/em&gt;做到：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;%= f.check_box :completed, onchange: &quot;this.form.requestSubmit();&quot; %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;提醒：&lt;/strong&gt;使用 &lt;em&gt;&lt;code&gt;requestSubmit()&lt;/code&gt;&lt;/em&gt; 而非 &lt;em&gt;&lt;code&gt;submit()&lt;/code&gt;&lt;/em&gt; 很重要：前者触发的“submit”事件能够被 Turbo 所拦截，而后者不能。&lt;/p&gt;
+
+&lt;p&gt;总结一下，我们可以放弃所有专门为此功能定制的 JS 了，只需一点 HTML 模板的更改和 controller 代码的简化。非常令人兴奋，不是么？&lt;/p&gt;
+
+&lt;p&gt;我们可以更进一步，把列表也转化为 frames。这会让我们在添加一个新条目时，从 Turbo Drive 的整个页面更新切换为仅特殊页面节点的更新。你大可自己尝试一下！&lt;/p&gt;
+
+&lt;p&gt;假设你也期望在一个条目被完成或删除的任何时候都为用户展示一个 flash 提醒（比如，“条目已被成功删除”）。我们能借助于 Turbo Frames 做到吗？听起来我们需要把 flash 消息容器包裹在一个 frame 内，并将更新后的 HTML 跟标记一起推送给该条目。这是我初始的思路，但其并不能正常工作：frame 的更新是在所创建的 frame 定义域内的。因此，我们无法更新在其外部的任何东西。&lt;/p&gt;
+
+&lt;p&gt;经过一番探索之后，我发现 &lt;a href=&quot;https://turbo.hotwire.dev/handbook/streams&quot;&gt;Turbo Streams&lt;/a&gt; 能帮我们做到这点。&lt;/p&gt;
+
+&lt;h2 id=&quot;streaming-with-turbo-streams&quot;&gt;Streaming with Turbo Streams&lt;/h2&gt;
+
+&lt;p&gt;较之于 Drive 和 Frames，&lt;a href=&quot;https://turbo.hotwire.dev/handbook/streams&quot;&gt;Turbo Streams&lt;/a&gt; 完全是一项新技术。跟前两者不同，Streams 含义明确，易于理解。没有什么会自动发生，你得负责页面上何时更新何种内容。要做到这点，你需要使用特殊的&lt;code&gt;&amp;lt;trubo-stream&amp;gt;&lt;/code&gt;元素。&lt;/p&gt;
+
+&lt;p&gt;来看一个 stream 元素的示例：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;turbo-stream action=&quot;replace&quot; target=&quot;flash-alerts&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div class=&quot;flash-alerts--container&quot; id=&quot;flash-alerts&quot;&amp;gt;
+      &amp;lt;!--  --&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;该元素负责以&lt;code&gt;&amp;lt;template&amp;gt;&lt;/code&gt; tag 内所传输过来的新 HTML 内容替换（&lt;code&gt;action=&quot;replace&quot;&lt;/code&gt;）DOM ID 为&lt;code&gt;flash-alerts&lt;/code&gt;其下的节点。不管什么时候你把这样的&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素下发到页面上，它都会立刻执行其 action 并销毁其自身。而在底层，它使用了 HTML 的 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements&quot;&gt;Custom Elements API&lt;/a&gt; —— 又一个为了开发乐趣（比如，更少的 JavaScript 😄）而使用现代 Web APIs 的范例。&lt;/p&gt;
+
+&lt;p&gt;我得说，Turbo Streams 是老式的 JavaScript 模板的一个声明式替代方案。在 2010 年代，我们写的代码类似这样：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;// destroy.js.erb
+$(&quot;#&amp;lt;%= dom_id(item) %&amp;gt;&quot;).remove();
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;而现在，我们这样写：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!--  destroy.html.erb --&amp;gt;
+&amp;lt;%= turbo_stream.remove dom_id(item) %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;目前，仅有五种可用的 actions：&lt;em&gt;append、prepend、replace、remove 和 update&lt;/em&gt;（仅替换节点的文本内容）。我们将在下面谈论其局限性和如何克服它。&lt;/p&gt;
+
+&lt;p&gt;回到我们的初始问题：为 ToDo 条目的完成或删除，展示响应结果中的 flash 提醒。&lt;/p&gt;
+
+&lt;p&gt;我们想要一次响应结果就带有&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;和&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;两种更新。如何来做？为其添加一个新的 partial 模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- _item_update.html.erb --&amp;gt;
+&amp;lt;%= render item %&amp;gt;
+
+&amp;lt;%= turbo_stream.replace &quot;flash-alerts&quot; do %&amp;gt;
+  &amp;lt;%= render &quot;shared/alerts&quot; %&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;对&lt;code&gt;ItemsController&lt;/code&gt;添加一点小的改动：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;+    flash.now[:notice] = &quot;Item has been updated&quot;
+
+-    render partial: &quot;item&quot;, locals: { item }
++    render partial: &quot;item_update&quot;, locals: { item }
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;不幸地是，上述代码并未如预期那样正常工作：我们没有看到任何 flash 提醒。&lt;/p&gt;
+
+&lt;p&gt;深入研究&lt;a href=&quot;https://turbo.hotwire.dev/handbook/streams#streaming-from-http-responses&quot;&gt;文档&lt;/a&gt;之后，我发现是 Turbo 期望 HTTP 响应具有&lt;code&gt;text/vnd.turbo-stream.html&lt;/code&gt; content type 才可激活 stream 元素。好吧，加上它：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;-    render partial: &quot;item_update&quot;, locals: { item }
++    render partial: &quot;item_update&quot;, locals: { item }, content_type: &quot;text/vnd.turbo-stream.html&quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;现在我们得到了相反的情况：flash 消息正常工作，但条目的内容不能更新了😞。是我对 Hotwire 要求太高了么？阅读了下 Turbo 的源码，我发现类似这样把 streams 和 frames 进行混合是&lt;a href=&quot;https://github.com/hotwired/turbo/blob/8bce5f17cd697716600d3b34836365ebcdc04b3f/src/observers/stream_observer.ts#L50-L55&quot;&gt;不行的&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;这说明，有两种方式来实现该功能：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;把 streams 用在所有东西上。&lt;/li&gt;
+  &lt;li&gt;把&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;置于&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;内部。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;第二个选项，对我而言，与在常规页面上重用 HTML partials 并以 Turbo 进行更新的想法背道而驰。所以，我选择第一个：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- _item_update.html.erb --&amp;gt;
+&amp;lt;%= turbo_stream.replace dom_id(item) do %&amp;gt;
+  &amp;lt;%= render item %&amp;gt;
+&amp;lt;% end %&amp;gt;
+
+&amp;lt;%= turbo_stream.replace &quot;flash-alerts&quot; do %&amp;gt;
+  &amp;lt;%= render &quot;shared/alerts&quot; %&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;任务完成。但付出了什么代价呢？我们不得不为这种用例添加一个新的模板。并且我担心在现实中的应用程序里，这种 partials 的数量会随着应用的进化而增长。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;更新（2021-04-13）&lt;/strong&gt;：Alex Takitani &lt;a href=&quot;https://twitter.com/alex_takitani/status/1381706025875730435?s=20&quot;&gt;建议&lt;/a&gt;了一种更加优雅的解决方案：使用 layout 来更新 flash 内容。我们可以如下面这样把 application layout 定义为 Turbo Stream 响应：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- layouts/application.turbo_stream.erb --&amp;gt;
+&amp;lt;%= turbo_stream.replace &quot;flash-alerts&quot; do %&amp;gt;
+  &amp;lt;%= render &quot;shared/alerts&quot; %&amp;gt;
+&amp;lt;% end %&amp;gt;
+
+&amp;lt;%= yield %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，我们需要从 controller 移除相应的渲染（因为要不然 &lt;a href=&quot;https://github.com/hotwired/turbo-rails/issues/25&quot;&gt;layout 就不会被用上了&lt;/a&gt;）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;def update
+     item.update!(item_params)
+
+     flash.now[:notice] = &quot;Item has been updated&quot;
+-
+-    render partial: &quot;item_update&quot;, locals: { item }, content_type: &quot;text/vnd.turbo-stream.html&quot;
+   end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt;别忘了把&lt;em&gt;&lt;code&gt;format: :turbo_stream&lt;/code&gt;&lt;/em&gt;添加到 controller/request specs 测试相应的请求上，以便使得 render 能正常工作。&lt;/p&gt;
+
+&lt;p&gt;并且把我们的&lt;code&gt;_item_update&lt;/code&gt; partial 转换为&lt;code&gt;update&lt;/code&gt;的 Turbo Stream 模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- update.turbo_stream.erb --&amp;gt;
+&amp;lt;%= turbo_stream.replace dom_id(item) do %&amp;gt;
+  &amp;lt;%= render item %&amp;gt;
+&amp;lt;% end %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;很酷，对吧？这正是 Rails 的方式！&lt;/p&gt;
+
+&lt;p&gt;现在，让我们转到一些实时的流广播上。&lt;/p&gt;
+
+&lt;p&gt;Turbo Streams 经常在实时更新的语境中被提到（且常常被用来跟 &lt;a href=&quot;https://stimulusreflex.com/&quot;&gt;StimulusReflex&lt;/a&gt; 比较）。&lt;/p&gt;
+
+&lt;p&gt;来看看我们能够如何在 Turbo Streams 之上构建列表的同步化：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_streams.av1-17e20a6.gif&quot; alt=&quot;turbo_streams.av1-17e20a6&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;在有 Turbo 之前，我不得不添加一个自定义的 Action Cable channel 和一个 Stimulus controller 来处理广播的事情。我也需要处理消息的格式，因为必须区分对条目的删除和完成。换句话说，有不少代码要维护。&lt;/p&gt;
+
+&lt;p&gt;而 Turbo Streams 已经照顾好了几乎一切：&lt;code&gt;turbo-rails&lt;/code&gt; gem 自带一个通用的&lt;code&gt;Turbo::StreamChannel&lt;/code&gt;和一个 helper（&lt;code&gt;#turbo_stream_from&lt;/code&gt;），用来从 HTML 中创建一个 subscription：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- worspaces/show.html.erb --&amp;gt;
+&amp;lt;div&amp;gt;
+  &amp;lt;%= turbo_stream_from workspace %&amp;gt;
+  &amp;lt;!-- ... --&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在 controller 中，我们已经有了&lt;code&gt;#broadcast_new_item&lt;/code&gt;和&lt;code&gt;#broadcast_changes&lt;/code&gt;这样的“after action” callback 负责对更新进行播发。现在我们所有需要做的就是切换到&lt;code&gt;Turbo::StreamChannel&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;def broadcast_changes
+   return if item.errors.any?
+   if item.destroyed?
+-    ListChannel.broadcast_to list, type: &quot;deleted&quot;, id: item.id
++    Turbo::StreamsChannel.broadcast_remove_to workspace, target: item
+   else
+-    ListChannel.broadcast_to list, type: &quot;updated&quot;, id: item.id, desc: item.desc, completed: item.completed
++    Turbo::StreamsChannel.broadcast_replace_to workspace, target: item, partial: &quot;items/item&quot;, locals: { item }
+   end
+ end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这次迁移很顺畅，几乎——因为所有检验播发（&lt;code&gt;#have_broadcasted_to&lt;/code&gt;）的 controller 单元测试都失败了。&lt;/p&gt;
+
+&lt;p&gt;不幸的是，Turbo Rails 没有提供任何测试工具（?），所以我不得不自己写一个，以&lt;a href=&quot;https://github.com/rails/rails/pull/33659&quot;&gt;自己熟悉的方式&lt;/a&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;module Turbo::HaveBroadcastedToTurboMatcher
+  include Turbo::Streams::StreamName
+
+  def have_broadcasted_turbo_stream_to(*streamables, action:, target:) # rubocop:disable Naming/PredicateName
+    target = target.respond_to?(:to_key) ? ActionView::RecordIdentifier.dom_id(target) : target
+    have_broadcasted_to(stream_name_from(streamables))
+      .with(a_string_matching(%(turbo-stream action=&quot;#{action}&quot; target=&quot;#{target}&quot;)))
+  end
+end
+
+RSpec.configure do |config|
+  config.include Turbo::HaveBroadcastedToTurboMatcher
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是我如何把这个新的匹配器用在测试上：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-diff&quot;&gt;it &quot;broadcasts a deleted message&quot; do
+-  expect { subject }.to have_broadcasted_to(ListChannel.broadcasting_for(list))
+-    .with(type: &quot;deleted&quot;, id: item.id)
++  expect { subject }.to have_broadcasted_turbo_stream_to(
++    workspace, action: :remove, target: item
++  )
+ end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;到目前为止，使用 Turbo 的实时处理进展顺利！一大堆代码都被移除了。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;而我们仍然还是一行 JavaScript 代码都没有写。这也太不真实了吧？&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;不过是个幻梦吗？何时我会醒来？好吧，就是现在。&lt;/p&gt;
+
+&lt;h2 id=&quot;beyond-turbo-or-using-stimulus-and-custom-elements&quot;&gt;Beyond Turbo, or using Stimulus and custom elements&lt;/h2&gt;
+
+&lt;p&gt;在向 Turbo 迁移的过程中，我碰到了好几个场景，使用已有的 API 是不够的，所以我最终不得不编写一些 JavaScript 代码！&lt;/p&gt;
+
+&lt;p&gt;场景一：向 dashboard 实时添加新的列表。这跟前面提到的列表中条目的示例有何不同？在于标记。来看一下 dashboard layout：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div id=&quot;workspace_1&quot;&amp;gt;
+  &amp;lt;div id=&quot;list_1&quot;&amp;gt;...&amp;lt;/div&amp;gt;
+  &amp;lt;div id=&quot;list_2&quot;&amp;gt;...&amp;lt;/div&amp;gt;
+  &amp;lt;div id=&quot;new_list&quot;&amp;gt;
+    &amp;lt;form&amp;gt;...&amp;lt;/form&amp;gt;
+  &amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后一个元素总是新列表的 form 容器。不管我们何时添加新列表，它都会被插入到&lt;code&gt;#new_list&lt;/code&gt;节点之前。还记得 Turbo Streams 仅仅支持五种 actions 不？明白问题所在了吗？下面是我起初使用的代码：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;handleUpdate(data) {
+  this.formTarget.insertAdjacentHTML(&quot;beforebegin&quot;, data.html);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要使用 Turbo Streams 实现类似的行为，我们需要添加一个 hack，在列表被通过 stream 添加之后立即把其移动到正确的位置。所以，来添加我们自己的 JavaScript 代码吧。&lt;/p&gt;
+
+&lt;p&gt;首先来给我们的任务一个正式的定义：“当一个新列表被 append 到 workspace 容器时，它应该出现在那个 new form 元素之前的正确位置上。”。这里的“当”意味着我们需要观察 DOM 并对变更作出反应。是不是听起来很熟悉？没错，我们已经提到过与 Stimulus 有关的 MutationObserver API！用它就对了。&lt;/p&gt;
+
+&lt;p&gt;幸运的是，我们不是必须编写高阶的 JavaScript 才能使用该特性；我们可以使用 &lt;a href=&quot;https://github.com/stimulus-use/stimulus-use&quot;&gt;stimulus-use&lt;/a&gt;（抱歉使用这种重言式语法。【译者注：原文是 use stimulus-use，所以作者这么说】）。Stimulus Use 是一个 Stimulus controllers 很有用的行为的集合，以简单的代码片段解决复杂的问题。我们这儿，需要 &lt;a href=&quot;https://github.com/stimulus-use/stimulus-use/blob/master/docs/use-mutation.md&quot;&gt;useMutation&lt;/a&gt; 行为。&lt;/p&gt;
+
+&lt;p&gt;如下的 controller 代码相当简洁，含义不言自明：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;import { Controller } from &quot;stimulus&quot;;
+import { useMutation } from &quot;stimulus-use&quot;;
+
+export default class extends Controller {
+  static targets = [&quot;lists&quot;, &quot;newForm&quot;];
+
+  connect() {
+    [this.observeLists, this.unobserveLists] = useMutation(this, {
+      element: this.listsTarget,
+      childList: true,
+    });
+  }
+
+  mutate(entries) {
+    // There should be only one entry in case of adding a new list via streams
+    const entry = entries[0];
+
+    if (!entry.addedNodes.length) return;
+
+    // Disable observer while we modify the childList
+    this.unobserveLists();
+    // Move newForm to the end of the childList
+    this.listsTarget.append(this.newFormTarget);
+    this.observeLists();
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;问题就这样解决了。&lt;/p&gt;
+
+&lt;p&gt;来讨论下第二个边界场景：实现聊天室功能。&lt;/p&gt;
+
+&lt;p&gt;我们有一个非常简单的聊天室附在每个 dashboard 上：用户可以发送临时消息（不会被存储到任何地方）和实时接收它们。消息具有依赖于上下文的不同外观：自己的消息有绿色边框，靠左；其他消息则是灰色，靠右。而我们是向每个所连接的客户端播发相同的 HTML。要如何使得用户看到这种区别呢？这对于聊天室类的应用是一个很常见的问题，且一般而言，它通过要么向每个用户 channel 发送个性化的 HTML，要么增强所收到的 HTML 在客户端来解决。我更喜欢第二种，所以来实现它吧。&lt;/p&gt;
+
+&lt;p&gt;要把当前用户的信息传递给 JavaScript，我使用 meta tags：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- layouts/application.html.erb --&amp;gt;
+&amp;lt;head&amp;gt;
+  &amp;lt;% if logged_in? %&amp;gt;
+    &amp;lt;meta name=&quot;current-user-name&quot; content=&quot;&amp;lt;%= current_user.name %&amp;gt;&quot; data-turbo-track=&quot;reload&quot;&amp;gt;
+    &amp;lt;meta name=&quot;current-user-id&quot; content=&quot;&amp;lt;%= current_user.id %&amp;gt;&quot; data-turbo-track=&quot;reload&quot;&amp;gt;
+  &amp;lt;% end %&amp;gt;
+  &amp;lt;!-- ... --&amp;gt;
+&amp;lt;/head&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;和一个小的 JS helper 来获取这些 values：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;let user;
+
+export const currentUser = () =&amp;gt; {
+  if (user) return user;
+
+  const id = getMeta(&quot;id&quot;);
+  const name = getMeta(&quot;name&quot;);
+
+  user = { id, name };
+  return user;
+};
+
+function getMeta(name) {
+  const element = document.head.querySelector(
+    `meta[name='current-user-${name}']`
+  );
+  if (element) {
+    return element.getAttribute(&quot;content&quot;);
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要播发聊天室消息，我们将会使用&lt;code&gt;Turbo::StreamChannel&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def create
+  Turbo::StreamsChannel.broadcast_append_to(
+    workspace,
+    target: ActionView::RecordIdentifier.dom_id(workspace, :chat_messages),
+    partial: &quot;chats/message&quot;,
+    locals: { message: params[:message], name: current_user.name, user_id: current_user.id }
+  )
+  # ...
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;下面是初始的&lt;code&gt;chat/message&lt;/code&gt;模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;div class=&quot;chat--msg&quot;&amp;gt;
+  &amp;lt;%= message %&amp;gt;
+  &amp;lt;span data-role=&quot;author&quot; class=&quot;chat--msg--author&quot;&amp;gt;&amp;lt;%= name %&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;以及前述根据当前用户赋予不同样式的 JS 代码，这些代码我们很快就要去掉：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;// Don't get attached to it
+appendMessage(html, mine) {
+  this.messagesTarget.insertAdjacentHTML(&quot;beforeend&quot;, html);
+  const el = this.messagesTarget.lastElementChild;
+  el.classList.add(mine ? &quot;mine&quot; : &quot;theirs&quot;);
+
+  if (mine) {
+    const authorElement = el.querySelector('[data-role=&quot;author&quot;]');
+    if (authorElement) authorElement.innerText = &quot;You&quot;;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;现在，当 Turbo 负责更新 HTML 时，我们需要做点不同的事。当然，&lt;code&gt;useMutaion&lt;/code&gt;也会在这里被用到。并且这有可能是我将用在&lt;em&gt;现实&lt;/em&gt;项目上的。然而，我今天的目标是演示以不同的方式来解决问题。&lt;/p&gt;
+
+&lt;p&gt;还记得我们一直在谈论 Custom Elements（哦，那是好几页之前了，抱歉，这说明我们阅读太久了）？它正是令 Turbo 之所以强大的 Web API。我们干嘛不用呢！&lt;/p&gt;
+
+&lt;p&gt;让我先分享一个&lt;em&gt;更新后的&lt;/em&gt; HTML 模板：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;any-chat-message class=&quot;chat--msg&quot; data-author-id=&quot;&amp;lt;%= user_id %&amp;gt;&amp;gt;
+  &amp;lt;%= message %&amp;gt;
+  &amp;lt;span data-role=&quot;author&quot; class=&quot;chat--msg--author&quot;&amp;gt;&amp;lt;%= name %&amp;gt;&amp;lt;/span&amp;gt;
+&amp;lt;/any-chat-message&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;我们只添加了&lt;code&gt;data-author-id&lt;/code&gt;属性，并把&lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;替换为自定义 tag ——&lt;code&gt;&amp;lt;any-chat-message&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;现在来对 custom element 进行注册：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;import { currentUser } from &quot;../utils/current_user&quot;;
+
+// This is how you create custom HTML elements with a modern API
+export class ChatMessageElement extends HTMLElement {
+  connectedCallback() {
+    const mine = currentUser().id == this.dataset.authorId;
+
+    this.classList.add(mine ? &quot;mine&quot; : &quot;theirs&quot;);
+
+    const authorElement = this.querySelector('[data-role=&quot;author&quot;]');
+
+    if (authorElement &amp;amp;&amp;amp; mine) authorElement.innerText = &quot;You&quot;;
+  }
+}
+
+customElements.define(&quot;any-chat-message&quot;, ChatMessageElement);
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;大功告成！现在当一个新的&lt;code&gt;&amp;lt;any-chat-message&amp;gt;&lt;/code&gt;元素被添加到页面时，如果它来自于当前用户就自动更新自己。而且甚至我们为此都不再需要 Stimulus 了！&lt;/p&gt;
+
+&lt;p&gt;你可以在&lt;a href=&quot;https://github.com/anycable/anycable_rails_demo/pull/16&quot;&gt;这个 PR&lt;/a&gt; 中找到本文有关的全部源代码。&lt;/p&gt;
+
+&lt;p&gt;所以，那么零 JavaScript 的 Reactive Rails 到底存在吗？并不。我们移除了很多 JS 代码，但最后不得不用一些新东西来替代。这些新东西跟之前的有所区别：它更加，我得说，&lt;strong&gt;&lt;em&gt;实用主义&lt;/em&gt;&lt;/strong&gt;。它也更加高阶，需要对 JavaScript 以及最新浏览器 APIs 有很好的了解，这肯定是要权衡考虑的。&lt;/p&gt;
+
+&lt;p&gt;附：我对 CableReady 和 StimulusReflex 也有一个&lt;a href=&quot;https://github.com/anycable/anycable_rails_demo/pull/12&quot;&gt;类似的 PR&lt;/a&gt;。你可以把它跟 Hotwire 的这个 PR 进行比较，在 &lt;a href=&quot;https://twitter.com/evilmartians&quot;&gt;Twitter&lt;/a&gt; 上与我们分享你的观点。&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+        <link>/2021/04/hotwire-reactive-rails-with-no-javascript/</link>
+        <guid isPermaLink="true">/2021/04/hotwire-reactive-rails-with-no-javascript/</guid>
+        
+        <category>ruby</category>
+        
+        <category>rails</category>
+        
+        <category>hotwire</category>
+        
+        <category>turbo</category>
+        
+        <category>stimulus</category>
+        
+        
+        <category>Translation</category>
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>Tailwindcss底层基石的理念</title>
+        <description>&lt;p&gt;Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上&lt;strong&gt;&lt;em&gt;过纯中&lt;/em&gt;&lt;/strong&gt;做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“&lt;a href=&quot;http://xfyuan.github.io/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/&quot;&gt;在 Rails 6 中整合 Stimulus 和 Tailwind CSS&lt;/a&gt;”（被前者在演讲中所引用^_^）。&lt;/p&gt;
+
+&lt;p&gt;这篇文章来聊一下有关 Tailwindcss 底层理念的东西。了解了这个，再来看它就不觉得毫无头绪而畏惧了。&lt;/p&gt;
+
+&lt;p&gt;在 Tailwindcss 中，&lt;strong&gt;“工具类为一等公民（utility classes are king）”&lt;/strong&gt;。这种工具类在 Bootstrap 中早已为人熟知，并非什么新鲜事物，比如&lt;code&gt;text-muted&lt;/code&gt;,&lt;code&gt;bg-success&lt;/code&gt;。但 Tailwindcss 又有所不同，正是这些不同使得它更“Tailwind”。&lt;/p&gt;
+
+&lt;p&gt;大部分时间内，在使用 Tailwindcss 时都面对两类对象。一个是 theme，通用性配置。另一个是一大堆的 property 列表，可把它们用在 theme 上。theme 有一系列的细粒度对象，提供了超多的可配置项。&lt;/p&gt;
+
+&lt;p&gt;比如说，在开始一个 theme 的设计时，会从这三种配置开始：screen、color、spacing。首先来看 color 和 spacing：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Color 从 0 开始，一直到 900。越接近 900，color 就越暗，反之则越亮。&lt;/li&gt;
+  &lt;li&gt;Spacing 是 space 之数字，或对象之大小，在 0 - 96 之间。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;还有上面所提到的那些 property，比如&lt;code&gt;margin&lt;/code&gt;,&lt;code&gt;width&lt;/code&gt;,&lt;code&gt;padding&lt;/code&gt;等。&lt;/p&gt;
+
+&lt;p&gt;只要有了这两种“变量”，你就可以把它们如此组合起来：&lt;code&gt;{property}-{color/spacing}&lt;/code&gt;。如果想要一个暗红色的背景，就写&lt;code&gt;bg-red-900&lt;/code&gt;，而如果想要 6 个像素的 padding，就写&lt;code&gt;p-6&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;再看 screen。Screen 用于响应式的 breakpoint，如 desktop / tablet / mobile 的设计上（&lt;code&gt;sm&lt;/code&gt;,&lt;code&gt;md&lt;/code&gt;,&lt;code&gt;lg&lt;/code&gt;,&lt;code&gt;xl&lt;/code&gt;）。有了 screen 之后，上面的公式就变为&lt;code&gt;{screen}:{property}-{color/spacing}&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;用一个完整的示例来演示。&lt;/p&gt;
+
+&lt;p&gt;我想要一个有暗红色背景，白色文字，以及 padding 为 6 的 DIV：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div class=&quot;bg-red-900 text-white p-6&quot;&amp;gt;Messi&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接下来可以再添加一些别的工具类。想要把这个 DIV 在浏览器内居中，可用&lt;code&gt;mx-auto&lt;/code&gt;。想要让其宽度自动扩展，可用&lt;code&gt;w-auto&lt;/code&gt;。最后，想要让其文字居中，显然，用&lt;code&gt;text-center&lt;/code&gt;即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div class=&quot;bg-red-900 p-6 mx-auto w-auto 
+            text-white text-center &quot;&amp;gt;Messi&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这样，在 desktop 上看起来已经很好了。不过，我想在 mobile 上 padding 要更小一点。此时，就是 screen 发挥作用的时候了。适配不同的 breakpoint 和 property 能带来很多好处。假设默认 padding 为 3，而从 phone 过渡到 tablet 的尺寸，则使其 padding 变为 6：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div class=&quot;bg-red-900 p-3 md:p-6 mx-auto 
+            w-auto text-white text-center&quot;&amp;gt;Messi&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;最后，再针对各 breakpoint 分别适配以适当的文字：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div class=&quot;bg-red-900 text-center p-3 
+            mx-auto w-auto text-white text-center 
+            text-md md:text-lg lg:text-2xl &quot;&amp;gt;Messi&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Tailwindcss 还有很多其他类似的工具类， 它的官方文档中都有详细讲述。&lt;/p&gt;
+
+&lt;p&gt;这一切看起来是“过度设计”了，然而 Tailwindcss 的闪光之处，就是“组件驱动设计（component driven design）”。把这些工具类用于组件之上，然后组件用于系统各处。多个组件则可构成组件库。组件库即类似于 Bootstrap 里的 modal 之类。&lt;/p&gt;
+
+&lt;h4 id=&quot;一些相关的-tailwindcss-component-链接&quot;&gt;一些相关的 Tailwindcss component 链接&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;https://tailwindui.com/ Tailwindcss 官方的 UI kit 站点&lt;/li&gt;
+  &lt;li&gt;https://tailwindcomponents.com/ 一个社区类 components 集合站点&lt;/li&gt;
+  &lt;li&gt;https://tailwind.build/editor 一个 Tailwindcss component builder&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Sat, 10 Apr 2021 00:00:00 +0000</pubDate>
+        <link>/2021/04/the-foundation-of-how-tailwindcss-works/</link>
+        <guid isPermaLink="true">/2021/04/the-foundation-of-how-tailwindcss-works/</guid>
+        
+        <category>css</category>
+        
+        <category>tailwindcss</category>
+        
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>Hotwire之构建Turbo应用</title>
+        <description>&lt;p&gt;本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。&lt;/p&gt;
+
+&lt;p&gt;Turbo 之所以快是因为当你点击链接或者提交表单时它防止了整个页面的重新加载。你的应用成为浏览器中常驻而不停运转的进程。这就需要你重新考虑组织你的 JavaScript 的方式。&lt;/p&gt;
+
+&lt;p&gt;特别是，你可以不再依赖于页面的每次导航时整个页面的载入来重置你的环境。JavaScript 的&lt;code&gt;window&lt;/code&gt;和&lt;code&gt;document&lt;/code&gt;对象在页面变更期间保持其状态，而任何其他你放入内存的对象将会留在内存中。&lt;/p&gt;
+
+&lt;p&gt;有了这个意识，并稍微小心一点，你就能对应用进行设计以优雅地处理这种约束，而无需与 Turbo 紧密耦合在一起。&lt;/p&gt;
+
+&lt;h2 id=&quot;working-with-script-elements&quot;&gt;Working with Script Elements&lt;/h2&gt;
+
+&lt;p&gt;浏览器会自动载入并执行任何初始页面加载的&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素。&lt;/p&gt;
+
+&lt;p&gt;当你导航到一个新页面时，Turbo Drive 就查找在新页面的&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;中的任何&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素，且其未出现于当前页面上。然后，Turbo Drive 把它们 append 到当前的&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;，浏览器对其进行加载和执行。你可以由此来按需加载额外的 JavaScript 文件。&lt;/p&gt;
+
+&lt;p&gt;Turbo Drive 在每次渲染页面时执行该页面&lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt;中的&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素。你可以使用 inline body script 来建立每个页面的 JavaScript 状态或者启动客户端的 model。要建立某些行为，或在页面变更时执行更复杂的操作，避免使用 script 元素，使用&lt;code&gt;turbo:load&lt;/code&gt;事件来代替。&lt;/p&gt;
+
+&lt;p&gt;如果你不想 Turbo 在页面渲染后执行&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素，就使用&lt;code&gt;data-turbo-eval=&quot;false&quot;&lt;/code&gt;对其进行注解。注意，这种注解不会防止浏览器在初始页面加载时执行这些 scripts。&lt;/p&gt;
+
+&lt;h3 id=&quot;loading-your-applications-javascript-bundle&quot;&gt;Loading Your Application’s JavaScript Bundle&lt;/h3&gt;
+
+&lt;p&gt;要总是确保在&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;中使用&lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt;元素来加载你应用的 JavaScript 打包文件。否则，Turbo Drive 将会在每次页面变更时都重载它。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;head&amp;gt;
+  ...
+  &amp;lt;script src=&quot;/application-cbd3cd4.js&quot; defer&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;你也应该考虑把 asset 打包系统配置成给每个 script 加上指纹，这样当其内容变动时就会是一个新的 URL。然后，你可以使用&lt;code&gt;data-turbo-track&lt;/code&gt;属性来强制当部署了新 JavaScript 打包文件之后做一次全页面重载。参看 &lt;a href=&quot;https://turbo.hotwire.dev/handbook/drive#reloading-when-assets-change&quot;&gt;Assets 变更后重载&lt;/a&gt; 可获得更多信息。&lt;/p&gt;
+
+&lt;h2 id=&quot;understanding-caching&quot;&gt;Understanding Caching&lt;/h2&gt;
+
+&lt;p&gt;Turbo Drive 维护着近期访问页面的一个缓存。该缓存有两个目的：在 restoration 访问期间展示页面无需访问网络，和在 application 访问期间通过显示临时性的预览来提升可感知的性能。&lt;/p&gt;
+
+&lt;p&gt;当通过 history 导航（以 &lt;a href=&quot;https://turbo.hotwire.dev/handbook/drive#restoration-visits&quot;&gt;Restoration 访问&lt;/a&gt;），只要可能，Turbo Drive 将从缓存恢复页面而无需从网络加载一个全新的拷贝。&lt;/p&gt;
+
+&lt;p&gt;否则，在标准导航期间（以 &lt;a href=&quot;https://turbo.hotwire.dev/handbook/drive#application-visits&quot;&gt;Application 访问&lt;/a&gt;），Turbo Drive 将从缓存中立即恢复页面作为一个预览，并同时从网络加载一个全新拷贝。这就给经常访问的位置带来了瞬时页面加载的错觉。&lt;/p&gt;
+
+&lt;p&gt;Turbo Drive 在渲染新页面之前，把当前页面的一个拷贝保存到其缓存中。注意，Turbo Drive 使用了&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode&quot;&gt;&lt;code&gt;cloneNode(true)&lt;/code&gt;&lt;/a&gt; 来拷贝页面，这意味着任何 attach 的事件监听及关联数据都被丢弃掉。&lt;/p&gt;
+
+&lt;h3 id=&quot;preparing-the-page-to-be-cached&quot;&gt;Preparing the Page to be Cached&lt;/h3&gt;
+
+&lt;p&gt;如果你需要在 Turbo Drive 缓存对其之前准备 document，可以监听&lt;code&gt;turbo-cache&lt;/code&gt;事件。使用该事件来重置表单、收起所展开的 UI 元素、或清理任何第三方的 widgets，以便准备好重新显示该页面。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;document.addEventListener(&quot;turbo:before-cache&quot;, function() {
+  // ...
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;detecting-when-a-preview-is-visible&quot;&gt;Detecting When a Preview is Visible&lt;/h3&gt;
+
+&lt;p&gt;当 Turbo Drive 从缓存中展示一个预览时，它向&lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt;元素上添加了一个&lt;code&gt;turbo-preview&lt;/code&gt;属性。当一个预览可见的时候，你就可以检查该属性的存在而有选择地启用或禁用行为。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;if (document.documentElement.hasAttribute(&quot;data-turbo-preview&quot;)) {
+  // Turbo Drive is displaying a preview
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&quot;opting-out-of-caching&quot;&gt;Opting Out of Caching&lt;/h3&gt;
+
+&lt;p&gt;您可以通过在页面的&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;中包含&lt;code&gt;&amp;lt;meta name =&quot;turbo-cache-control&quot;&amp;gt;&lt;/code&gt;元素并声明一个缓存指令来控制每个页面的缓存行为。&lt;/p&gt;
+
+&lt;p&gt;使用&lt;code&gt;no-preview&lt;/code&gt;指令来指定在 application 访问期间，页面的一个缓存版本不作为预览被显示。被标注了 no-preview 的页面将只被用于 restoration 访问。&lt;/p&gt;
+
+&lt;p&gt;要指定一个页面完全不应该被缓存，使用&lt;code&gt;no-cache&lt;/code&gt;指令。被标注了 no-cache 的页面将总是通过网络获取，包括在 restoration 访问期间。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;head&amp;gt;
+  ...
+  &amp;lt;meta name=&quot;turbo-cache-control&quot; content=&quot;no-cache&quot;&amp;gt;
+&amp;lt;/head&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要完全禁用应用中的缓存，就要确保每个页面都包含 no-cache 指令。&lt;/p&gt;
+
+&lt;h2 id=&quot;installing-javascript-behavior&quot;&gt;Installing JavaScript Behavior&lt;/h2&gt;
+
+&lt;p&gt;你可能习惯于加入 JavaScript 行为来响应&lt;code&gt;window.onload&lt;/code&gt;，&lt;code&gt;DOMContentLoaded&lt;/code&gt;，或者 JQuery 的&lt;code&gt;ready&lt;/code&gt;事件。使用 Turbo 时，这些事件将只在初始页面加载时被触发，之后的任何后续页面变更都不会触发。我们来比较下把 JavaScript 行为连接到 DOM 的两种策略。&lt;/p&gt;
+
+&lt;h3 id=&quot;observing-navigation-events&quot;&gt;Observing Navigation Events&lt;/h3&gt;
+
+&lt;p&gt;Turbo Drive 在导航期间触发一系列事件。其中最重要的是&lt;code&gt;turbo:load&lt;/code&gt;事件，其只在初始页面加载时触发一次，并在每次 Turbo Drive 访问时触发一次。&lt;/p&gt;
+
+&lt;p&gt;你可以在&lt;code&gt;DOMContentLoaded&lt;/code&gt;内监听&lt;code&gt;turbo:load&lt;/code&gt;事件来在每次页面变更时建立 JavaScript 行为：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;document.addEventListener(&quot;turbo:load&quot;, function() {
+  // ...
+})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;记住，当该事件被触发时，你的应用不会总是在一个崭新的状态，而你就可能需要清理前一个页面所建立的行为。&lt;/p&gt;
+
+&lt;p&gt;也要注意，Turbo Drive 的导航可能不是你应用中的页面更新的唯一源头，所以你可能期望把你的初始化代码移到一个单独的函数内，你可以从&lt;code&gt;turbo:load&lt;/code&gt;和任何其他可能变更 DOM 的地方来调用它&lt;/p&gt;
+
+&lt;p&gt;可能的话，避免使用&lt;code&gt;turbo:load&lt;/code&gt;事件来把其他事件监听器直接添加到页面 body 的元素上。相反，考虑使用&lt;a href=&quot;https://learn.jquery.com/events/event-delegation/&quot;&gt;事件委托&lt;/a&gt;来把事件监听器注册到&lt;code&gt;document&lt;/code&gt;或&lt;code&gt;window&lt;/code&gt;仅一次。&lt;/p&gt;
+
+&lt;p&gt;参看&lt;a href=&quot;https://turbo.hotwire.dev/reference/events&quot;&gt;全部事件列表&lt;/a&gt;获取更多信息。&lt;/p&gt;
+
+&lt;h3 id=&quot;attaching-behavior-with-stimulus&quot;&gt;Attaching Behavior With Stimulus&lt;/h3&gt;
+
+&lt;p&gt;新 DOM 元素可以在任何时刻呈现在页面上，通过 frame 导航、stream 信息、或客户端渲染操作等方式，而这些元素经常需要如同出现于一个全新页面加载那样被初始化。&lt;/p&gt;
+
+&lt;p&gt;对于所有这些更新，包括从 Turbo Drive 页面加载的更新，你可以借助于 Turbo 的兄弟框架 &lt;a href=&quot;https://stimulus.hotwire.dev/&quot;&gt;Stimulus&lt;/a&gt; 所提供的约定和回调生命周期，在一个单独的地方来处理它们。&lt;/p&gt;
+
+&lt;p&gt;Stimulus 让你使用 controller、action 和 target 属性对 HTML 进行注释：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div data-controller=&quot;hello&quot;&amp;gt;
+  &amp;lt;input data-hello-target=&quot;name&quot; type=&quot;text&quot;&amp;gt;
+  &amp;lt;button data-action=&quot;click-&amp;gt;hello#greet&quot;&amp;gt;Greet&amp;lt;/button&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;实现其相应的 controller 并由 Stimulus 自动连接到它：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;// hello_controller.js
+import { Controller } from &quot;stimulus&quot;
+
+export default class extends Controller {
+  greet() {
+    console.log(`Hello, ${this.name}!`)
+  }
+
+  get name() {
+    return this.targets.find(&quot;name&quot;).value
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Stimulus 使用 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver&quot;&gt;MutationObserver&lt;/a&gt; API，只要 document 发生变更，这些 controllers 和它们相关联的事件处理器就会被连接及断开连接。结果就是，它会处理 Turbo Drive 页面变更、Turbo Frames 导航、以及 Turbo Streams 信息，以它处理其他类型 DOM 更新完全同样的方式。&lt;/p&gt;
+
+&lt;h2 id=&quot;making-transformations-idempotent&quot;&gt;Making Transformations Idempotent&lt;/h2&gt;
+
+&lt;p&gt;你经常会想要在客户端对接收自服务端的 HTML 执行变换。例如，你可能想利用浏览器对用户当前时区的了解来按日期对元素集合进行分组。&lt;/p&gt;
+
+&lt;p&gt;假设你已经对一组元素注释以&lt;code&gt;data-timestamp&lt;/code&gt;属性来指示其 UTC 创建时间。你有一个 JavaScript 函数来查询 document 中所有这样的元素，把时间戳转换为本地时间，并在每个发生于新的一天的元素之前插入日期表头。&lt;/p&gt;
+
+&lt;p&gt;考虑下如果你已经配置好该函数在&lt;code&gt;turbo:load&lt;/code&gt;上执行的话会发生什么。当你导航到该页面，你的函数插入了日期表头。再离开该页面，则 Turbo Drive 把一个变换后页面的拷贝存入缓存。现在按下浏览器回退按钮——Turbo Drive 恢复页面，再次触发&lt;code&gt;turbo:load&lt;/code&gt;，则你的函数插入第二个日期表头。&lt;/p&gt;
+
+&lt;p&gt;为了避免这个问题，就要让你的转换函数是&lt;em&gt;幂等的&lt;/em&gt;。幂等转换能安全地执行多次而不会改变其最初应用的结果。&lt;/p&gt;
+
+&lt;p&gt;使转换幂等的一种技术是通过在每个处理的元素上设置一个&lt;code&gt;data&lt;/code&gt;属性来跟踪是否已经执行了变换。当 Turbo Drive 从缓存中恢复页面时，这些属性会仍然存在。在你的函数中检测这些属性以确定哪个元素已经被处理过了。&lt;/p&gt;
+
+&lt;p&gt;更健壮的一种技术是简单地检测转换自身。在上面日期分组的示例中，这意味着在插入一个新日期分割线之前检查其存在与否。这个方案优雅地处理了未被初始转换所处理的新插入元素。&lt;/p&gt;
+
+&lt;h2 id=&quot;persisting-elements-across-page-loads&quot;&gt;Persisting Elements Across Page Loads&lt;/h2&gt;
+
+&lt;p&gt;Turbo Drive 允许你把某些元素标注为 &lt;em&gt;permanent&lt;/em&gt;。Permanent 元素在页面加载之间都存留着，所以你对这些元素的任何变更都不需要在页面导航之后再次赋予。&lt;/p&gt;
+
+&lt;p&gt;考虑下一个带购物车的 Turbo Drive 应用。在每个页面顶部都是一个图标，有当前在购物车内的商品数量。这个计数器是借助 JavaScript 动态更新的，当商品被添加和移除时。&lt;/p&gt;
+
+&lt;p&gt;现在想象一下，一个用户在该应用中已经导航到过多个页面。她添加一个商品到购物车，然后按下浏览器回退按钮。Turbo Drive 从缓存中恢复了前一个页面的状态，而购物车的商品计数被错误地从 1 变为 0。&lt;/p&gt;
+
+&lt;p&gt;你可以通过使计数器元素 permanent 来避免这个问题。要制定元素为 permanent，赋予它们一个 HTML &lt;code&gt;id&lt;/code&gt;，并以&lt;code&gt;data-turbo-permanent&lt;/code&gt;来注释它们。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div id=&quot;cart-counter&quot; data-turbo-permanent&amp;gt;1 item&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;每次渲染之前，Turbo Drive 通过 ID 匹配到所有的 permanent 元素，并把它们从初始页面转换到新页面，保留其数据和事件监听器。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 26 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/hotwire-build-turbo-application/</link>
+        <guid isPermaLink="true">/2021/03/hotwire-build-turbo-application/</guid>
+        
+        <category>rails</category>
+        
+        <category>hotwire</category>
+        
+        <category>turbo</category>
+        
+        
+        <category>Translation</category>
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>Hotwire之使用Turbo Streams焕发活力</title>
+        <description>&lt;p&gt;本文是对 Turbo Streams 的详细说明，原文出自：&lt;a href=&quot;https://turbo.hotwire.dev/handbook/streams&quot;&gt;https://turbo.hotwire.dev/handbook/streams&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;Turbo Streams 将页面的更改发布为包在自解释的&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素中的 HTML 片段。每个 stream 元素都会同时指定一个 action 和 target ID，以声明其内的 HTML 会怎样处理。这些元素被服务端通过 WebSocket、SSE 或其他传输方式发布，借助由其他用户或进程进行的更新使应用程序焕发活力。抵达你的 imbox 的新邮件就是一个绝佳的范例。&lt;/p&gt;
+
+&lt;h2 id=&quot;stream-messages-and-actions&quot;&gt;Stream Messages and Actions&lt;/h2&gt;
+
+&lt;p&gt;一个 Turbo Streams 消息是一个由&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素组成的 HTML 片段。下面的 stream 消息演示了五种可用的 stream actions：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;turbo-stream action=&quot;append&quot; target=&quot;messages&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div id=&quot;message_1&quot;&amp;gt;
+      This div will be appended to the element with the DOM ID &quot;messages&quot;.
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+
+&amp;lt;turbo-stream action=&quot;prepend&quot; target=&quot;messages&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div id=&quot;message_1&quot;&amp;gt;
+      This div will be prepended to the element with the DOM ID &quot;messages&quot;.
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+
+&amp;lt;turbo-stream action=&quot;replace&quot; target=&quot;message_1&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div id=&quot;message_1&quot;&amp;gt;
+      This div will replace the existing element with the DOM ID &quot;message_1&quot;.
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+
+&amp;lt;turbo-stream action=&quot;update&quot; target=&quot;unread_count&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;!-- The contents of this template will replace the
+    contents of the element with ID &quot;unread_count&quot;. --&amp;gt;
+    1
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+
+&amp;lt;turbo-stream action=&quot;remove&quot; target=&quot;message_1&quot;&amp;gt;
+  &amp;lt;!-- The element with DOM ID &quot;message_1&quot; will be removed.
+  The contents of this stream element are ignored. --&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，每个&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素都必须把它内含的 HTML 包裹在一个&lt;code&gt;&amp;lt;template&amp;gt;&lt;/code&gt;元素之内。&lt;/p&gt;
+
+&lt;p&gt;你可以在一个单独的 stream 消息中渲染任意数量的 stream 元素，该消息来自于 WebSocket、SSE 或者是一个表单提交后的响应。&lt;/p&gt;
+
+&lt;h2 id=&quot;streaming-from-http-responses&quot;&gt;Streaming From HTTP Responses&lt;/h2&gt;
+
+&lt;p&gt;Turbo 知道自动附带上那些&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素，当它们以&lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;提交的响应返回并声明了一个&lt;code&gt;text/vnd.turbo-stream.html&lt;/code&gt;的 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types&quot;&gt;MIME type&lt;/a&gt; 时。当提交其 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-method&quot;&gt;method&lt;/a&gt; 属性被设置为&lt;code&gt;POST&lt;/code&gt;、&lt;code&gt;PUT&lt;/code&gt;、&lt;code&gt;PATCH&lt;/code&gt;或&lt;code&gt;DELETE&lt;/code&gt; 的 &lt;code&gt;&amp;lt;form&amp;gt;&lt;/code&gt;元素时，Turbo 就会把 &lt;code&gt;text/vnd.turbo-stream.html&lt;/code&gt; 注入到请求的 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept&quot;&gt;Accept&lt;/a&gt; header 中的响应格式集之内。在对其 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept&quot;&gt;Accept&lt;/a&gt; header 包含了这些值的请求进行响应时，服务端就可以调整相应以处理 Turbo Streams，HTTP 重定向，或者不支持 streams 的其他类型的客户端（比如原生应用）。&lt;/p&gt;
+
+&lt;p&gt;在一个 Rails controller 中，看起来会是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;def destroy
+  @message = Message.find(params[:id])
+  @message.destroy
+
+  respond_to do |format|
+    format.turbo_stream { render turbo_stream: turbo_stream.remove(@message) }
+    format.html         { redirect_to messages_url }
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;reusing-server-side-templates&quot;&gt;Reusing Server-Side Templates&lt;/h2&gt;
+
+&lt;p&gt;Turbo Streams 的关键是重用你现有的服务端模板以执行实时的部分页面更改的能力。在页面首次加载时用来渲染消息列表中每一条消息的 HTML 模板，跟用来在之后动态添加到列表的一条新消息的模板，会是相同的。&lt;strong&gt;这就是 HTML-over-the-wire 方案的本质和精华：你不需要再把新消息序列化为 JSON，在 JavaScript 中接收它，并渲染一个客户端的模板。&lt;/strong&gt;它就是标准的可重用的服务端模板。&lt;/p&gt;
+
+&lt;p&gt;另一个 Rails 中的例子看起来是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-erb&quot;&gt;&amp;lt;!-- app/views/messages/_message.html.erb --&amp;gt;
+&amp;lt;div id=&quot;&amp;lt;%= dom_id message %&amp;gt;&quot;&amp;gt;
+  &amp;lt;%= message.content %&amp;gt;
+&amp;lt;/div&amp;gt;
+
+&amp;lt;!-- app/views/messages/index.html.erb --&amp;gt;
+&amp;lt;h1&amp;gt;All the messages&amp;lt;/h1&amp;gt;
+&amp;lt;%= render partial: &quot;messages/message&quot;, collection: @messages %&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-ruby&quot;&gt;# app/controllers/messages_controller.rb
+class MessagesController &amp;lt; ApplicationController
+  def index
+    @messages = Message.all
+  end
+
+  def create
+    message = Message.create!(params.require(:message).permit(:content))
+
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.append(:messages, partial: &quot;messages/message&quot;,
+          locals: { message: message })
+      end
+
+      format.html { redirect_to messages_url }
+    end
+  end
+end
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当创建一条新消息的表单提交给&lt;code&gt;MessagesController#create&lt;/code&gt; action 时，跟&lt;code&gt;MessagesController#index&lt;/code&gt;中用来渲染消息列表完全同样的 partial 模板被用来渲染 turbo-stream action。这将作为如下所示的响应出现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;Content-Type: text/vnd.turbo-stream.html; charset=utf-8
+
+&amp;lt;turbo-stream action=&quot;append&quot; target=&quot;messages&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div id=&quot;message_1&quot;&amp;gt;
+      The content of the message.
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个&lt;code&gt;messages/message&lt;/code&gt; partial 模板然后可以被用来渲染后续 edit/update 操作的消息，或者支持由其他用户通过 WebSocket 或 SSE 连接所创建的新消息。能够在整个使用范围内重用相同的模板非常强大，这是减少创建这些现代，快速应用程序所需工作量的关键。&lt;/p&gt;
+
+&lt;h2 id=&quot;progressively-enhance-when-necessary&quot;&gt;Progressively Enhance When Necessary&lt;/h2&gt;
+
+&lt;p&gt;一开始你的交互设计不借助 Turbo Streams 是一种好的实践。当 Turbo Streams 不可用时，让整个应用程序如预期那样运行，然后将它们分层升级。这意味着你将不必依赖更新来处理那些需要在原生应用或其他没有它们的地方都能正常工作的流程。&lt;/p&gt;
+
+&lt;p&gt;对于 WebSocket 更新也是同样的。在连接不好，或有服务端问题，你的 WebSocket 可能会中断。如果应用程序被设计为不借助于它而正常工作，这就更有适应性。&lt;/p&gt;
+
+&lt;h2 id=&quot;but-what-about-running-javascript&quot;&gt;But What About Running JavaScript?&lt;/h2&gt;
+
+&lt;p&gt;Turbo Streams 有意识地把所能执行的 actions 限制为五种：append、prepend、replace、update 和 remove。如果你在执行这些 actions 时想要触发额外的行为，那你应该使用 &lt;a href=&quot;https://stimulus.hotwire.dev/&quot;&gt;Stimulus&lt;/a&gt; controller 来附加这些行为。这种限制让 Turbo Streams 专注于通过网络发布 HTML 的本质任务，把额外的逻辑留给专门的 JavaScript  文件。&lt;/p&gt;
+
+&lt;p&gt;拥抱这些约束将使你避免将单个响应转变为无法重复使用的行为，从而使应用程序难以遵循。得自于 Turbo Streams 的关键受益是重用初始化渲染页面的模板的能力，贯穿于所有后续更新的过程中。&lt;/p&gt;
+
+&lt;h2 id=&quot;integration-with-server-side-frameworks&quot;&gt;Integration with Server-Side Frameworks&lt;/h2&gt;
+
+&lt;p&gt;在 Turbo 附带的所有技术中，与 Turbo Streams 一起使用，你将看到与后端框架的紧密集成所带来的最大优势。作为官方 Hotwire 套件的一员，我们已经创建了这种集成看起来如何的一个实现参考，即 &lt;a href=&quot;https://github.com/hotwired/turbo-rails&quot;&gt;turbo-rails gem&lt;/a&gt;。该 gem 依赖于 Rails 中内置的 WebSocket 和 异步渲染的支持，其分别通过 Action Cable 和 Active Job 框架。&lt;/p&gt;
+
+&lt;p&gt;使用加入 Active Record 其中的 &lt;a href=&quot;https://github.com/hotwired/turbo-rails/blob/main/app/models/concerns/turbo/broadcastable.rb&quot;&gt;Broadcastable&lt;/a&gt; concern，你就可以直接触发来自 领域模型（domain model）的 WebSocket 更新。而使用  &lt;a href=&quot;https://github.com/hotwired/turbo-rails/blob/main/app/models/turbo/streams/tag_builder.rb&quot;&gt;Turbo::Streams::TagBuilder&lt;/a&gt;，你就可以渲染在 inline controller 响应或专门模板中的&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素，通过一个简单的 DSL 执行那五种 actions 以及相关的渲染。&lt;/p&gt;
+
+&lt;p&gt;但是，Turbo 本身是完全与后端无关的。因此我们鼓励其他生态圈中的其他框架来看看针对 Rails 提供的实现参考，以创建它们自己的紧密整合。&lt;/p&gt;
+
+&lt;p&gt;另外，将任何后端应用程序与 Turbo Streams 集成的直接方法是依靠 &lt;a href=&quot;https://mercure.rocks/&quot;&gt;Mercure 协议&lt;/a&gt;。Mercure 通过 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events&quot;&gt;Server-Sent Events (SSE)&lt;/a&gt;，为服务端把页面变更播发到每个所连接的客户端提供了一种方便的方式。&lt;a href=&quot;https://mercure.rocks/docs/ecosystem/hotwire&quot;&gt;这里可以学习如何 Turbo Streams 是如何跟 Mercure 一起使用的&lt;/a&gt;。&lt;/p&gt;
+
+</description>
+        <pubDate>Fri, 19 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/hotwire-turbo-streams/</link>
+        <guid isPermaLink="true">/2021/03/hotwire-turbo-streams/</guid>
+        
+        <category>rails</category>
+        
+        <category>hotwire</category>
+        
+        <category>turbo</category>
+        
+        
+        <category>Translation</category>
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>Hotwire之使用Turbo Frame解构页面</title>
+        <description>&lt;p&gt;本文是对 Turbo Frame 的详细说明，原文出自：&lt;a href=&quot;https://turbo.hotwire.dev/handbook/frames&quot;&gt;https://turbo.hotwire.dev/handbook/frames&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;Turbo Frames 允许你预定义页面中那些根据需要来更新的部分。任何 frame 内的链接和表单都会被捕获，而 frame 的内容会在接收到响应后被自动更新。不管服务端提供的是整个 document，还是仅包含所请求 frame 的更新版本的片段，都只有那个特定的 frame 会从响应中被提取出来以替代现有的内容。&lt;/p&gt;
+
+&lt;p&gt;把页面的某一部分包在&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;元素中就创建了 Frames 。每个元素必须有一个唯一 ID，用来从服务端请求行页面时匹配要被替换的内容。一个单独页面可以有多个 frames，每一个都确立其自己的上下文：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt;
+  &amp;lt;div id=&quot;navigation&quot;&amp;gt;Links targeting the entire page&amp;lt;/div&amp;gt;
+
+  &amp;lt;turbo-frame id=&quot;message_1&quot;&amp;gt;
+    &amp;lt;h1&amp;gt;My message title&amp;lt;/h1&amp;gt;
+    &amp;lt;p&amp;gt;My message content&amp;lt;/p&amp;gt;
+    &amp;lt;a href=&quot;/messages/1/edit&quot;&amp;gt;Edit this message&amp;lt;/a&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+
+  &amp;lt;turbo-frame id=&quot;comments&quot;&amp;gt;
+    &amp;lt;div id=&quot;comment_1&quot;&amp;gt;One comment&amp;lt;/div&amp;gt;
+    &amp;lt;div id=&quot;comment_2&quot;&amp;gt;Two comments&amp;lt;/div&amp;gt;
+
+    &amp;lt;form action=&quot;/messages/comments&quot;&amp;gt;...&amp;lt;/form&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个页面有两个 frames：一个展示消息，带一个编辑链接；一个列出所有评论，带一个表单以添加评论。每个 frame 都创建了其自身的上下文，来捕获其中的链接和表单提交。&lt;/p&gt;
+
+&lt;p&gt;当编辑消息的链接被点击时，由&lt;code&gt;/messages/1/edit&lt;/code&gt;提供的响应会把它的&lt;code&gt;&amp;lt;trubo-frame id=&quot;message_1&quot;&amp;gt;&lt;/code&gt;部分提取出来，而其内容则会替换到链接点击所在的 frame 上。编辑消息的响应可能是这样的：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt;
+  &amp;lt;h1&amp;gt;Editing message&amp;lt;/h1&amp;gt;
+
+  &amp;lt;turbo-frame id=&quot;message_1&quot;&amp;gt;
+    &amp;lt;form action=&quot;/messages/1&quot;&amp;gt;
+      &amp;lt;input name=&quot;message[name]&quot; type=&quot;text&quot; value=&quot;My message title&quot;&amp;gt;
+      &amp;lt;textarea name=&quot;message[name]&quot;&amp;gt;My message content&amp;lt;/textarea&amp;gt;
+      &amp;lt;input type=&quot;submit&quot;&amp;gt;
+    &amp;lt;/form&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;注意，&lt;code&gt;&amp;lt;h1&amp;gt;&lt;/code&gt;并不在&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;内。这意味着当表单替换展示的消息时它会被忽略掉。只有所匹配的&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;之内的内容才会在 frame 被更新时用到。&lt;/p&gt;
+
+&lt;p&gt;因此，你的页面就可轻松实现双重目的：在整个页面专用于操作的 frame 之内或之外进行编辑。&lt;/p&gt;
+
+&lt;h2 id=&quot;lazily-loading-frames&quot;&gt;Lazily Loading Frames&lt;/h2&gt;
+
+&lt;p&gt;当页面加载时，其中所包含的 frames 并不必都填充内容。如果&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;上有一个&lt;code&gt;&amp;lt;src&amp;gt;&lt;/code&gt;属性，那么一旦该 tag 出现在页面上时其中的 URL 就将被自动加载：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt;
+  &amp;lt;h1&amp;gt;Imbox&amp;lt;/h1&amp;gt;
+
+  &amp;lt;div id=&quot;emails&quot;&amp;gt;
+    ...
+  &amp;lt;/div&amp;gt;
+
+  &amp;lt;turbo-frame id=&quot;set_aside_tray&quot; src=&quot;/emails/set_aside&quot;&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+
+  &amp;lt;turbo-frame id=&quot;reply_later_tray&quot; src=&quot;/emails/reply_later&quot;&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个页面在加载后会立即列出你的 imbox 中所有的可用邮件，但随后会发送两个后续请求，用来在页面底部为搁置或等待稍后回复的邮件展现小托盘。这些托盘都是根据&lt;code&gt;src&lt;/code&gt;中所指定的 URL 所发出的单独 HTTP 请求而创建的。&lt;/p&gt;
+
+&lt;p&gt;上面示例中，托盘起初都是空的，但其也可以填充一些初始化内容，当从&lt;code&gt;src&lt;/code&gt;获取到了内容时，这些初始化内容就会被覆盖掉：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;turbo-frame id=&quot;set_aside_tray&quot; src=&quot;/emails/set_aside&quot;&amp;gt;
+  &amp;lt;img src=&quot;/icons/spinner.gif&quot;&amp;gt;
+&amp;lt;/turbo-frame&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;加载 imbox 页面后，&lt;code&gt;set-aside&lt;/code&gt;托盘会从&lt;code&gt;/emails/set_aside&lt;/code&gt;载入内容，而响应必须包含一个跟原始用例中相对应的&lt;code&gt;&amp;lt;turbo-frame id=&quot;set_aside_tray&quot;&amp;gt;&lt;/code&gt;元素：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt;
+  &amp;lt;h1&amp;gt;Set Aside Emails&amp;lt;/h1&amp;gt;
+
+  &amp;lt;p&amp;gt;These are emails you've set aside&amp;lt;/p&amp;gt;
+
+  &amp;lt;turbo-frame id=&quot;set_aside_tray&quot;&amp;gt;
+    &amp;lt;div id=&quot;emails&quot;&amp;gt;
+      &amp;lt;div id=&quot;email_1&quot;&amp;gt;
+        &amp;lt;a href=&quot;/emails/1&quot;&amp;gt;My important email&amp;lt;/a&amp;gt;
+      &amp;lt;/div&amp;gt;
+    &amp;lt;/div&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;该页面现在以其最小化形式工作，即仅将具有单独邮件的&lt;code&gt;div&lt;/code&gt;加载到 imbox 页面上的托盘 frame 中，而且还可以作为提供 header 和描述的直接目标。 就像在带有编辑消息表单的示例中那样。&lt;/p&gt;
+
+&lt;p&gt;注意，在&lt;code&gt;/emails/set_aside&lt;/code&gt;上的&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt;不包含&lt;code&gt;src&lt;/code&gt;属性。这个属性仅仅添加到需要 lazy 加载内容的 frame 上，而不是添加到提供内容的被渲染的 frame 上。&lt;/p&gt;
+
+&lt;h2 id=&quot;cache-benefits-to-lazily-loading-frames&quot;&gt;Cache Benefits to Lazily Loading Frames&lt;/h2&gt;
+
+&lt;p&gt;把页面片段转换成 frames 能够帮助使得页面实现更加简单，但同样重要的是这样做能够改善缓存动态。带有很多片段的复杂页面难以被有效缓存，特别是如果它们将许多人共享的内容与专门针对单个用户的内容混合在一起的话。这些片段越多，需要缓存查找的依赖的 key 越多，缓存流失的频率就越高。&lt;/p&gt;
+
+&lt;p&gt;Frames 是对在不同时间范围和不同受众上变化的片段进行分离的理想选择。有时，把页面中针对每个用户的元素转换为 frame 是有道理的，如果页面其他部分都是由所有用户共享的话。有时，则是相反的做法更有理由，例如在一个重度的个人化页面，把一个共享的片段转换为 frame 以便共享缓存服务于它。&lt;/p&gt;
+
+&lt;p&gt;虽然获取 lazy 加载的 frames 的开销通常很低，但是你仍然应该明智地确定要加载的数量，特别是如果这些 frames 会在页面上造成加载抖动时。然而，如果其内容在页面加载时不是立即可见的，那么 frames 基本上都是 free 的。可能是因为它们隐藏于 modal 或首屏之下。&lt;/p&gt;
+
+&lt;h2 id=&quot;targeting-navigation-into-or-out-of-a-frame&quot;&gt;Targeting Navigation Into or Out of a Frame&lt;/h2&gt;
+
+&lt;p&gt;默认情况下，在一个 frame 内部的导航就只针对那个 frame。对于点击链接和提交表单都是如此。但通过设置目标为&lt;code&gt;_top&lt;/code&gt;，导航可以切换到整个页面而非闭合的 frame。或者也可以切换到另一个命名 frame 上，通过设置目标到该 frame 的 ID 的方式。&lt;/p&gt;
+
+&lt;p&gt;在 set-aside tray 的示例中，tray 之内到链接指向单独的邮件。你不会想要这些链接去找匹配&lt;code&gt;set_aside_tray&lt;/code&gt; ID 的 frame tag。你想要的是直接导航到那些邮件。这通过把 tray frames 标记其&lt;code&gt;target&lt;/code&gt;属性来实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt;
+  &amp;lt;h1&amp;gt;Imbox&amp;lt;/h1&amp;gt;
+  ...
+  &amp;lt;turbo-frame id=&quot;set_aside_tray&quot; src=&quot;/emails/set_aside&quot; target=&quot;_top&quot;&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+&amp;lt;/body&amp;gt;
+
+&amp;lt;body&amp;gt;
+  &amp;lt;h1&amp;gt;Set Aside Emails&amp;lt;/h1&amp;gt;
+  ...
+  &amp;lt;turbo-frame id=&quot;set_aside_tray&quot; target=&quot;_top&quot;&amp;gt;
+    ...
+  &amp;lt;/turbo-frame&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;有时，你想要大多数链接在 frame 上下文中进行操作，但少部分不是。对于表单也是同样的。那么你可以把&lt;code&gt;data-trubo-frame&lt;/code&gt;属性添加到非 frame 的元素上来实现：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;body&amp;gt;
+  &amp;lt;turbo-frame id=&quot;message_1&quot;&amp;gt;
+    ...
+    &amp;lt;a href=&quot;/messages/1/edit&quot;&amp;gt;
+      Edit this message (within the current frame)
+    &amp;lt;/a&amp;gt;
+
+    &amp;lt;a href=&quot;/messages/1/permission&quot; data-turbo-frame=&quot;_top&quot;&amp;gt;
+      Change permissions (replace the whole page)
+    &amp;lt;/a&amp;gt;
+  &amp;lt;/turbo-frame&amp;gt;
+
+  &amp;lt;form action=&quot;/messages/1/delete&quot; data-turbo-frame=&quot;message_1&quot;&amp;gt;
+    &amp;lt;input type=&quot;submit&quot; value=&quot;Delete this message&quot;&amp;gt;
+    (with a confirmation shown in a specific frame)
+  &amp;lt;/form&amp;gt;
+&amp;lt;/body&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+</description>
+        <pubDate>Tue, 16 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/hotwire-turbo-frame/</link>
+        <guid isPermaLink="true">/2021/03/hotwire-turbo-frame/</guid>
+        
+        <category>rails</category>
+        
+        <category>hotwire</category>
+        
+        <category>turbo</category>
+        
+        
+        <category>Translation</category>
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>Hotwire之使用Turbo Drive导航</title>
+        <description>&lt;p&gt;本文是对 Turbo Drive 的详细说明，原文出自：&lt;a href=&quot;https://turbo.hotwire.dev/handbook/drive&quot;&gt;https://turbo.hotwire.dev/handbook/drive&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;Turbo Drive 是 Turbo 的一部分，用于增强页面级别的导航。它监控着点击链接和表单提交，使其在后台执行，并更新页面而无需做全页面的重载。它是&lt;a href=&quot;https://github.com/turbolinks/turbolinks&quot;&gt;Turbolinks&lt;/a&gt; 库的进化版本。&lt;/p&gt;
+
+&lt;h2 id=&quot;page-navigation-basics&quot;&gt;Page Navigation Basics&lt;/h2&gt;
+
+&lt;p&gt;Turbo Drive 把页面导航建模为使用一种行为对一个页面位置（URL）的访问。&lt;/p&gt;
+
+&lt;p&gt;这种访问展现了从点击到渲染的整个导航生命周期，包含更改浏览器访问历史，发出网络请求，从缓存中恢复一个页面的拷贝，渲染最终的响应，以及更新页面滚动的位置。&lt;/p&gt;
+
+&lt;p&gt;有两种类型的访问：一种是 &lt;em&gt;application&lt;/em&gt; 访问，其行为是 &lt;em&gt;advance&lt;/em&gt; 或 &lt;em&gt;replace&lt;/em&gt;。而另一种是 &lt;em&gt;restoration&lt;/em&gt; 访问，其行为是 &lt;em&gt;restore&lt;/em&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;application-visits&quot;&gt;Application Visits&lt;/h2&gt;
+
+&lt;p&gt;Application 访问由一个启用 Turbo Drive 的链接，或者程序中调用&lt;code&gt;Turbo.visit(location)&lt;/code&gt;，而被初始化的。&lt;/p&gt;
+
+&lt;p&gt;一个 application 访问总是会发出一个网络请求。当响应返回，Turbo Drive 就渲染其页面并结束这次访问。&lt;/p&gt;
+
+&lt;p&gt;可能的话，Turbo Drive 会在访问开始时立即从缓存中渲染一个页面的预览。这就提高了在相同页面间频繁导航的感知速度。&lt;/p&gt;
+
+&lt;p&gt;如果访问的位置包含一个锚点，Turbo Drive 会尝试滚动到所锚住的元素。否则，会滚动到页面顶部。&lt;/p&gt;
+
+&lt;p&gt;Application 访问会导致浏览器访问历史的变更，而访问的行为决定了该变更是怎样的。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/turbolinks-docs/images/advance.svg&quot; alt=&quot;https://s3.amazonaws.com/turbolinks-docs/images/advance.svg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;默认的访问行为是 &lt;em&gt;advance&lt;/em&gt;。在一次 advance 访问期间，Turbo Drive 使用&lt;code&gt;history.pushState&lt;/code&gt;向浏览器访问历史推入一个新条目。&lt;/p&gt;
+
+&lt;p&gt;使用 Turbo Drive 的 &lt;a href=&quot;https://github.com/hotwired/turbo-ios&quot;&gt;iOS adapter&lt;/a&gt; 的应用程序通常处理 advance 访问是推入一个新的 view controller 到导航堆栈之上。类似地，使用 &lt;a href=&quot;https://github.com/hotwired/turbo-android&quot;&gt;Android adapter&lt;/a&gt; 的应用程序通常是推入一个新的 activity 到 back stack 之上。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/turbolinks-docs/images/replace.svg&quot; alt=&quot;https://s3.amazonaws.com/turbolinks-docs/images/replace.svg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;你可能想要访问一个位置而不推入一个新访问历史条目到历史堆栈之上。&lt;em&gt;replace&lt;/em&gt; 行为使用&lt;code&gt;history.replaceState&lt;/code&gt;来丢弃最顶层的历史条目，并以新的位置来替换它。&lt;/p&gt;
+
+&lt;p&gt;要指定如下链接能触发一个 replace 访问，以&lt;code&gt;data-turbo-action=&quot;replace&quot;&lt;/code&gt;注释链接即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;a href=&quot;/edit&quot; data-turbo-action=&quot;replace&quot;&amp;gt;Edit&amp;lt;/a&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要在程序中以 replace 行为访问一个位置，把&lt;code&gt;action: &quot;replace&quot;&lt;/code&gt;选项传入&lt;code&gt;Turbo.visit&lt;/code&gt;即可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;Turbo.visit(&quot;/edit&quot;, { action: &quot;replace&quot; })
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;使用 Turbo Drive 的 &lt;a href=&quot;https://github.com/hotwired/turbo-ios&quot;&gt;iOS adapter&lt;/a&gt; 的应用程序通常处理 replace 访问是放弃最顶层的 view controller 并推入一个新的 view controller 到导航堆栈之上，不带动画的方式。&lt;/p&gt;
+
+&lt;h2 id=&quot;restoration-visits&quot;&gt;Restoration Visits&lt;/h2&gt;
+
+&lt;p&gt;当你使用浏览器的后退或前进按钮导航时，Turbo Drive 会自动初始化一个复位访问。使用 &lt;a href=&quot;https://github.com/hotwired/turbo-ios&quot;&gt;iOS&lt;/a&gt; 或 &lt;a href=&quot;https://github.com/hotwired/turbo-android&quot;&gt;Android&lt;/a&gt; adapters 的应用程序在导航堆栈中后移时会初始化一个复位访问。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/turbolinks-docs/images/restore.svg&quot; alt=&quot;https://s3.amazonaws.com/turbolinks-docs/images/restore.svg&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;可能的话，Turbo Drive 就从缓存中渲染一个页面的拷贝而不发出请求。否则，它将会通过网络获取一个页面的全新拷贝。查看下面的 Understanding Caching 以了解更多细节。&lt;/p&gt;
+
+&lt;p&gt;Turbo Drive 在导航离开每个页面时都会记住其滚动位置，在复位访问时会自动滚动回该位置处。&lt;/p&gt;
+
+&lt;p&gt;复位访问有一个 &lt;em&gt;restore&lt;/em&gt; 行为，Turbo Drive 预留它们是为了内部使用。你无需尝试使用&lt;code&gt;restore&lt;/code&gt;的行为来注释链接或执行&lt;code&gt;Turbo.visit&lt;/code&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;canceling-visits-before-they-start&quot;&gt;Canceling Visits Before They Start&lt;/h2&gt;
+
+&lt;p&gt;Application 访问在其开始之前是可以被取消的，而不管它们是由点击链接还是由调用&lt;code&gt;Turbo.visit&lt;/code&gt;来初始化的。&lt;/p&gt;
+
+&lt;p&gt;在访问开始的时候监听&lt;code&gt;turbo:before-visit&lt;/code&gt;事件，并使用&lt;code&gt;event.detail.url&lt;/code&gt;（使用 jQuery 时是&lt;code&gt;$event.originalEvent.detail.url&lt;/code&gt;）来检查访问的位置。然后通过调用&lt;code&gt;event.preventDefault()&lt;/code&gt;来取消访问。&lt;/p&gt;
+
+&lt;p&gt;复位访问不能被取消，且不会触发&lt;code&gt;turbo:before-visit&lt;/code&gt;。Turbo Drive 发出复位访问来响应对已有的历史记录进行导航，通常是通过浏览器的后退或前进按钮。&lt;/p&gt;
+
+&lt;h2 id=&quot;disabling-turbo-drive-on-specific-links-or-forms&quot;&gt;Disabling Turbo Drive on Specific Links or Forms&lt;/h2&gt;
+
+&lt;p&gt;可以禁用一个元素的Turbo Drive，通过在它或其上级元素上添加&lt;code&gt;data-turbo=&quot;fale&quot;&lt;/code&gt;的方式。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;a href=&quot;/&quot; data-turbo=&quot;false&quot;&amp;gt;Disabled&amp;lt;/a&amp;gt;
+
+&amp;lt;form action=&quot;/messages&quot; method=&quot;post&quot; data-turbo=&quot;false&quot;&amp;gt;
+  ...
+&amp;lt;/form&amp;gt;
+
+&amp;lt;div data-turbo=&quot;false&quot;&amp;gt;
+  &amp;lt;a href=&quot;/&quot;&amp;gt;Disabled&amp;lt;/a&amp;gt;
+  &amp;lt;form action=&quot;/messages&quot; method=&quot;post&quot;&amp;gt;
+    ...
+  &amp;lt;/form&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;在上级元素已禁用时要重新启用，使用&lt;code&gt;data-turbo=&quot;true&quot;&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div data-turbo=&quot;false&quot;&amp;gt;
+  &amp;lt;a href=&quot;/&quot; data-turbo=&quot;true&quot;&amp;gt;Enabled&amp;lt;/a&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;禁用了 Turbo Drive 的链接和表单仍然会被浏览器正常处理。&lt;/p&gt;
+
+&lt;h2 id=&quot;displaying-progress&quot;&gt;&lt;a href=&quot;https://turbo.hotwire.dev/handbook/drive#displaying-progress&quot;&gt;﹟&lt;/a&gt;Displaying Progress&lt;/h2&gt;
+
+&lt;p&gt;在 Turbo Drive 导航期间，浏览器将不会展示其原生的进度条了。Turbo Drive 安装了一个基于 CSS 的进度条来在发出请求时给以反馈。&lt;/p&gt;
+
+&lt;p&gt;该进度条默认是启用的。它对任何载入时间超过 500 ms 的页面都会自动显示。（你可以使用&lt;code&gt;Turbo.setProgressBarDelay&lt;/code&gt;方法修改这个值。）&lt;/p&gt;
+
+&lt;p&gt;该进度条是一个&lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt;元素，其 class 名为&lt;code&gt;turbo-progress-bar&lt;/code&gt;。它的默认样式会首先呈现于 document，且可以被之后的规则所覆盖。&lt;/p&gt;
+
+&lt;p&gt;例如，下面的 CSS 将会呈现一个绿色的窄进度条：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-css&quot;&gt;.turbo-progress-bar {
+  height: 5px;
+  background-color: green;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;要完全禁用该进度条，把其&lt;code&gt;visibility&lt;/code&gt;样式设为&lt;code&gt;hidden&lt;/code&gt;：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-css&quot;&gt;.turbo-progress-bar {
+  visibility: hidden;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;reloading-when-assets-change&quot;&gt;Reloading When Assets Change&lt;/h2&gt;
+
+&lt;p&gt;Turbo Drive 可以在一个页面到另一个页面时跟踪&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;中的 asset 元素的 URL，如果它们有所变动则自动请求一次全量重载。这确保了用户始终会拥有你应用程序的 script 和 style 的最新版本。&lt;/p&gt;
+
+&lt;p&gt;使用&lt;code&gt;data-turbo-track=&quot;reload&quot;&lt;/code&gt;注释 asset 元素并在 asset URL 中包含一个版本标识符。该标识符可以是一个数字，一个最近修改的时间戳，或者更好点，一个 asset 内容的 digest，类似如下：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;head&amp;gt;
+  ...
+  &amp;lt;link rel=&quot;stylesheet&quot; href=&quot;/application-258e88d.css&quot; data-turbo-track=&quot;reload&quot;&amp;gt;
+  &amp;lt;script src=&quot;/application-cbd3cd4.js&quot; data-turbo-track=&quot;reload&quot;&amp;gt;&amp;lt;/script&amp;gt;
+&amp;lt;/head&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;ensuring-specific-pages-trigger-a-full-reload&quot;&gt;Ensuring Specific Pages Trigger a Full Reload&lt;/h2&gt;
+
+&lt;p&gt;你可以通过在页面的&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;中包含一个&lt;code&gt;&amp;lt;meta name=&quot;turbo-visit-control&quot;&amp;gt;&lt;/code&gt;元素来确保在访问某个页面时始终会触发一次全量重载。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;head&amp;gt;
+  ...
+  &amp;lt;meta name=&quot;turbo-visit-control&quot; content=&quot;reload&quot;&amp;gt;
+&amp;lt;/head&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这个设置可能在第三方 JavaScript 库不能很好地跟 Turbo Drive 页面变更进行交互时是一个有用的解决方案。&lt;/p&gt;
+
+&lt;h2 id=&quot;setting-a-root-location&quot;&gt;Setting a Root Location&lt;/h2&gt;
+
+&lt;p&gt;默认情况下，Turbo Drive 只会加载同源 URL——比如，跟当前页面相同的协议，域名，端口。访问任何其他 URL 都会导致一次全量的页面加载。&lt;/p&gt;
+
+&lt;p&gt;有些场景中，你可能想要进一步定义 Turbo Drive 到同源的一个 path 上。例如，如果你的 Turbo Drive 应用位于&lt;code&gt;/app&lt;/code&gt;，而非 Turbo Drive 的帮助站点位于&lt;code&gt;/help&lt;/code&gt;，从前者到后者的链接不应该使用 Turbo Drive。&lt;/p&gt;
+
+&lt;p&gt;在页面的&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;中包含一个&lt;code&gt;&amp;lt;meta name=&quot;turbo-root&quot;&amp;gt;&lt;/code&gt;元素以定义 Turbo Drive 到特定的 root 位置。Turbo Drive 将只加载那个 path 前缀的同源 URL。&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;head&amp;gt;
+  ...
+  &amp;lt;meta name=&quot;turbo-root&quot; content=&quot;/app&quot;&amp;gt;
+&amp;lt;/head&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&quot;redirecting-after-a-form-submission&quot;&gt;Redirecting After a Form Submission&lt;/h2&gt;
+
+&lt;p&gt;Turbo Drive 以一种类似于链接点击的方式处理表单提交。关键区别是表单提交可以使用 HTTP POST 方法发出有状态的请求，而链接点击只会发出无状态的 HTTP GET 请求。&lt;/p&gt;
+
+&lt;p&gt;在有状态的表单提交后，Turbo Drive 期望服务端返回一个 &lt;a href=&quot;https://en.wikipedia.org/wiki/HTTP_303&quot;&gt;HTTP 303 redirect response&lt;/a&gt;，其将被用以导航和页面更新而无需重载。&lt;/p&gt;
+
+&lt;p&gt;这条规则的例外情况是当响应是 4xx 或 5xx 的时候。这可以让服务端响应为&lt;code&gt;422 Unprocessable Entity&lt;/code&gt;时呈现表单的校验错误，以及响应为&lt;code&gt;500 Internal Server Error&lt;/code&gt;时显示服务端出错了。&lt;/p&gt;
+
+&lt;p&gt;Turbo 不允许对于 200 的常规渲染的原因是浏览器已有内置的行为来处理 POST 访问的重载，会展示一个“你确认想要重新提交表单吗？”的对话框，这是 Turbo 无法复制的。相反，Turbo 会在一个表单提交后尝试渲染页面时驻留在当前 URL 上，而不是变更到表单的 action，因为重载会发出到那个 action 所指向 URL 的一个 GET 请求，而该 URL 甚至可能根本不存在。&lt;/p&gt;
+
+&lt;h2 id=&quot;streaming-after-a-form-submission&quot;&gt;Streaming After a Form Submission&lt;/h2&gt;
+
+&lt;p&gt;服务端也可以借助 &lt;a href=&quot;https://turbo.hotwire.dev/handbook/streams&quot;&gt;Turbo Streams&lt;/a&gt; 消息，通过发送 header &lt;code&gt;Content-Type: text/vnd.turbo-stream.html&lt;/code&gt;，然后在响应内容中包含一个或多个&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素，来响应表单提交，这让你可以无需导航即可更新页面的多个部分。&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 13 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/hotwire-turbo-drive/</link>
+        <guid isPermaLink="true">/2021/03/hotwire-turbo-drive/</guid>
+        
+        <category>rails</category>
+        
+        <category>hotwire</category>
+        
+        <category>turbo</category>
+        
+        
+        <category>Translation</category>
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>让你的NeoVim Builtin LSP美轮美奂</title>
+        <description>&lt;p&gt;在配置 NeoVim Builtin LSP 的过程中，发现它自带的原生 UI 界面实在简陋了些。虽然功能用起来没问题，但远远够不上赏心悦目的程度。这对于像我这样的“视觉动物”来说，实在是坚决不能容忍的“大罪”了。&lt;/p&gt;
+
+&lt;p&gt;经过一番搜寻，终于找到一个很不错的 NeoVim Builtin LSP 增强插件：&lt;a href=&quot;https://github.com/glepnir/lspsaga.nvim&quot;&gt;lspsaga.nvim&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;它对自己的介绍是：“A light-weight lsp plugin based on neovim built-in lsp with highly a performant UI.”，可见其完全聚焦于打造一个优雅精致的 UI 上。&lt;/p&gt;
+
+&lt;p&gt;它的安装和配置都没什么可说的，按照 Readme 文档的来就是了。&lt;/p&gt;
+
+&lt;p&gt;重点是来瞅瞅它的一些范例：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;异步 LSP 查找&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/41671631/107140076-ae77ec00-695a-11eb-8329-0b9d8361bfeb.gif&quot; alt=&quot;https://user-images.githubusercontent.com/41671631/107140076-ae77ec00-695a-11eb-8329-0b9d8361bfeb.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;查看帮助文档&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/41671631/106566308-1dc09b00-656b-11eb-85e2-2ab5b23599c9.gif&quot; alt=&quot;https://user-images.githubusercontent.com/41671631/106566308-1dc09b00-656b-11eb-85e2-2ab5b23599c9.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;变量重命名&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/41671631/106115648-f6915480-618b-11eb-9818-003cfb15c8ac.gif&quot; alt=&quot;https://user-images.githubusercontent.com/41671631/106115648-f6915480-618b-11eb-9818-003cfb15c8ac.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;浮动终端窗口&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://user-images.githubusercontent.com/41671631/105658287-2c6ed880-5f01-11eb-8af6-daa6fd23576c.gif&quot; alt=&quot;https://user-images.githubusercontent.com/41671631/105658287-2c6ed880-5f01-11eb-8af6-daa6fd23576c.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;确实相当精致！&lt;/p&gt;
+
+&lt;p&gt;这种独有的 “Terminal 美学”，真的有一种让人欲罢不能的魅力。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 11 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/a-awesome-neovim-lsp-plugin/</link>
+        <guid isPermaLink="true">/2021/03/a-awesome-neovim-lsp-plugin/</guid>
+        
+        <category>neovim</category>
+        
+        
+        <category>Tool</category>
+        
+      </item>
+    
+      <item>
+        <title>Hotwire之Turbo介绍</title>
+        <description>&lt;p&gt;我去年 7 月的博客&lt;a href=&quot;https://xfyuan.github.io/2020/07/dhh-talk-about-heystack/&quot;&gt;对 Hey.com 技术栈的期待&lt;/a&gt; 中提到了 DHH 在 HEY 中所使用的新技术栈。而在去年 12 月 23 日，DHH 不负所望，如期宣布了他的“NEW MAGIC”：&lt;a href=&quot;https://hotwire.dev/&quot;&gt;Hotwire&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/LQ2YA5.png&quot; alt=&quot;LQ2YA5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Hotwire 由 &lt;a href=&quot;https://turbo.hotwire.dev/&quot;&gt;Turbo&lt;/a&gt;、&lt;a href=&quot;https://stimulus.hotwire.dev/&quot;&gt;Stimulus&lt;/a&gt; 和 Strada（将于2021公布） 构成。Strada 尚未发布先不论，Stimulus 也是早就发布的技术，并非新事物，所以真正的焦点就是 Turbo 了。这篇博客即是 Turbo 的一个概览。原文出自：&lt;a href=&quot;https://turbo.hotwire.dev/handbook/introduction&quot;&gt;https://turbo.hotwire.dev/handbook/introduction&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;Turbo 把几种技术集成到一起以创建快速的、现代的、渐进式增强的 Web 应用而毋需使用太多的 JavaScript。对于流行的把所有业务逻辑都置于前端，且把服务端限制在仅提供 JSON API 的那些客户端框架，它提供了一种更简单的替代方案。&lt;/p&gt;
+
+&lt;p&gt;借助 Turbo，你让服务端直接发布 HTML，这意味着所有业务逻辑，诸如权限检查、直接与你的领域模型交互，以及编写应用程序所需的其他一切，都能或多或少地只用你所喜欢的编程语言即可实现。而不用再把这些逻辑在被 JSON 所划分的两端都镜像实现。所有的逻辑都位于服务端，而浏览器只处理最终的 HTML。&lt;/p&gt;
+
+&lt;p&gt;你可以在 &lt;a href=&quot;https://hotwire.dev/&quot;&gt;Hotwire 站点&lt;/a&gt;阅读到关于 HTML-over-the-wire 方案的更多优点。下面则是 Turbo 带来的使之成为可能的技术。&lt;/p&gt;
+
+&lt;h2 id=&quot;turbo-drive-navigate-within-a-persistent-process&quot;&gt;Turbo Drive: Navigate within a persistent process&lt;/h2&gt;
+
+&lt;p&gt;传统单页面应用的关键吸引力，比较于老式、单独页面的方案而言，就是导航跳转的速度。SPA 是通过仅在第一个页面初始化而非不断地中断应用程序进程从而获得如此高的响应速度的。&lt;/p&gt;
+
+&lt;p&gt;Turbo Drive 通过使用同样的持久化进程模型为你赋予了同样的高速响应，但无需你围绕范式来构建你的应用。没有了要维护的客户端路由，没有了要仔细管理的客户端状态。持久化进程由 Turbo 来管理，而你编写自己的服务端代码，仿佛又回到了早年间的时光——与当今 SPA 怪兽的复杂性幸福地隔离开了。&lt;/p&gt;
+
+&lt;p&gt;这通过拦截所有在&lt;a href=&quot;&quot;&gt;链接上的点击到相同的领域而实现。当你点击一个链接时，Turbo Drive 阻止浏览器的响应，使用&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/History&quot;&gt;History API&lt;/a&gt;改变浏览器的 URL，使用 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/fetch&quot;&gt;&lt;code&gt;fetch&lt;/code&gt;&lt;/a&gt; 来获取新页面，然后渲染 HTML 响应。&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;对于表单是同样的处理。它们的提交都被转化为 &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/fetch&quot;&gt;&lt;code&gt;fetch&lt;/code&gt;&lt;/a&gt; 请求，Turbo Drive 将根据这些请求遵循重定向并渲染 HTML 响应。&lt;/p&gt;
+
+&lt;p&gt;在渲染期间，Turbo Drive 会完全替换掉当前的&lt;code&gt;&amp;lt;body&amp;gt;&lt;/code&gt;元素并合并&lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;元素的内容。JavaScript 的 window 和 document 对象，以及&lt;code&gt;&amp;lt;html&amp;gt;&lt;/code&gt;元素，会在一个页面到下一个页面的渲染中保持持久化。&lt;/p&gt;
+
+&lt;p&gt;尽管可以直接与 Turbo Drive 进行交互以控制访问如何发生或进入请求的生命周期，但在大多数情况下，这是一种即插即用的替代方法，只需遵循一些约定即可免费享受那种高速响应。&lt;/p&gt;
+
+&lt;h2 id=&quot;turbo-frames-decompose-complex-pages&quot;&gt;Turbo Frames: Decompose complex pages&lt;/h2&gt;
+
+&lt;p&gt;大多数 Web 应用程序显示的页面都包含几个独立的片段。对一个讨论区页面，你可能有一个导航栏在顶部，一个消息列表在中间，一个表单在底部以添加新消息，以及一个包含相关主题的侧边栏。生成这种讨论区页面通常意味着以一种序列化方式生成每个片段，把它们拼接在一起，然后把结果以单个 HTML 的响应发布给浏览器。&lt;/p&gt;
+
+&lt;p&gt;借助 Turbo Frames，你可以把这些独立片段置于 frame 元素之内，以限制其导航范畴并做懒式加载。限制其导航范畴意味着所有交互在 frame 内部，比如点击链接或者提交表单，都发生于那个 frame 之内，而避免更改或重新加载页面的其余部分。&lt;/p&gt;
+
+&lt;p&gt;要将一个独立片段封装在它自己的导航上下文中，把它包在一个&lt;code&gt;&amp;lt;turbo-frame&amp;gt;&lt;/code&gt; 标签内即可。例如：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;turbo-frame id=&quot;new_message&quot;&amp;gt;
+  &amp;lt;form action=&quot;/messages&quot; method=&quot;post&quot;&amp;gt;
+    ...
+  &amp;lt;/form&amp;gt;
+&amp;lt;/turbo-frame&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;当你提交上面的表单时，Turbo 把匹配的&lt;code&gt;&amp;lt;turbo-frame id=&quot;new_message&quot;&amp;gt;&lt;/code&gt;元素从重定向的 HTML 响应中提取出来，并把其内容交换到已有的的&lt;code&gt;new_message&lt;/code&gt; frame 元素中。页面的其余部分保持原样。&lt;/p&gt;
+
+&lt;p&gt;除了限制导航范畴之外，Frames 也可以懒式加载其内容。要懒式加载一个 frame，添加一个其值为 URL 的&lt;code&gt;src&lt;/code&gt;属性即可自动加载。与作用域导航一样，Turbo 从响应结果中查找并提取出匹配的 frame 并交换其内容到定位中：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;turbo-frame id=&quot;messages&quot; src=&quot;/messages&quot;&amp;gt;
+  &amp;lt;p&amp;gt;This message will be replaced by the response from /messages.&amp;lt;/p&amp;gt;
+&amp;lt;/turbo-frame&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这可能听起来很像旧时的 frames，甚至&lt;code&gt;&amp;lt;iframe&amp;gt;&lt;/code&gt;，然而 Turbo Frames 是同一 DOM 的一部分，因此没有任何与“真实” frames 相关的怪异或妥协。Turbo Frames 由同样的 CSS 定义样式，是同一 JavaScript 上下文的一部分，且不受任何其他内容安全性限制。&lt;/p&gt;
+
+&lt;p&gt;除了把你的片段转化为独立上下文，Turbo Frames 还为你提供了：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;高效缓存&lt;/strong&gt;：在上面的讨论区页面范例中，相关主题的侧边栏当一个新主题呈现时（缓存）就需要过期，但中间的消息列表则不用。所有东西只在一个页面时，一旦任何一个片段过期则整个缓存都会过期。借助 frames，每个片段都被独立缓存，因此你可以获得更少依赖 key 的寿命更长的缓存。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;并行执行&lt;/strong&gt;：每个懒式加载的 frame 都由其自己的 HTTP 请求/响应所生成，这意味着它可以被单个进程来处理。这允许并行执行而不用手动管理进程。一个复杂的组合页面需要花费 400 ms 完成端到端渲染，则可以被分解为 frames，初始请求可能只需要 50 ms，而三个懒式加载的 frames 每个都耗费 50 ms。现在整个页面 100 ms 就可加载完成，因为那三个 frames 的50 ms 请求是并发而非序列式的。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;Mobile 友好&lt;/strong&gt;：在 mobile app 中，你通常不会有大而复杂的组合页面。每个片段都需要专用的屏幕。借助 Turbo Frames 构建的应用，你就已经完成了把复杂页面转换为片段的工作。然后这些片段就可以呈现在原生的表格和屏幕中，无需改动（因为它们都有独立的 URL）。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;turbo-streams-deliver-live-page-changes&quot;&gt;Turbo Streams: Deliver live page changes&lt;/h2&gt;
+
+&lt;p&gt;响应异步操作而进行页面的部分更改是我们使应用保持活力的方式。尽管 Turbo Frames 给予了我们这种更新以响应在单个 frame 内的直接交互，而 Turbo Streams 则让我们得以响应通过 WebSocket 连接、SSE 或其他传输所发送的更新来更改页面的任何部分。&lt;/p&gt;
+
+&lt;p&gt;Turbo Streams 提供了一个&lt;code&gt;&amp;lt;turbo-stream&amp;gt;&lt;/code&gt;元素，带有五种基本行为：&lt;code&gt;append&lt;/code&gt;、&lt;code&gt;prepend&lt;/code&gt;、&lt;code&gt;replace&lt;/code&gt;、&lt;code&gt;update&lt;/code&gt;和&lt;code&gt;remove&lt;/code&gt;。借助这些行为，跟指定了你所想操作元素的 ID 的&lt;code&gt;target&lt;/code&gt;属性一起，就可以编码所有需要的变更内容来刷新页面。你甚至可以组合几个 stream 元素在一个单独的 stream 消息中。只用把你需要插入或替换的 HTML 包含在一个 &lt;strong&gt;&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template&quot;&gt;template tag&lt;/a&gt;&lt;/strong&gt; 中，Turbo 会做好剩下的一切：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;turbo-stream action=&quot;append&quot; target=&quot;messages&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div id=&quot;message_1&quot;&amp;gt;My new message!&amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;该 stream 元素将会获取带新消息的&lt;code&gt;div&lt;/code&gt;并把它 append 到 ID 为&lt;code&gt;messages&lt;/code&gt;的容器中。要简单地替换掉已有的元素则可：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;turbo-stream action=&quot;replace&quot; target=&quot;message_1&quot;&amp;gt;
+  &amp;lt;template&amp;gt;
+    &amp;lt;div id=&quot;message_1&quot;&amp;gt;This changes the existing message!&amp;lt;/div&amp;gt;
+  &amp;lt;/template&amp;gt;
+&amp;lt;/turbo-stream&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;这是 Rails 世界中的一种概念上的持续（起初被称作 &lt;a href=&quot;https://weblog.rubyonrails.org/2006/3/28/rails-1-1-rjs-active-record-respond_to-integration-tests-and-500-other-things/&quot;&gt;RJS&lt;/a&gt;，然后被称作 &lt;a href=&quot;https://signalvnoise.com/posts/3697-server-generated-javascript-responses&quot;&gt;SJR&lt;/a&gt;），却是无需任何 JavaScript 的一种实现。优点是同样的：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;重用服务端模板&lt;/strong&gt;：实时页面改动的生成都跟初次加载页面一样使用同样的服务端模板。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;HTML over the wire&lt;/strong&gt;：由于所有我们所发送的都是 HTML，你就无需任何客户端 JavaScript （超越 Turbo，当然如此）来处理更新了。是的，HTML 的负荷可能比 JSON 要大一点，但借助 gzip，这点差异通常都是微不足道的，然而你节省了所有客户的的工作：获取 JSON 并把其转为 HTML。&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;更简单的控制流&lt;/strong&gt;：当消息通过 WebSocket、SSE 到达或者响应表单提交时，会发生什么是很清晰的。再也没有路由、事件冒泡或其他的间接处理。它就仅是被变更的 HTML 而已，被封装在一个单独的 tag 中。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;现在，不像 RJS 和 SJR ，调用自定义的 JavaScript 函数来作为 Turbo Streams 行为的一部分是不可能的了。但这是一个特性，不是 bug。当发送太多 JavaScript 跟响应一起时，这些技术很容易最终导致乱七八糟的混乱状况。Turbo 专注于仅更新 DOM，然后假设你会使用 &lt;a href=&quot;https://stimulus.hotwire.dev/&quot;&gt;Stimulus&lt;/a&gt; 的 action 和生命周期回调来连接任何额外行为。&lt;/p&gt;
+
+&lt;h2 id=&quot;turbo-native-hybrid-apps-for-ios--android&quot;&gt;Turbo Native: Hybrid apps for iOS &amp;amp; Android&lt;/h2&gt;
+
+&lt;p&gt;Turbo Native 是构建适用于 iOS 和 Android 的 hybrid apps 的理想选择。你可以使用你现有的服务端渲染的 HTML 来得到在一个原生封装里的 app 功能的基线范畴。然后你就可以把所有节省下来的时间花在使受益于高保真原生控件的几个屏幕变得更好上。&lt;/p&gt;
+
+&lt;p&gt;像 Basecamp 这样的应用由上百个屏幕。重写每个单独的屏幕都会是一个收益极低的巨大工作。为真正需要高保真的重度交互保留“火力”才更好。例如，类似于 Basecamp 中的“New For You” inbox，这里我们使用轻扫控制需要恰到好处。但大多数页面，比如显示一条单独消息的页面，则不会比完全原生的做到更好。&lt;/p&gt;
+
+&lt;p&gt;使用 hybrid 不仅可以加快开发过程，还可以让你拥有更大的自由来升级 app，而无需经历缓慢而繁琐的应用商店发布过程。任何 HTML 做成的东西都可以在你的 web 应用程序中被更改，并即刻为所有用户所用。无需等待技术大牛来批准你的更改，也无需让用户等待升级。&lt;/p&gt;
+
+&lt;p&gt;Turbo Native 假设你正在使用对于 iOS 和 Android 所推荐的可用的开发实践。它不是一个抽象出原生 API 或者甚至让你的原生代码在多个平台之间共享的框架。共享的部分是在服务端渲染的 HTML。但是原生的控制是由所推荐的原生 API 写就。&lt;/p&gt;
+
+&lt;p&gt;参考 &lt;a href=&quot;https://github.com/hotwired/turbo-ios&quot;&gt;Turbo Native: iOS&lt;/a&gt; 和 &lt;a href=&quot;https://github.com/hotwired/turbo-android&quot;&gt;Turbo Native: Android&lt;/a&gt;  代码库的更多文档。去看看 HEY 在 &lt;a href=&quot;https://apps.apple.com/us/app/hey-email/id1506603805&quot;&gt;iOS&lt;/a&gt; 和 &lt;a href=&quot;https://play.google.com/store/apps/details?id=com.basecamp.hey&amp;amp;hl=en_US&amp;amp;gl=US&quot;&gt;Android&lt;/a&gt; 上的原生 app 以感受下使用 Turbo 所制作的 hybrid app 有多么出色吧。&lt;/p&gt;
+
+&lt;h2 id=&quot;integrate-with-backend-frameworks&quot;&gt;Integrate with backend frameworks&lt;/h2&gt;
+
+&lt;p&gt;你不需要任何后端框架即可使用 Turbo。它的所有特性都可直接使用，无需更多的抽象。但如果你有机会使用一个后端框架来整合 Turbo，将会发现一切变得更简单了。&lt;a href=&quot;https://github.com/hotwired/turbo-rails&quot;&gt;我们已经为与 Ruby on Rails 做这样的整合创建了一份实现的参考&lt;/a&gt;。&lt;/p&gt;
+
+</description>
+        <pubDate>Wed, 10 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/hotwire-turbo-introduction/</link>
+        <guid isPermaLink="true">/2021/03/hotwire-turbo-introduction/</guid>
+        
+        <category>rails</category>
+        
+        <category>hotwire</category>
+        
+        <category>turbo</category>
+        
+        
+        <category>Translation</category>
+        
+        <category>Programming</category>
+        
+      </item>
+    
+      <item>
+        <title>行云流水般的NeoVim Builtin LSP操作</title>
+        <description>&lt;p&gt;既然我们的 NeoVim 已经配置好 Builtin LSP 的 Server 和 Client，就该来看看如何使用它的问题了，也就是相关的 Keybinding 设定。好的 Keybinding 设定会让人在使用时运指如飞。&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/neovim/nvim-lspconfig&quot;&gt;nvim-lspconfig&lt;/a&gt; 的 Readme 文档里已经给出了它的默认 Keybinding 设置，比如下面这几个比较常用的（更多可参考它的文档）：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;-- 查看函数声明
+buf_set_keymap('n', 'gD', '&amp;lt;Cmd&amp;gt;lua vim.lsp.buf.declaration()&amp;lt;CR&amp;gt;', opts)
+-- 查看函数定义
+buf_set_keymap('n', 'gd', '&amp;lt;Cmd&amp;gt;lua vim.lsp.buf.definition()&amp;lt;CR&amp;gt;', opts)
+-- 查看函数帮助文档
+buf_set_keymap('n', 'K', '&amp;lt;Cmd&amp;gt;lua vim.lsp.buf.hover()&amp;lt;CR&amp;gt;', opts)
+-- 查看函数相关引用
+buf_set_keymap('n', 'gr', '&amp;lt;cmd&amp;gt;lua vim.lsp.buf.references()&amp;lt;CR&amp;gt;', opts)
+-- 查看前一处语法错误
+buf_set_keymap('n', '[d', '&amp;lt;cmd&amp;gt;lua vim.lsp.diagnostic.goto_prev()&amp;lt;CR&amp;gt;', opts)
+-- 查看后一处语法错误
+buf_set_keymap('n', ']d', '&amp;lt;cmd&amp;gt;lua vim.lsp.diagnostic.goto_next()&amp;lt;CR&amp;gt;', opts)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然而，试用之后发现，这样的配置用起来并不舒服。这些快捷键定义杂乱无章，不方便记忆；当结果有多个条目时，它默认使用 Vim 的 Quickfix 窗口，也不方便查询。&lt;/p&gt;
+
+&lt;p&gt;对于后者， 自然而然就会想到 FZF 这把犀利的瑞士军刀。Google 之后，发现早就有人想到这点，已经做了一个插件：&lt;a href=&quot;https://github.com/ojroques/nvim-lspfuzzy&quot;&gt;nvim-lspfuzzy&lt;/a&gt;。这个插件让 NeoVim 把 LSP 的结果列表使用 FZF 来显示，并可进行高效筛选以及代码跳转。这是它的 demo 演示：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://github.com/ojroques/nvim-lspfuzzy/raw/main/demo.gif&quot; alt=&quot;https://github.com/ojroques/nvim-lspfuzzy/raw/main/demo.gif&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;参照其文档安装好之后，在&lt;code&gt;~/.config/nvim/init.nvim&lt;/code&gt;中添加一行配置：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;require('lspfuzzy').setup {}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后我在&lt;code&gt;.vimrc&lt;/code&gt;中做了这样的 Keybinding 设定：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;nnoremap &amp;lt;silent&amp;gt;&amp;lt;leader&amp;gt;ls &amp;lt;cmd&amp;gt;lua vim.lsp.buf.document_symbol()&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;silent&amp;gt;&amp;lt;leader&amp;gt;ll &amp;lt;cmd&amp;gt;lua vim.lsp.buf.references()&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;silent&amp;gt;&amp;lt;leader&amp;gt;lg &amp;lt;cmd&amp;gt;lua vim.lsp.buf.definition()&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;silent&amp;gt;&amp;lt;leader&amp;gt;la &amp;lt;cmd&amp;gt;lua vim.lsp.buf.code_action()&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;silent&amp;gt;&amp;lt;leader&amp;gt;l; &amp;lt;cmd&amp;gt;lua vim.lsp.diagnostic.goto_prev()&amp;lt;CR&amp;gt;
+nnoremap &amp;lt;silent&amp;gt;&amp;lt;leader&amp;gt;l, &amp;lt;cmd&amp;gt;lua vim.lsp.diagnostic.goto_next()&amp;lt;CR&amp;gt;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;可以看到，我把全部快捷键都定义为以&lt;code&gt;&amp;lt;leader&amp;gt;l&lt;/code&gt;开头，这样即有规律，便于记忆了。而 FZF 的加持更是如虎添翼，写起代码来行云流水，流畅自如。&lt;/p&gt;
+
+&lt;p&gt;下一篇再介绍另一个很棒的 LSP 插件，让人写起代码来更加赏心悦目😄&lt;/p&gt;
+</description>
+        <pubDate>Sat, 06 Mar 2021 00:00:00 +0000</pubDate>
+        <link>/2021/03/neovim-builtin-lsp-keymappings/</link>
+        <guid isPermaLink="true">/2021/03/neovim-builtin-lsp-keymappings/</guid>
+        
+        <category>neovim</category>
+        
+        
+        <category>Tool</category>
+        
+      </item>
+    
+      <item>
+        <title>NeoVim Builtin LSP的基本配置</title>
+        <description>&lt;p&gt;上一篇博客说过，现在官方对 NeoVim Builtin LSP 的配置已经做到了足够简洁易用的地步。这一篇就来看看怎样按照 NeoVim 官方的说明，一步一步把 LSP 给配置为可用于实际开发中。&lt;/p&gt;
+
+&lt;p&gt;为了简化 LSP 的安装和配置，NeoVim 官方专门创建了 &lt;a href=&quot;https://github.com/neovim/nvim-lspconfig&quot;&gt;nvim-lspconfig&lt;/a&gt; 插件来帮助我们。这个插件把所有 LSP 背后的繁琐都封装到其内部，让使用者再也毋需担心出现费了大半天功夫结果仍然无法用起来的事。&lt;/p&gt;
+
+&lt;p&gt;我自己的日常开发工作中主要会用到 Ruby、JavaScript 和 Golang 这几种编程语言，所以当然就需要把 NeoVim 的 LSP 配置为支持它们了。&lt;/p&gt;
+
+&lt;p&gt;首先，安装好 nvim-lspconfig 插件：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;Plug 'neovim/nvim-lspconfig'
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;然后，按照 nvim-lspconfig 的文档说明，打开&lt;code&gt;~/.config/nvim/init.vim&lt;/code&gt;，在其中添加如下配置：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-lua&quot;&gt;lua &amp;lt;&amp;lt; EOF
+require'lspconfig'.solargraph.setup{}
+require'lspconfig'.tsserver.setup{}
+require'lspconfig'.gopls.setup{}
+EOF
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;接下来的步骤是……没了！😄&lt;/p&gt;
+
+&lt;p&gt;我的 Ruby、JavaScript 和 Golang 三种语言在 NeoVim 上的 LSP 支持就此完成！&lt;/p&gt;
+
+&lt;p&gt;当然了，全部工作其实还没完。但 NeoVim 层面的部分确实已经结束了，算是足够简洁了吧？&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;上面我都是使用了 nvim-lspconfig 的默认配置，因为足够了。但如果你想要针对每种语言单独做一些特别的设置，那么可以参考 nvim-lspconfig 的&lt;a href=&quot;https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md&quot;&gt;这个文档&lt;/a&gt;。&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;接下来，我还需要在自己系统上把上述三种语言的 LSP Server 安装上，然后 NeoVim 以上所配置好的 LSP Client 就可以正确地连接上它们。&lt;/p&gt;
+
+&lt;p&gt;Ruby 的  LSP Server 我使用 Solargraph，通过 Gem 安装：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;gem install solargraph
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;JavaScript 的  LSP Server 我使用 tsserver，通过 npm 安装：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;npm install -g typescript typescript-language-server
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Golang 的  LSP Server 我使用 gopls，通过 go mod 安装：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;go get golang.org/x/tools/gopls@latest
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;全部装好之后，用 NeoVim 打开一个上述三种语言的任意一个项目的代码文件，在 Vim 命令行模式下输入&lt;code&gt;:LspInfo&lt;/code&gt;，回车，应该就可以看到所有配置成功的 LSP 信息了。&lt;/p&gt;
+
+</description>
+        <pubDate>Sat, 27 Feb 2021 00:00:00 +0000</pubDate>
+        <link>/2021/02/neovim-builtin-lsp-basic-configuration/</link>
+        <guid isPermaLink="true">/2021/02/neovim-builtin-lsp-basic-configuration/</guid>
+        
+        <category>neovim</category>
+        
+        
+        <category>Tool</category>
+        
+      </item>
+    
+  </channel>
+</rss>

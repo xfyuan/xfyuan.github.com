@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>在 Rails 6 中整合 Stimulus 和 Tailwind CSS | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>在 Rails 6 中整合 Stimulus 和 Tailwind CSS | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="在 Rails 6 中整合 Stimulus 和 Tailwind CSS" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="上一篇博客提到了 Stimulus。Stimulus 也是 Basecamp 开源发布的一个前端 JS 方案（我个人认为，跟 React、Vuejs这些 JS 框架相比，Stimulus 应该还称不上是一个框架）。Stimulus 的文档很简单，主要就 Handbook 和 Reference 两部分，基本两个小时就能看完。" />
+<meta property="og:description" content="上一篇博客提到了 Stimulus。Stimulus 也是 Basecamp 开源发布的一个前端 JS 方案（我个人认为，跟 React、Vuejs这些 JS 框架相比，Stimulus 应该还称不上是一个框架）。Stimulus 的文档很简单，主要就 Handbook 和 Reference 两部分，基本两个小时就能看完。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a017.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-05T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-07-05T00:00:00+00:00","datePublished":"2020-07-05T00:00:00+00:00","description":"上一篇博客提到了 Stimulus。Stimulus 也是 Basecamp 开源发布的一个前端 JS 方案（我个人认为，跟 React、Vuejs这些 JS 框架相比，Stimulus 应该还称不上是一个框架）。Stimulus 的文档很简单，主要就 Handbook 和 Reference 两部分，基本两个小时就能看完。","url":"/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a017.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"在 Rails 6 中整合 Stimulus 和 Tailwind CSS","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">在 Rails 6 中整合 Stimulus 和 Tailwind CSS</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-07-05">05 Jul 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a017.jpg" alt="在 Rails 6 中整合 Stimulus 和 Tailwind CSS">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>上一篇博客提到了 Stimulus。Stimulus 也是 Basecamp 开源发布的一个前端 JS 方案（我个人认为，跟 React、Vuejs这些 JS 框架相比，Stimulus 应该还称不上是一个框架）。Stimulus 的文档很简单，主要就 <a href="https://stimulusjs.org/handbook/introduction">Handbook</a> 和 <a href="https://stimulusjs.org/reference/controllers">Reference</a> 两部分，基本两个小时就能看完。</p>
+
+<p>Tailwind CSS 则是目前很火的一个 CSS 库，我个人很看好。它有点类似著名的 Bootstrap 框架，但又有显著不同。简单地说，Tailwind CSS 是一个让你能不写 CSS 就能实现 CSS 效果的一个 CSS 工具库。Tailwind CSS 的具体优点，我准备以后用专门的文章进行介绍，本文不做过多展开。</p>
+
+<p>所以，本文就来看下在 Rails 6 中如何集成 Stimulus 和 Tailwind CSS 并进行简单地使用。</p>
+
+<p>首先，当然是使用</p>
+
+<pre><code class="language-ruby">rails new stw_demo -d postgresql
+</code></pre>
+
+<p>来创建一个新 Rails 项目，并进行常规的<code>database.yml</code>、<code>Gemfile</code>等配置，这里不做赘述了。</p>
+
+<h3 id="集成-stimulus-并创建一个小的-demo">集成 Stimulus 并创建一个小的 Demo</h3>
+
+<p>然后，运行如下命令来安装 Stimulus</p>
+
+<pre><code class="language-ruby">rails webpacker:install:stimulus
+</code></pre>
+
+<p>修改<code>config/routes.rb</code>为</p>
+
+<pre><code class="language-ruby">root to: 'home#index'
+</code></pre>
+
+<p>修改<code>app/controllers/home_controller.rb</code>为</p>
+
+<pre><code class="language-ruby">class HomeController &lt; ApplicationController
+  def index
+  end
+end
+</code></pre>
+
+<p>修改<code>app/views/home/index.html.erb</code>为</p>
+
+<pre><code class="language-erb">&lt;div data-controller="hello"&gt;
+  &lt;h3&gt; Default text when connect stimulus: &lt;/h3&gt;
+  &lt;span data-target="hello.output"&gt;&lt;/span&gt;
+
+  &lt;h3&gt; disply text when click button: &lt;/h3&gt;
+  &lt;div&gt;
+  &lt;button data-action="click-&gt;hello#sayHello"&gt;Say Hello!&lt;/button&gt;
+  &lt;span data-target="hello.sayResult"&gt;123&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>修改<code>app/javascript/controllers/hello_controller.js</code>为</p>
+
+<pre><code class="language-javascript">import { Controller } from "stimulus"
+
+export default class extends Controller {
+  static targets = [ "output", "sayResult" ]
+
+  connect() {
+    this.outputTarget.textContent = 'Welcome, Stimulus!'
+  }
+  sayHello() {
+    this.sayResultTarget.textContent = 'Hello, Stimulus!'
+  }
+}
+</code></pre>
+
+<p>修改<code>app/javascript/controllers/index.js</code>为</p>
+
+<pre><code class="language-javascript">import { Application } from "stimulus"
+import { definitionsFromContext } from "stimulus/webpack-helpers"
+
+const application = Application.start()
+const context = require.context("controllers", true, /_controller\.js$/)
+application.load(definitionsFromContext(context))
+</code></pre>
+
+<p>然后运行<code>rails s</code>，浏览器打开<code>http://localhost:3000</code>，即可体验 Stimulus 的实际效果了。</p>
+
+<h3 id="集成-tailwind-css">集成 Tailwind CSS</h3>
+
+<p>使用 yarn 进行安装</p>
+
+<pre><code class="language-sh">yarn add tailwindcss
+yarn add @tailwindcss/ui
+</code></pre>
+
+<p>生成 tailwind 的配置文件</p>
+
+<pre><code class="language-sh">npx tailwindcss init
+</code></pre>
+
+<p>这会在项目根目录下生成一个<code>tailwind.config.js</code>，加入下面内容</p>
+
+<pre><code class="language-javascript">module.exports = {
+  purge: [],
+  theme: {
+    extend: {},
+  },
+  variants: {},
+  plugins: [],
+}
+</code></pre>
+
+<p>然后，对根目录下的<code>postcss.config.js</code>进行修改，加入</p>
+
+<pre><code class="language-javascript">require('tailwindcss'),
+require('autoprefixer'),
+</code></pre>
+
+<p><code>postcss.config.js</code>最终是这样</p>
+
+<pre><code class="language-javascript">module.exports = {
+  plugins: [
+    require('postcss-import'),
+    require('tailwindcss'),
+    require('autoprefixer'),
+    require('postcss-flexbugs-fixes'),
+    require('postcss-preset-env')({
+      autoprefixer: {
+        flexbox: 'no-2009'
+      },
+      stage: 3
+    })
+  ]
+}
+</code></pre>
+
+<p>再在<code>app/javascript</code>下创建一个名为<code>stylesheets</code>的目录，并在其下创建一个<code>application.scss</code>文件</p>
+
+<pre><code class="language-css">@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+</code></pre>
+
+<p>然后在<code>app/javascript/packs/application.js</code>内添加如下几行</p>
+
+<pre><code class="language-javascript">require('stylesheets/application.scss')
+</code></pre>
+
+<p><code>app/javascript/packs/application.js</code>最终看起来是这样</p>
+
+<pre><code class="language-javascript">require("@rails/ujs").start()
+require("turbolinks").start()
+require("channels")
+import '../stylesheets/application.scss'
+</code></pre>
+
+<p>至此，Tailwind CSS 就可以在 Rails 中使用了。来试试把前面的 Home index 页面应用上，把其 erb 文件改为如下</p>
+
+<pre><code class="language-erb">&lt;div class="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8" data-controller="hello"&gt;
+  &lt;!-- Replace with your content --&gt;
+  &lt;div class="px-4 py-6 sm:px-0"&gt;
+    &lt;div class="border-4 border-gray-200 border-dashed rounded-lg h-96"&gt;
+      &lt;div&gt;
+        Default text when connect stimulus:
+        &lt;span data-target="hello.output"&gt;&lt;/span&gt;
+      &lt;/div&gt;
+
+      &lt;div&gt;
+        disply text when click button:
+        &lt;button class="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700" data-action="click-&gt;hello#sayHello"&gt;Say Hello!&lt;/button&gt;
+        &lt;span data-target="hello.sayResult"&gt;123&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- /End replace --&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>运行<code>rails s</code>，访问<code>http://localhost:3000</code>，应该就可以看到效果了。</p>
+
+<h3 id="加入-alpinejs">加入 Alpine.js</h3>
+
+<p>Tailwind CSS 只是一个工具库，并未提供现成的页面模块可以参考。不过不要紧，他们已经推出了 Tailwind-UI 的库，已经包含了这些内容，比如常见的页面布局，Header 设计，以及 Navigation 菜单等。因为这些需要一些简单 JS 的配合，Tailwind 官方文档里推荐了 Alpine.js 的库作为辅助。我们来把这些加入到项目中，以便快速实现一个不错的页面布局。</p>
+
+<p>安装 Alpine.js</p>
+
+<pre><code class="language-sh">yarn add alpinejs
+</code></pre>
+
+<p>在<code>app/javascript/packs/application.js</code>内加入这行</p>
+
+<pre><code class="language-javascript">require("alpinejs")
+</code></pre>
+
+<p>然后，修改<code>app/views/layouts/application.html.erb</code>为如下：</p>
+
+<pre><code class="language-erb">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;STW Demo&lt;/title&gt;
+    &lt;%= csrf_meta_tags %&gt;
+    &lt;%= csp_meta_tag %&gt;
+
+    &lt;%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %&gt;
+    &lt;%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;div&gt;
+      &lt;nav x-data="{ open: false }" @keydown.window.escape="open = false" class="bg-gray-800"&gt;
+        &lt;div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8"&gt;
+          &lt;div class="flex items-center justify-between h-16"&gt;
+            &lt;div class="flex items-center"&gt;
+              &lt;div class="flex-shrink-0"&gt;
+                &lt;h3 class="text-lg text-gray-300 "&gt;MyApp&lt;/h3&gt;
+              &lt;/div&gt;
+              &lt;div class="hidden md:block"&gt;
+                &lt;div class="flex items-baseline ml-10"&gt;
+                  &lt;a href="#" class="px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-md focus:outline-none focus:text-white focus:bg-gray-700"&gt;Dashboard&lt;/a&gt;
+                  &lt;a href="#" class="px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Team&lt;/a&gt;
+                  &lt;a href="#" class="px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Projects&lt;/a&gt;
+                  &lt;a href="#" class="px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Calendar&lt;/a&gt;
+                  &lt;a href="#" class="px-3 py-2 ml-4 text-sm font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Reports&lt;/a&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="hidden md:block"&gt;
+              &lt;div class="flex items-center ml-4 md:ml-6"&gt;
+                &lt;button class="p-1 text-gray-400 border-2 border-transparent rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700"&gt;
+                  &lt;svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"&gt;
+                    &lt;path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /&gt;
+                  &lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;div @click.away="open = false" class="relative ml-3" x-data="{ open: false }"&gt;
+                  &lt;div&gt;
+                    &lt;button @click="open = !open" class="flex items-center max-w-xs text-sm text-white rounded-full focus:outline-none focus:shadow-solid"&gt;
+                      &lt;img class="w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="" /&gt;
+                    &lt;/button&gt;
+                  &lt;/div&gt;
+                  &lt;div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute right-0 w-48 mt-2 shadow-lg origin-top-right rounded-md"&gt;
+                    &lt;div class="py-1 bg-white rounded-md shadow-xs"&gt;
+                      &lt;a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"&gt;Your Profile&lt;/a&gt;
+                      &lt;a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"&gt;Settings&lt;/a&gt;
+                      &lt;a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"&gt;Sign out&lt;/a&gt;
+                    &lt;/div&gt;
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="flex -mr-2 md:hidden"&gt;
+              &lt;button @click="open = !open" class="inline-flex items-center justify-center p-2 text-gray-400 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white"&gt;
+                &lt;svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24"&gt;
+                  &lt;path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /&gt;
+                  &lt;path :class="{'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /&gt;
+                &lt;/svg&gt;
+              &lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div :class="{'block': open, 'hidden': !open}" class="hidden md:hidden"&gt;
+          &lt;div class="px-2 pt-2 pb-3 sm:px-3"&gt;
+            &lt;a href="#" class="block px-3 py-2 text-base font-medium text-white bg-gray-900 rounded-md focus:outline-none focus:text-white focus:bg-gray-700"&gt;Dashboard&lt;/a&gt;
+            &lt;a href="#" class="block px-3 py-2 mt-1 text-base font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Team&lt;/a&gt;
+            &lt;a href="#" class="block px-3 py-2 mt-1 text-base font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Projects&lt;/a&gt;
+            &lt;a href="#" class="block px-3 py-2 mt-1 text-base font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Calendar&lt;/a&gt;
+            &lt;a href="#" class="block px-3 py-2 mt-1 text-base font-medium text-gray-300 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Reports&lt;/a&gt;
+          &lt;/div&gt;
+          &lt;div class="pt-4 pb-3 border-t border-gray-700"&gt;
+            &lt;div class="flex items-center px-5"&gt;
+              &lt;div class="flex-shrink-0"&gt;
+                &lt;img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80" alt="" /&gt;
+              &lt;/div&gt;
+              &lt;div class="ml-3"&gt;
+                &lt;div class="text-base font-medium leading-none text-white"&gt;Tom Cook&lt;/div&gt;
+                &lt;div class="mt-1 text-sm font-medium leading-none text-gray-400"&gt;tom@example.com&lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+            &lt;div class="px-2 mt-3"&gt;
+              &lt;a href="#" class="block px-3 py-2 text-base font-medium text-gray-400 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Your Profile&lt;/a&gt;
+              &lt;a href="#" class="block px-3 py-2 mt-1 text-base font-medium text-gray-400 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Settings&lt;/a&gt;
+              &lt;a href="#" class="block px-3 py-2 mt-1 text-base font-medium text-gray-400 rounded-md hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700"&gt;Sign out&lt;/a&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/nav&gt;
+      &lt;header class="bg-white shadow"&gt;
+        &lt;div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8"&gt;
+          &lt;h2 class="text-3xl font-bold leading-tight text-gray-900"&gt;
+            Dashboard
+          &lt;/h2&gt;
+        &lt;/div&gt;
+      &lt;/header&gt;
+
+      &lt;main&gt;
+      &lt;%= yield %&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>再次运行<code>rails s</code>，访问<code>http://localhost:3000</code>，可以看到出现的常规页面布局，顶部右侧的头像点击可以弹出菜单。</p>
+
+<h3 id="最后的优化设计加入自定义字体">最后的优化设计（加入自定义字体）</h3>
+
+<p>我们有时希望使用更独特优美的字体来作为默认字体，以此增强页面的显示效果。下面我们来加入目前有点流行的 Inter 字体。</p>
+
+<p>安装字体</p>
+
+<pre><code class="language-sh">yarn add 'typeface-inter'
+</code></pre>
+
+<p>然后需要告诉 Tailwind CSS 使用这个字体。首先，修改<code>app/javascript/packs/application.js</code>加入下面这行</p>
+
+<pre><code class="language-javascript">require('typeface-inter')
+</code></pre>
+
+<p>再修改<code>tailwind.config.js</code>为</p>
+
+<pre><code class="language-javascript">module.exports = {
+  theme: {
+    fontFamily: {
+      body: ['inter']
+    },
+    extend: {},
+  },
+  variants: {},
+  plugins: [],
+}
+</code></pre>
+
+<p>最后，需要修改上面的<code>application.scss</code>为如下以应用新字体</p>
+
+<pre><code class="language-css">@import "tailwindcss/base";
+html {
+  @apply font-body;
+}
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+</code></pre>
+
+<p>这样，我们就搭建好了一个集成 Stimulus + Tailwind CSS + Tailwind UI + Alpine.js 的 Rails 项目基础，而且应用了自定义的 Inter 字体。接下来，就可以在这个基础上进行开发了。</p>
+
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=在 Rails 6 中整合 Stimulus 和 Tailwind CSS&url=/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rails">rails</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#ruby">ruby</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#stimulus">stimulus</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#tailwindcss">tailwindcss</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

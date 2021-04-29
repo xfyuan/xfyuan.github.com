@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Hotwire之使用Turbo Drive导航 | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Hotwire之使用Turbo Drive导航 | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Hotwire之使用Turbo Drive导航" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="本文是对 Turbo Drive 的详细说明，原文出自：https://turbo.hotwire.dev/handbook/drive。" />
+<meta property="og:description" content="本文是对 Turbo Drive 的详细说明，原文出自：https://turbo.hotwire.dev/handbook/drive。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_140448.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-03-13T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2021-03-13T00:00:00+00:00","datePublished":"2021-03-13T00:00:00+00:00","description":"本文是对 Turbo Drive 的详细说明，原文出自：https://turbo.hotwire.dev/handbook/drive。","url":"/2021/03/hotwire-turbo-drive/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_140448.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2021/03/hotwire-turbo-drive/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"Hotwire之使用Turbo Drive导航","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">Hotwire之使用Turbo Drive导航</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2021-03-13">13 Mar 2021</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_140448.jpg" alt="Hotwire之使用Turbo Drive导航">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>本文是对 Turbo Drive 的详细说明，原文出自：<a href="https://turbo.hotwire.dev/handbook/drive">https://turbo.hotwire.dev/handbook/drive</a>。</p>
+
+<p>Turbo Drive 是 Turbo 的一部分，用于增强页面级别的导航。它监控着点击链接和表单提交，使其在后台执行，并更新页面而无需做全页面的重载。它是<a href="https://github.com/turbolinks/turbolinks">Turbolinks</a> 库的进化版本。</p>
+
+<h2 id="page-navigation-basics">Page Navigation Basics</h2>
+
+<p>Turbo Drive 把页面导航建模为使用一种行为对一个页面位置（URL）的访问。</p>
+
+<p>这种访问展现了从点击到渲染的整个导航生命周期，包含更改浏览器访问历史，发出网络请求，从缓存中恢复一个页面的拷贝，渲染最终的响应，以及更新页面滚动的位置。</p>
+
+<p>有两种类型的访问：一种是 <em>application</em> 访问，其行为是 <em>advance</em> 或 <em>replace</em>。而另一种是 <em>restoration</em> 访问，其行为是 <em>restore</em>。</p>
+
+<h2 id="application-visits">Application Visits</h2>
+
+<p>Application 访问由一个启用 Turbo Drive 的链接，或者程序中调用<code>Turbo.visit(location)</code>，而被初始化的。</p>
+
+<p>一个 application 访问总是会发出一个网络请求。当响应返回，Turbo Drive 就渲染其页面并结束这次访问。</p>
+
+<p>可能的话，Turbo Drive 会在访问开始时立即从缓存中渲染一个页面的预览。这就提高了在相同页面间频繁导航的感知速度。</p>
+
+<p>如果访问的位置包含一个锚点，Turbo Drive 会尝试滚动到所锚住的元素。否则，会滚动到页面顶部。</p>
+
+<p>Application 访问会导致浏览器访问历史的变更，而访问的行为决定了该变更是怎样的。</p>
+
+<p><img src="https://s3.amazonaws.com/turbolinks-docs/images/advance.svg" alt="https://s3.amazonaws.com/turbolinks-docs/images/advance.svg" /></p>
+
+<p>默认的访问行为是 <em>advance</em>。在一次 advance 访问期间，Turbo Drive 使用<code>history.pushState</code>向浏览器访问历史推入一个新条目。</p>
+
+<p>使用 Turbo Drive 的 <a href="https://github.com/hotwired/turbo-ios">iOS adapter</a> 的应用程序通常处理 advance 访问是推入一个新的 view controller 到导航堆栈之上。类似地，使用 <a href="https://github.com/hotwired/turbo-android">Android adapter</a> 的应用程序通常是推入一个新的 activity 到 back stack 之上。</p>
+
+<p><img src="https://s3.amazonaws.com/turbolinks-docs/images/replace.svg" alt="https://s3.amazonaws.com/turbolinks-docs/images/replace.svg" /></p>
+
+<p>你可能想要访问一个位置而不推入一个新访问历史条目到历史堆栈之上。<em>replace</em> 行为使用<code>history.replaceState</code>来丢弃最顶层的历史条目，并以新的位置来替换它。</p>
+
+<p>要指定如下链接能触发一个 replace 访问，以<code>data-turbo-action="replace"</code>注释链接即可：</p>
+
+<pre><code class="language-html">&lt;a href="/edit" data-turbo-action="replace"&gt;Edit&lt;/a&gt;
+</code></pre>
+
+<p>要在程序中以 replace 行为访问一个位置，把<code>action: "replace"</code>选项传入<code>Turbo.visit</code>即可：</p>
+
+<pre><code class="language-javascript">Turbo.visit("/edit", { action: "replace" })
+</code></pre>
+
+<p>使用 Turbo Drive 的 <a href="https://github.com/hotwired/turbo-ios">iOS adapter</a> 的应用程序通常处理 replace 访问是放弃最顶层的 view controller 并推入一个新的 view controller 到导航堆栈之上，不带动画的方式。</p>
+
+<h2 id="restoration-visits">Restoration Visits</h2>
+
+<p>当你使用浏览器的后退或前进按钮导航时，Turbo Drive 会自动初始化一个复位访问。使用 <a href="https://github.com/hotwired/turbo-ios">iOS</a> 或 <a href="https://github.com/hotwired/turbo-android">Android</a> adapters 的应用程序在导航堆栈中后移时会初始化一个复位访问。</p>
+
+<p><img src="https://s3.amazonaws.com/turbolinks-docs/images/restore.svg" alt="https://s3.amazonaws.com/turbolinks-docs/images/restore.svg" /></p>
+
+<p>可能的话，Turbo Drive 就从缓存中渲染一个页面的拷贝而不发出请求。否则，它将会通过网络获取一个页面的全新拷贝。查看下面的 Understanding Caching 以了解更多细节。</p>
+
+<p>Turbo Drive 在导航离开每个页面时都会记住其滚动位置，在复位访问时会自动滚动回该位置处。</p>
+
+<p>复位访问有一个 <em>restore</em> 行为，Turbo Drive 预留它们是为了内部使用。你无需尝试使用<code>restore</code>的行为来注释链接或执行<code>Turbo.visit</code>。</p>
+
+<h2 id="canceling-visits-before-they-start">Canceling Visits Before They Start</h2>
+
+<p>Application 访问在其开始之前是可以被取消的，而不管它们是由点击链接还是由调用<code>Turbo.visit</code>来初始化的。</p>
+
+<p>在访问开始的时候监听<code>turbo:before-visit</code>事件，并使用<code>event.detail.url</code>（使用 jQuery 时是<code>$event.originalEvent.detail.url</code>）来检查访问的位置。然后通过调用<code>event.preventDefault()</code>来取消访问。</p>
+
+<p>复位访问不能被取消，且不会触发<code>turbo:before-visit</code>。Turbo Drive 发出复位访问来响应对已有的历史记录进行导航，通常是通过浏览器的后退或前进按钮。</p>
+
+<h2 id="disabling-turbo-drive-on-specific-links-or-forms">Disabling Turbo Drive on Specific Links or Forms</h2>
+
+<p>可以禁用一个元素的Turbo Drive，通过在它或其上级元素上添加<code>data-turbo="fale"</code>的方式。</p>
+
+<pre><code class="language-html">&lt;a href="/" data-turbo="false"&gt;Disabled&lt;/a&gt;
+
+&lt;form action="/messages" method="post" data-turbo="false"&gt;
+  ...
+&lt;/form&gt;
+
+&lt;div data-turbo="false"&gt;
+  &lt;a href="/"&gt;Disabled&lt;/a&gt;
+  &lt;form action="/messages" method="post"&gt;
+    ...
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>在上级元素已禁用时要重新启用，使用<code>data-turbo="true"</code>：</p>
+
+<pre><code class="language-html">&lt;div data-turbo="false"&gt;
+  &lt;a href="/" data-turbo="true"&gt;Enabled&lt;/a&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>禁用了 Turbo Drive 的链接和表单仍然会被浏览器正常处理。</p>
+
+<h2 id="displaying-progress"><a href="https://turbo.hotwire.dev/handbook/drive#displaying-progress">﹟</a>Displaying Progress</h2>
+
+<p>在 Turbo Drive 导航期间，浏览器将不会展示其原生的进度条了。Turbo Drive 安装了一个基于 CSS 的进度条来在发出请求时给以反馈。</p>
+
+<p>该进度条默认是启用的。它对任何载入时间超过 500 ms 的页面都会自动显示。（你可以使用<code>Turbo.setProgressBarDelay</code>方法修改这个值。）</p>
+
+<p>该进度条是一个<code>&lt;div&gt;</code>元素，其 class 名为<code>turbo-progress-bar</code>。它的默认样式会首先呈现于 document，且可以被之后的规则所覆盖。</p>
+
+<p>例如，下面的 CSS 将会呈现一个绿色的窄进度条：</p>
+
+<pre><code class="language-css">.turbo-progress-bar {
+  height: 5px;
+  background-color: green;
+}
+</code></pre>
+
+<p>要完全禁用该进度条，把其<code>visibility</code>样式设为<code>hidden</code>：</p>
+
+<pre><code class="language-css">.turbo-progress-bar {
+  visibility: hidden;
+}
+</code></pre>
+
+<h2 id="reloading-when-assets-change">Reloading When Assets Change</h2>
+
+<p>Turbo Drive 可以在一个页面到另一个页面时跟踪<code>&lt;head&gt;</code>中的 asset 元素的 URL，如果它们有所变动则自动请求一次全量重载。这确保了用户始终会拥有你应用程序的 script 和 style 的最新版本。</p>
+
+<p>使用<code>data-turbo-track="reload"</code>注释 asset 元素并在 asset URL 中包含一个版本标识符。该标识符可以是一个数字，一个最近修改的时间戳，或者更好点，一个 asset 内容的 digest，类似如下：</p>
+
+<pre><code class="language-html">&lt;head&gt;
+  ...
+  &lt;link rel="stylesheet" href="/application-258e88d.css" data-turbo-track="reload"&gt;
+  &lt;script src="/application-cbd3cd4.js" data-turbo-track="reload"&gt;&lt;/script&gt;
+&lt;/head&gt;
+</code></pre>
+
+<h2 id="ensuring-specific-pages-trigger-a-full-reload">Ensuring Specific Pages Trigger a Full Reload</h2>
+
+<p>你可以通过在页面的<code>&lt;head&gt;</code>中包含一个<code>&lt;meta name="turbo-visit-control"&gt;</code>元素来确保在访问某个页面时始终会触发一次全量重载。</p>
+
+<pre><code class="language-html">&lt;head&gt;
+  ...
+  &lt;meta name="turbo-visit-control" content="reload"&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>这个设置可能在第三方 JavaScript 库不能很好地跟 Turbo Drive 页面变更进行交互时是一个有用的解决方案。</p>
+
+<h2 id="setting-a-root-location">Setting a Root Location</h2>
+
+<p>默认情况下，Turbo Drive 只会加载同源 URL——比如，跟当前页面相同的协议，域名，端口。访问任何其他 URL 都会导致一次全量的页面加载。</p>
+
+<p>有些场景中，你可能想要进一步定义 Turbo Drive 到同源的一个 path 上。例如，如果你的 Turbo Drive 应用位于<code>/app</code>，而非 Turbo Drive 的帮助站点位于<code>/help</code>，从前者到后者的链接不应该使用 Turbo Drive。</p>
+
+<p>在页面的<code>&lt;head&gt;</code>中包含一个<code>&lt;meta name="turbo-root"&gt;</code>元素以定义 Turbo Drive 到特定的 root 位置。Turbo Drive 将只加载那个 path 前缀的同源 URL。</p>
+
+<pre><code class="language-html">&lt;head&gt;
+  ...
+  &lt;meta name="turbo-root" content="/app"&gt;
+&lt;/head&gt;
+</code></pre>
+
+<h2 id="redirecting-after-a-form-submission">Redirecting After a Form Submission</h2>
+
+<p>Turbo Drive 以一种类似于链接点击的方式处理表单提交。关键区别是表单提交可以使用 HTTP POST 方法发出有状态的请求，而链接点击只会发出无状态的 HTTP GET 请求。</p>
+
+<p>在有状态的表单提交后，Turbo Drive 期望服务端返回一个 <a href="https://en.wikipedia.org/wiki/HTTP_303">HTTP 303 redirect response</a>，其将被用以导航和页面更新而无需重载。</p>
+
+<p>这条规则的例外情况是当响应是 4xx 或 5xx 的时候。这可以让服务端响应为<code>422 Unprocessable Entity</code>时呈现表单的校验错误，以及响应为<code>500 Internal Server Error</code>时显示服务端出错了。</p>
+
+<p>Turbo 不允许对于 200 的常规渲染的原因是浏览器已有内置的行为来处理 POST 访问的重载，会展示一个“你确认想要重新提交表单吗？”的对话框，这是 Turbo 无法复制的。相反，Turbo 会在一个表单提交后尝试渲染页面时驻留在当前 URL 上，而不是变更到表单的 action，因为重载会发出到那个 action 所指向 URL 的一个 GET 请求，而该 URL 甚至可能根本不存在。</p>
+
+<h2 id="streaming-after-a-form-submission">Streaming After a Form Submission</h2>
+
+<p>服务端也可以借助 <a href="https://turbo.hotwire.dev/handbook/streams">Turbo Streams</a> 消息，通过发送 header <code>Content-Type: text/vnd.turbo-stream.html</code>，然后在响应内容中包含一个或多个<code>&lt;turbo-stream&gt;</code>元素，来响应表单提交，这让你可以无需导航即可更新页面的多个部分。</p>
+
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Hotwire之使用Turbo Drive导航&url=/2021/03/hotwire-turbo-drive/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2021/03/hotwire-turbo-drive/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2021/03/hotwire-turbo-drive/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#hotwire">hotwire</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rails">rails</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#turbo">turbo</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

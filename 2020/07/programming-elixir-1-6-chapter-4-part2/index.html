@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>《Programming Elixir >= 1.6》第四章：基本语法（节选二） | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>《Programming Elixir &gt;= 1.6》第四章：基本语法（节选二） | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="《Programming Elixir &gt;= 1.6》第四章：基本语法（节选二）" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="这是《Programming Elixir &gt;= 1.6》第四章的第二部分。不多说了，直接上正文吧。" />
+<meta property="og:description" content="这是《Programming Elixir &gt;= 1.6》第四章的第二部分。不多说了，直接上正文吧。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a015.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-03T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-07-03T00:00:00+00:00","datePublished":"2020-07-03T00:00:00+00:00","description":"这是《Programming Elixir &gt;= 1.6》第四章的第二部分。不多说了，直接上正文吧。","url":"/2020/07/programming-elixir-1-6-chapter-4-part2/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a015.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/07/programming-elixir-1-6-chapter-4-part2/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"《Programming Elixir &gt;= 1.6》第四章：基本语法（节选二）","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">《Programming Elixir >= 1.6》第四章：基本语法（节选二）</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-07-03">03 Jul 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a015.jpg" alt="《Programming Elixir >= 1.6》第四章：基本语法（节选二）">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>这是《Programming Elixir &gt;= 1.6》第四章的第二部分。不多说了，直接上正文吧。</p>
+
+<p>【下面是正文】</p>
+
+<p>（接第一部分）</p>
+
+<h3 id="binaries">Binaries</h3>
+
+<p>有时你需要以比特位（bit）和字节（byte）序列的形式访问数据。例如，JPEG 和 MP3 文件的头部就有一些字段，那里单个字节可以编码成两三个单独值。</p>
+
+<p>Elixir 通过二进制数据类型来做到这些。二进制字面量被包含在<code>&lt;&lt;</code>和<code>&gt;&gt;</code>之间。</p>
+
+<p>基本的语法是将连续的整数转成字节：</p>
+
+<pre><code class="language-elixir">iex&gt; bin = &lt;&lt; 1, 2 &gt;&gt;
+&lt;&lt;1, 2&gt;&gt;
+iex&gt; byte_size bin
+2
+</code></pre>
+
+<p>你可以添加修饰符来控制每个字段的类型和大小。下面的例子是一个单字节包含三个字段，大小分别是2、4、2比特位。（示例中使用了一些内置库函数来显示二进制数据的结果）</p>
+
+<pre><code class="language-elixir">iex&gt; bin = &lt;&lt;3 :: size(2), 5 :: size(4), 1 :: size(2)&gt;&gt;
+&lt;&lt;213&gt;&gt;
+iex&gt; :io.format("~-8.2b~n", :binary.bin_to_list(bin))
+11010101
+:ok
+iex&gt; byte_size bin
+1
+</code></pre>
+
+<p>二进制数据既重要却又神秘。重要在于 Elixir 用它们来表示 UTF 字符串，神秘是因为至少在最初阶段你都不太可能直接使用它们。</p>
+
+<h3 id="dates-and-times">Dates and Times</h3>
+
+<p>Elixir 1.3 添加了一个日历（calendar）模块和四个新的日期与时间相关的类型。最初，它们只不过用来放置数据，但 Elixir 1.5 开始为它们添加一些功能。</p>
+
+<p><code>Calendar</code>模块代表了操作日期的规则。当前仅仅实现了<code>Calendar.ISO</code>，即公历的 ISO-8601 表示。</p>
+
+<p><code>Date</code>类型处理年、月、日，以及对儒略历的引用。</p>
+
+<pre><code class="language-elixir">iex&gt; d1 = Date.new(2018, 12, 25)
+{:ok, ~D[2018-12-25]}
+iex&gt; {:ok, d1} = Date.new(2018, 12, 25)
+{:ok, ~D[2018-12-25]}
+iex&gt; d2 = ~D[2018-12-25]
+~D[2018-12-25]
+iex&gt; d1 == d2
+true
+iex&gt; Date.day_of_week(d1)
+2
+iex&gt; Date.add(d1, 7)
+~D[2019-01-01]
+iex&gt; inspect d1, structs: false
+"%{__struct__: Date, calendar: Calendar.ISO, day: 25, month: 12, year: 2018}"
+</code></pre>
+
+<p>（<code>~D[…]</code>和<code>~T[…]</code>是 Elixir 中的魔符<em>sigil</em>用法。它们是一种构建值的字面量的方式。当我们读到字符串和二进制时会再遇见它们。）</p>
+
+<p>Elixir 也可以表示一个日期的范围：</p>
+
+<pre><code class="language-elixir">iex&gt; d1 = ~D[2018-01-01]
+~D[2018-01-01]
+iex&gt; d2 = ~D[2018-06-30]
+~D[2018-06-30]
+iex&gt; first_half = Date.range(d1, d2)
+#DateRange&lt;~D[2018-01-01], ~D[2018-06-30]&gt;
+iex&gt; Enum.count(first_half)
+181
+iex&gt; ~D[2018-03-15] in first_half
+true
+</code></pre>
+
+<p>时间类型处理时、分、秒，以及几分之一秒。后者存储为一个包含微秒和有效位数的元组（tuple）。（时间值与秒中有效位数相关的事实意味着<code>~T[12:34:56.0]</code>跟<code>~T[12:34:56.00]</code>是不相等的。）</p>
+
+<pre><code class="language-elixir">iex&gt; {:ok, t1} = Time.new(12, 34, 56)
+{:ok, ~T[12:34:56]}
+iex&gt; t2 = ~T[12:34:56.78]
+~T[12:34:56.78]
+iex&gt; t1 == t2
+false
+iex&gt; Time.add(t1, 3600)
+~T[13:34:56.000000]
+iex&gt; Time.add(t1, 3600, :millisecond)
+~T[12:34:59.600000]
+</code></pre>
+
+<p>一共有两种日期时间的类型：<code>DateTime</code>和<code>NaiveDateTime</code>。Naive 版本只包含日期和时间，前者则还能关联时区。<code>~N[...]</code>的魔符方式可以创建<code>NaiveDateTime</code>的结构体。</p>
+
+<p>如果你在代码中使用日期和时间，则可能需要使用第三方库，例如 Lau Taarnskov 的日历库，来扩充这些内置类型。</p>
+
+<h3 id="names-source-files-conventions-operators-and-so-on">Names, Source Files, Conventions, Operators, and So On</h3>
+
+<p>Elixir 的标识符必须以字母和下划线开头，后面可跟字母、数字和下划线。这里的字母是指任何 UTF-8 字母的字符（可带组合标记），而数字是指 UTF-8 十进制数的字符。如果你使用 ASCII，那么毋需担心。标识符可用问号或感叹号结尾。</p>
+
+<p>下面是一些合法命名的变量例子：</p>
+
+<pre><code class="language-elixir">name josé _age まつもと _42 адрес!
+</code></pre>
+
+<p>不合法命名的变量例子如下：</p>
+
+<pre><code class="language-elixir">name• a±2 42
+</code></pre>
+
+<p>模块（module）、记录（record）、协议（protocol）和行为（behavior）的名称都以大写字母开头，且是驼峰式的（如 BumpyCase）。其他标识符以小写字母或下划线开头，且惯常用下划线分隔单词。当变量首字符是下划线时，只要它在模式匹配或函数参数列表中不被使用，那么 Elixir 是允许的。</p>
+
+<p>惯例上源码文件都使用两个字符的缩进——且用 space 而非 tab。</p>
+
+<p>注释以<code>#</code>开头直至一行的结尾。</p>
+
+<p>Elixir 自带了一个代码格式化器，用来把代码转化成”统一规范”的格式。后面会提到它。本书中的很多示例都会跟随该规范（除去个别我认为有点丑陋外）。</p>
+
+<h4 id="truth">Truth</h4>
+
+<p>Elixir 有三种特别的关于布尔操作的值：<code>true</code>、<code>false</code>和<code>nil</code>。<code>nil</code>在布尔上下文中被视作 false。</p>
+
+<p>（提一下：这三种值都是相同名称的原子的别名，所以<code>true</code>就是原子<code>:true</code>。）</p>
+
+<p>大多上下文中，任何不是<code>false</code>或<code>nil</code>的值都被认为是 true。有时我们把这称为 truthy 而不叫 true。</p>
+
+<h4 id="operators">Operators</h4>
+
+<p>Elixir 有丰富的操作符。这儿只列出本书中用到的一部分：</p>
+
+<p><em>比较运算符</em></p>
+
+<pre><code class="language-elixir">a === b # strict equality (so 1 === 1.0 is false)
+a !== b # strict inequality (so 1 !== 1.0 is true)
+a == b # value equality (so 1 == 1.0 is true)
+a != b # value inequality (so 1 != 1.0 is false)
+a &gt; b # normal comparison
+a &gt;= b # :
+a &lt; b #:
+a &lt;= b #
+</code></pre>
+
+<p>Elixir中的排序比较不像许多语言那样严格，因为你可以比较不同类型的值。如果类型相同或者兼容（如<code>3 &gt; 2</code>或<code>3.0 &lt; 5</code>），比较会使用自然排序。否则会基于如下规则来比较：</p>
+
+<pre><code>number &lt; atom &lt; reference &lt; function &lt; port &lt; pid &lt; tuple &lt; map &lt; list &lt; binary
+</code></pre>
+
+<p><em>布尔运算符</em></p>
+
+<p>（操作符期望其第一个参数为 true 或者 false）</p>
+
+<pre><code class="language-elixir">a or b  # true if a is true; otherwise b
+a and b # false if a is false; otherwise b
+not a   # false if a is true; true otherwise
+</code></pre>
+
+<p><em>短路布尔运算符</em></p>
+
+<p>操作符可使用任何类型作为参数。任何不是<code>false</code>或<code>nil</code>的值都被认为是 true。</p>
+
+<pre><code class="language-elixir">a || b # a if a is truthy; otherwise b
+a &amp;&amp; b # b if a is truthy; otherwise a
+!a # false if a is truthy; otherwise true
+</code></pre>
+
+<p><em>算术运算符</em></p>
+
+<pre><code>+ - * / div rem
+</code></pre>
+
+<p>整数相除会得到一个浮点数结果。使用<code>div(a, b)</code>可得到整数。</p>
+
+<p><code>rem</code>是余数操作符，作为函数来调用（<code>rem(11, 3) =&gt; 2</code>）。它与普通模运算的不同之处在于结果与函数的第一个参数具有相同的符号。</p>
+
+<p><em>连接运算符</em></p>
+
+<pre><code class="language-elixir">binary1 &lt;&gt; binary2 # concatenates two binaries (Later we'll
+                   # see that binaries include strings.)
+list1 ++ list2     # concatenates two lists
+list1 -- list2     # removes elements of list 2 from a copy of list 1
+</code></pre>
+
+<p><code>in</code>运算符</p>
+
+<pre><code class="language-elixir">a in enum  # tests if a is included in enum (for example,
+           # a list, a range, or a map). For maps, a should
+           # be a {key, value} tuple.
+</code></pre>
+
+<h3 id="variable-scope">Variable Scope</h3>
+
+<p>Elixir 基于词法域，域的基本单元是函数体。定义在函数内部的变量（包括函数参数）都是函数的局部变量。此外，模块也定义了一个局部变量域，但这些变量只能在模块顶层访问，而不能在模块中定义的函数内访问。</p>
+
+<h4 id="do-block-scope">Do-block Scope</h4>
+
+<p>很多语言允许你把多个代码语句放到一起作为单个代码块，通常都使用大括号包起来。下面是个 C 语言的例子：</p>
+
+<pre><code class="language-c">int line_no = 50;
+/* ..... */
+if (line_no == 50) {
+  printf("new-page\f");
+  line_no = 0;
+}
+</code></pre>
+
+<p>Elixir 没有类似这样的代码块，但它用一些其他的方式来实现。最常见的是<code>do</code>代码块：</p>
+
+<pre><code class="language-elixir">line_no = 50
+# ...
+if (line_no == 50) do
+  IO.puts "new-page\f"
+  line_no = 0
+end
+IO.puts line_no
+</code></pre>
+
+<p>然而，Elixir 中这是一种危险的代码写法。特别是，很容易忘记在代码块外面初始化<code>line_no</code>，且在代码块后又依赖于<code>line_no</code>其值。这时，你会看到一个警告提示：</p>
+
+<pre><code class="language-elixir">$ elixir back_block.ex
+warning: the variable "line_no" is unsafe as it has been set inside one of: case, cond, receive, if, and, or, &amp;&amp;, ||. Please explicitly return the variable value instead. Here's an example:
+    case integer do
+      1 -&gt; atom = :one
+      2 -&gt; atom = :two
+    end
+should be written as
+    atom =
+      case integer do
+1 -&gt; :one
+2 -&gt; :two end
+Unsafe variable found at:
+  t.ex:10
+0
+</code></pre>
+
+<h4 id="the-with-expression">The with Expression</h4>
+
+<p><code>with</code>表达式有双重用途。首先，你可以用它定义一个局部变量域。当你计算某个东西需要一些临时变量，又不想让它们泄漏到外部域的时候，可以使用<code>with</code>。其次，它能让你掌控一些模式匹配失败情况的处理。例如，文件<code>/etc/passwd</code>包含这样的文本</p>
+
+<pre><code class="language-sh">_installassistant:*:25:25:Install Assistant:/var/empty:/usr/bin/false
+_lp:*:26:26:Printing Services:/var/spool/cups:/usr/bin/false
+_postfix:*:27:27:Postfix Mail Server:/var/spool/postfix:/usr/bin/false
+</code></pre>
+
+<p>行中的两个数字是对应用户的用户 ID 和组 ID。</p>
+
+<p>下面的代码是查找<code>_lp</code>用户的对应值。</p>
+
+<pre><code class="language-elixir">content = "Now is the time"
+lp = with {:ok, file} = File.open("/etc/passwd"),
+     content = IO.read(file, :all), # note: same name as above
+     :ok = File.close(file),
+     [_, uid, gid] = Regex.run(~r/^lp:.*?:(\d+):(\d+)/m, content)
+    do
+      "Group: #{gid}, User: #{uid}"
+    end
+IO.puts lp #=&gt; Group: 26, User: 26
+IO.puts content #=&gt; Now is the time
+
+</code></pre>
+
+<p><strong><em>格式化代码的比较</em></strong></p>
+
+<p><code>with</code>语句正好是 Elixir 关于代码格式化上还未取得一致的例子。如果使用其内置代码格式化器，格式化的结果是这样的。</p>
+
+<pre><code class="language-elixir">content = "Now is the time"
+lp =
+  with {:ok, file} = File.open("/etc/passwd"),
+       content = IO.read(file, :all),
+       :ok = File.close(file),
+       [_, uid, gid] = Regex.run(~r/^_lp:.*?:(\d+):(\d+)/m, content) do
+    "Group: #{gid}, User: #{uid}"
+  end
+# =&gt; Group: 26, User: 26
+IO.puts(lp)
+# =&gt; Now is the time
+IO.puts(content)
+</code></pre>
+
+<p>哪种更好我留给你来判断了。</p>
+
+<p><code>with</code>表达式让我们在打开文件、读取内容、关闭文件和查找某行时能更高效地使用临时变量。<code>with</code>中的变量被传递为后面<code>do</code>块的参数使用。</p>
+
+<p>变量<code>content</code>是<code>with</code>的局部变量，不会被在外部访问到。</p>
+
+<h4 id="with-and-pattern-matching">with and Pattern Matching</h4>
+
+<p>上面的示例中，<code>with</code>表达式的头部使用<code>=</code>来进行基本的模式匹配。其中任何一个匹配失败，都会抛出一个<code>MatchError</code>异常。但也许我们以一种更优雅的方式来处理。这里<code>&lt;-</code>就能一展身手了。如果在<code>with</code>表达式中使用<code>&lt;-</code>代替<code>=</code>，它依然进行匹配，但匹配失败时会返回无法匹配的值。</p>
+
+<pre><code class="language-elixir">iex&gt; with [a|_] &lt;- [1,2,3], do: a
+1
+iex&gt; with [a|_] &lt;- nil, do: a
+nil
+</code></pre>
+
+<p>我们来使用这种方法让上面示例的<code>with</code>语句在无法找到用户时返回<code>nil</code>而不是抛出一个异常。</p>
+
+<pre><code class="language-elixir">result = with {:ok, file} = File.open("/etc/passwd"),
+          content = IO.read(file, :all),
+          :ok = File.close(file),
+          [_, uid, gid] &lt;- Regex.run(~r/^xxx:.*?:(\d+):(\d+)/, content)
+        do
+          "Group: #{gid}, User: #{uid}"
+        end
+IO.puts inspect(result) #=&gt; nil
+
+</code></pre>
+
+<p>当我们试图匹配用户 xxx 时，<code>Regex.run</code>会返回<code>nil</code>。这使得匹配失败，<code>nil</code>成为<code>with</code>的返回值。</p>
+
+<h4 id="a-minor-gotcha">A Minor Gotcha</h4>
+
+<p>在表面之下，<code>with</code>被 Elixir 视为是一个函数或宏（macro）的调用。这意味着你不能这样写：</p>
+
+<pre><code class="language-elixir">mean = with                         # WRONG!
+         count = Enum.count(values),
+         sum   = Enum.sum(values)
+       do
+        sum/count
+       end
+</code></pre>
+
+<p>相反，你可以把第一个参数和<code>with</code>写在同一行：</p>
+
+<pre><code class="language-elixir">mean = with count = Enum.count(values),
+            sum   = Enum.sum(values)
+       do
+        sum/count
+       end
+</code></pre>
+
+<p>或者使用括号：</p>
+
+<pre><code class="language-elixir">mean = with (
+         count = Enum.count(values),
+         sum   = Enum.sum(values)
+       do
+        sum/count
+       end)
+</code></pre>
+
+<p>和其他<code>do</code>语句一样，也有简写方式可用：</p>
+
+<pre><code class="language-elixir">mean = with count = Enum.count(values),
+            sum   = Enum.sum(values)
+       do:  sum/count
+</code></pre>
+
+<h3 id="end-of-the-basics">End of the Basics</h3>
+
+<p>至此我们已经讲完了 Elixir 语言的底层部分。接下来两章里我们将会讨论如何创建匿名函数、模块和具名函数。</p>
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=《Programming Elixir >= 1.6》第四章：基本语法（节选二）&url=/2020/07/programming-elixir-1-6-chapter-4-part2/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/07/programming-elixir-1-6-chapter-4-part2/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/07/programming-elixir-1-6-chapter-4-part2/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#elixir">elixir</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

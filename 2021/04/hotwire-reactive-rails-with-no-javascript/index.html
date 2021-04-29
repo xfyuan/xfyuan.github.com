@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Hotwire: 没有JavaScript的Reactive Rails | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Hotwire: 没有JavaScript的Reactive Rails | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Hotwire: 没有JavaScript的Reactive Rails" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。" />
+<meta property="og:description" content="本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-24T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2021-04-24T00:00:00+00:00","datePublished":"2021-04-24T00:00:00+00:00","description":"本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。","url":"/2021/04/hotwire-reactive-rails-with-no-javascript/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2021/04/hotwire-reactive-rails-with-no-javascript/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"Hotwire: 没有JavaScript的Reactive Rails","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">Hotwire: 没有JavaScript的Reactive Rails</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2021-04-24">24 Apr 2021</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p><em>本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：<strong>Hotwire</strong>。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。</em></p>
+
+<ul>
+  <li>原文链接：<a href="https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript">Hotwire: Reactive Rails with no JavaScript?</a></li>
+  <li>作者：<a href="https://twitter.com/palkan_tula">Vladimir Dementyev</a></li>
+  <li>站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发人员博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。</li>
+</ul>
+
+<p><em>【正文如下】</em></p>
+
+<h2 id="引言">引言</h2>
+
+<p>到传播 DHH 及其公司久经考验的<a href="https://twitter.com/dhh/status/1275901955995385856">新魔法</a>的时候了，并且在超过 5 分钟的教学中学习使用 <a href="https://hotwire.dev/">Hotwire</a>。自从今年揭开其面纱以来，这个用于构建现代 Web 界面而似乎无需任何 JavaScript 的技术的名字就备受欢迎。这个 <strong>HTML-over-the-wire</strong> 的方案正在 Rails 世界里激发起层层涟漪：不计其数的博客文章、reddit 社区帖子、录屏视频，以及<a href="https://railsconf.com/program">今年 RailsConf 的五个演讲</a>，而其中会包含你所期望的内容。本文中，我想要对 Hotwire 进行彻底地解释——借助代码示例和测试策略。就像我最爱的摇滚乐队说的那样，让我们 Hotwired 来……<del>self destruct</del> 学习新技巧吧！【译者注：摇滚乐队 Metallica 2016 年发行了专辑《Hardwired … To Self-Destruct》，作者在这儿使用了名称的谐音】</p>
+
+<h2 id="life-is-short">Life is short</h2>
+
+<p><strong>要概览 Hotwire 在 Rails 6 中进行使用的全貌，毋需再费其他功夫，看<a href="https://github.com/anycable/anycable_rails_demo/pull/16">这个 PR</a> 就足够了。</strong></p>
+
+<p>接下来的文章会解释上述 PR 代码——在很多细节上。它是我的 <a href="https://railsconf.com/">RailsConf 2021</a> 演讲：<a href="https://railsconf.com/program/sessions#session-1118">“Frontendless Rails frontend”</a> 的一个改编和扩展版本，所有 RailsConf 的参会者都已能够在线观看。如果你没有大会门票也不用担心：可以在<a href="https://noti.st/palkan/eVl0xO/frontendless-rails-frontend">这里</a>看到其简报，而且该页面会更新演讲视频，一旦演讲可以公开发布的话。</p>
+
+<h2 id="this-is-the-way">“This is the way”</h2>
+
+<p>过去五年中，我一直主要在做纯后端的开发：REST 和 GraphQL APIs、WebSocket、gRPC、数据库、缓存等。</p>
+
+<p>整个前端的进化像巨浪一样席卷了我：我仍然不理解为什么我们需要为每个 Web 应用都使用 <em>reacts</em> 和 <em>webpacks</em>。传统的 HTML-first 的 <strong>Rails 方式</strong> 才是我的方式（或者说捷径😉）。还记得那些 JavaScript 在你的应用中无需什么 MVC（或 MVVM）的日子吗？我怀念那种日子。而这些日子正在悄悄地卷土重来。</p>
+
+<p>今天，我们目睹了 <em>HTML-over-the-wire</em> 的崛起（是的，现在它是一个实际名词了）。由 <a href="https://github.com/phoenixframework/phoenix_live_view">Phoenix LiveView</a> 率先提出，<a href="https://stimulusreflex.com/">StimulusReflex</a> 系列 gems 对其发扬光大，这种基于后端通过 WebSocket 把渲染的模板推送到所有所连接的客户端的方案，在 Rails 社区获得了极大的吸引力。最终，DHH 本人于今年初把 <a href="https://hotwire.dev/">Hotwire</a> 呈现于世界面前。</p>
+
+<p>我们是否正站在 Web 开发的另一个全球范式转变的边缘？回到服务端渲染模板的简单思维模型，这一次花费很少的精力就可实现各种花里胡哨的反应式界面吗？绞尽脑汁后，我认识到这是一厢情愿的想法：技术领域已经有太多的投资在客户端渲染的应用上而很难回头了。2020 时代的前端开发已经是一种独立的<strong>资质</strong>和有其自身需求的独立行业，我们将没办法再成为“全栈”了。</p>
+
+<p>然而，HOTWire（看到那个首字母缩写吗？Basecamp 这方面很聪明，是吧？），为复杂的，或者我们应该说“错综复杂的”，航天科学一般针对浏览器的现代客户端编程，提供了一种急需的替代方案。</p>
+
+<p><strong>对于厌倦了只做 API 应用而无法掌控其呈现，以及怀念创建卓越用户体验而摆脱每周 40 小时充斥着 SQL 和 JSON 的一名 Rails 开发者而言，Hotwire 就如他所渴望能带来新鲜气息的呼吸一般，让 Web 开发重拾乐趣。</strong></p>
+
+<p>本文中，我会演示如何把 HTML-over-the-wire 哲学通过 Hotwire 用到现有的 Rails 应用上。就像我最近的大多数文章一样，我会使用 <a href="https://github.com/anycable/anycable_rails_demo">AnyCable demo 应用</a>作为小白鼠。</p>
+
+<p>这个应用很应景：交互和反应，Turbolinks 驱动，以及少量自定义 JavaScripts，还有相当好的系统测试覆盖率（这意味着我们可以进行安全地重构）。我们的 <em>Hotwire 化</em> 将会按照如下步骤进行：</p>
+
+<ul>
+  <li><a href="https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#from-turbolinks-to-turbo-drive">From Turbolinks to Turbo Drive</a></li>
+  <li><a href="https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#framing-with-turbo-frames">Framing with Turbo Frames</a></li>
+  <li><a href="https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#streaming-with-turbo-streams">Streaming with Turbo Streams</a></li>
+  <li><a href="https://evilmartians.com/chronicles/hotwire-reactive-rails-with-no-javascript#beyond-turbo-or-using-stimulus-and-custom-elements">Beyond Turbo, or using Stimulus and custom elements</a></li>
+</ul>
+
+<h2 id="from-turbolinks-to-turbo-drive">From Turbolinks to Turbo Drive</h2>
+
+<p><a href="https://github.com/turbolinks/turbolinks">Turbolinks</a> 在 Rails 世界里很长时间久负盛名；其<a href="https://github.com/turbolinks/turbolinks-classic/commit/41dd321407f837d9705de9d893f2847537676904">第一个主要版本</a>在 2013 年早期发布。然而，在我的开发生涯初期，Rails 开发者有一个经验之谈：<em>如果你的前端出毛病了，尝试一下禁用Turbolinks</em>。让第三方 JS 库的代码跟 Turbolinks 的伪导航（参考：<code>pushState</code> + AJAX）兼容可不像在公园里散步那样容易。</p>
+
+<p>当 <a href="https://stimulus.hotwire.dev/">StimulusJS</a> 出来以后，我就不再躲避 Turbolinks 了。它通过依靠现代的 <a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">DOM mutation APIs</a> 而从根本上解决了“连接”和“断开连接” JavaScript 的问题。Turbolinks 与 Stimulus 的代码组合，DOM 操作仅以 React-Angular 几分之一的开发成本就轻而易举产生了“SPA”般的体验。</p>
+
+<p>昔日诸般好处的 Turbolinks 现在更名为 <em>Turbo Drive</em>，就如字面上那样它驱动了 <a href="https://turbo.hotwire.dev/">Turbo</a> —— Hotwire 包的核心。</p>
+
+<p><strong>如果你的应用已经使用了 Turbolinks（如我一般），切换到 Turbo Drive 不费吹灰之力。不过是一些重命名的事儿罢了。</strong></p>
+
+<p>所有你需要做的就是把<code>package.json</code>中的<code>turbolinks</code>替换为<code>@hotwired/turbo-rails</code>，以及把<code>Gemfile</code>中的<code>turbolinks</code>替换为<code>turbo-rails</code>。</p>
+
+<p>初始化代码稍有差异，现在的更简洁了：</p>
+
+<pre><code class="language-diff">- import Turbolinks from 'turbolinks';
+
+- Turbolinks.start();
++ import "@hotwired/turbo"
+</code></pre>
+
+<p>注意，我们现在不需要手动启动 Turbo Drive 了（当然你可以<a href="https://github.com/hotwired/turbo/issues/198">不这么做</a>）。</p>
+
+<p>还有些“查找 &amp; 替换”工作要做：把所有 HTML 的 data 属性的<code>data-turbolinks</code>更新为<code>data-turbo</code>。</p>
+
+<p>这些变更中唯一花费了我一点时间而值得一提的是处理 <strong>forms 和 redirects</strong>。之前使用 Turbolinks 时，我使用的是 remote forms（<code>remote: true</code>）和 <a href="https://github.com/turbolinks/turbolinks-rails/blob/master/lib/turbolinks/redirection.rb">Redirection concern</a> 来响应以 JavaScript 模板。Turbo Drive 已经内置了对表单拦截的支持，所以<code>remote: true</code>就不再需要了。然而，事实证明 redirection 代码必须进行更新，或者更精确地说，是 redirection <strong>status code</strong>：</p>
+
+<pre><code class="language-diff">- redirect_to workspace
++ redirect_to workspace, status: :see_other
+</code></pre>
+
+<p>使用有些晦涩的 <em>See Other</em> HTTP response code (303) 是一个聪明的选择：它允许 Turbo 依赖原生 Fetch API 的 <code>redirect: "follow" </code> 选项，这样在表单提交后你就不必明确发起另一个请求以获取新内容。根据<a href="https://fetch.spec.whatwg.org/#concept-http-redirect-fetch">其规范</a>，“<em>if status is 303 and request’s method is not <code>GET</code> or <code>HEAD</code></em>”，GET 请求必须被自动执行。把这个跟 “<em>if status is 301 or 302 and request’s method is <code>POST</code></em>” 比较一下——看到区别了吗？</p>
+
+<p>其他的 3xx 状态仅适用于 POST 请求，而 Rails 中我们通常使用 POST, PATCH, PUT, 和 DELETE。</p>
+
+<h2 id="framing-with-turbo-frames">Framing with Turbo Frames</h2>
+
+<p>该来看一些真正的新东西了：Turbo Frames。</p>
+
+<p>Turbo Frames 带来了页面在局部上的无缝更新（不像 Turbo Drive 是在整个页面上）。我们可以说它非常类似于<code>&lt;iframe&gt;</code>所做的，但却不用创建单独的 windows、DOM 树以及与之俱来的那些安全噩梦。</p>
+
+<p>我们来看看实际的例子。</p>
+
+<p>AnyCable demo 应用（称为 <em>AnyWork</em>）允许你创建 dashboards，其带多个 ToDo 列表和一个聊天室。用户可以与不同列表中的条目进行交互：添加、删除以及把其标注为已完成。</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_frames.av1-d92b50b.gif" alt="turbo_frames.av1-d92b50b" /></p>
+
+<p>起初，完成和删除这些条目是通过 AJAX 请求和<a href="https://github.com/anycable/anycable_rails_demo/blob/fdb1353b3fa4aae2598b5eaceba838b73d09254e/frontend/controllers/list_controller.js">一个自定义 Stimulus controller</a> 来做到的。我决定使用 Turbo Frames 来重写这部分功能以全部使用 HTML。</p>
+
+<p>我们如何来解构这些 ToDo 列表项以处理单个条目的更新呢？把每个条目都转化为一个 frame！</p>
+
+<pre><code class="language-erb">&lt;!-- _item.html.rb --&gt;
+&lt;%= turbo_frame_tag dom_id(item) do %&gt;
+  &lt;div class="any-list--item&lt;%= item.completed? ? " checked" : ""%&gt;"&gt;
+    &lt;%= form_for item do |f| %&gt;
+      &lt;!-- ... --&gt;
+    &lt;% end %&gt;
+    &lt;%= button_to item_path(item), method: :delete %&gt;
+      &lt;!-- ... --&gt;
+    &lt;% end %&gt;
+  &lt;/div&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>这里我们做了三个重要的事情：</p>
+
+<ul>
+  <li>通过 helper 传递一个唯一识别符（来自<code>ActionView</code>的可爱的 <a href="https://api.rubyonrails.org/classes/ActionView/RecordIdentifier.html#method-i-dom_id">dom_id</a> 方法），把单个条目包裹在一个<code>&lt;turbo-frame&gt;</code> tag 之内；</li>
+  <li>添加一个 HTML form，使得 Turbo 拦截表单提交并更新该 frame 的内容；以及</li>
+  <li>使用<code>button_to</code> helper 并带 <code>method: :delete</code> 参数，在该代码处也创建了一个 HTML form。</li>
+</ul>
+
+<p>现在，任何时候该 frame 内有表单提交，Turbo 都会拦截该提交，执行 AJAX 请求，从响应返回的 HTML 中提取出有相同 ID 的 frame，把其内容替换到该 frame 上。</p>
+
+<p><strong>所有上述工作没有一行自己手写的 JavaScript！</strong></p>
+
+<p>来看一下更新过后的 controller 代码：</p>
+
+<pre><code class="language-ruby">class ItemsController &lt; ApplicationController
+  def update
+    item.update!(item_params)
+
+    render partial: "item", locals: { item }
+  end
+
+  def destroy
+    item.destroy!
+
+    render partial: "item", locals: { item }
+  end
+end
+</code></pre>
+
+<p>注意，当我们删除条目时，以同样的 partial 进行了响应。但我们需要移除该条目的 HTML 节点而非更新它。要如何做呢？我们可以用一个空 frame 来响应！更新 partial 为如下：</p>
+
+<pre><code class="language-erb">&lt;!-- _item.html.rb --&gt;
+&lt;%= turbo_frame_tag dom_id(item) do %&gt;
+  &lt;% unless item.destroyed? %&gt;
+    &lt;div class="any-list--item&lt;%= item.completed? ? " checked" : ""%&gt;"&gt;
+      &lt;!-- ... --&gt;
+    &lt;/div&gt;
+  &lt;% end %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>你可能会问自己一个问题：“当标注一个条目为完成时如何触发表单提交呢？”换句话说，如何让 checkbox 的状态变更来触发提交表单？我们可以通过定义一个<em>行内事件监听器</em>做到：</p>
+
+<pre><code class="language-erb">&lt;%= f.check_box :completed, onchange: "this.form.requestSubmit();" %&gt;
+</code></pre>
+
+<p><strong>提醒：</strong>使用 <em><code>requestSubmit()</code></em> 而非 <em><code>submit()</code></em> 很重要：前者触发的“submit”事件能够被 Turbo 所拦截，而后者不能。</p>
+
+<p>总结一下，我们可以放弃所有专门为此功能定制的 JS 了，只需一点 HTML 模板的更改和 controller 代码的简化。非常令人兴奋，不是么？</p>
+
+<p>我们可以更进一步，把列表也转化为 frames。这会让我们在添加一个新条目时，从 Turbo Drive 的整个页面更新切换为仅特殊页面节点的更新。你大可自己尝试一下！</p>
+
+<p>假设你也期望在一个条目被完成或删除的任何时候都为用户展示一个 flash 提醒（比如，“条目已被成功删除”）。我们能借助于 Turbo Frames 做到吗？听起来我们需要把 flash 消息容器包裹在一个 frame 内，并将更新后的 HTML 跟标记一起推送给该条目。这是我初始的思路，但其并不能正常工作：frame 的更新是在所创建的 frame 定义域内的。因此，我们无法更新在其外部的任何东西。</p>
+
+<p>经过一番探索之后，我发现 <a href="https://turbo.hotwire.dev/handbook/streams">Turbo Streams</a> 能帮我们做到这点。</p>
+
+<h2 id="streaming-with-turbo-streams">Streaming with Turbo Streams</h2>
+
+<p>较之于 Drive 和 Frames，<a href="https://turbo.hotwire.dev/handbook/streams">Turbo Streams</a> 完全是一项新技术。跟前两者不同，Streams 含义明确，易于理解。没有什么会自动发生，你得负责页面上何时更新何种内容。要做到这点，你需要使用特殊的<code>&lt;trubo-stream&gt;</code>元素。</p>
+
+<p>来看一个 stream 元素的示例：</p>
+
+<pre><code class="language-erb">&lt;turbo-stream action="replace" target="flash-alerts"&gt;
+  &lt;template&gt;
+    &lt;div class="flash-alerts--container" id="flash-alerts"&gt;
+      &lt;!--  --&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+&lt;/turbo-stream&gt;
+</code></pre>
+
+<p>该元素负责以<code>&lt;template&gt;</code> tag 内所传输过来的新 HTML 内容替换（<code>action="replace"</code>）DOM ID 为<code>flash-alerts</code>其下的节点。不管什么时候你把这样的<code>&lt;turbo-stream&gt;</code>元素下发到页面上，它都会立刻执行其 action 并销毁其自身。而在底层，它使用了 HTML 的 <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements">Custom Elements API</a> —— 又一个为了开发乐趣（比如，更少的 JavaScript 😄）而使用现代 Web APIs 的范例。</p>
+
+<p>我得说，Turbo Streams 是老式的 JavaScript 模板的一个声明式替代方案。在 2010 年代，我们写的代码类似这样：</p>
+
+<pre><code class="language-erb">// destroy.js.erb
+$("#&lt;%= dom_id(item) %&gt;").remove();
+</code></pre>
+
+<p>而现在，我们这样写：</p>
+
+<pre><code class="language-erb">&lt;!--  destroy.html.erb --&gt;
+&lt;%= turbo_stream.remove dom_id(item) %&gt;
+</code></pre>
+
+<p>目前，仅有五种可用的 actions：<em>append、prepend、replace、remove 和 update</em>（仅替换节点的文本内容）。我们将在下面谈论其局限性和如何克服它。</p>
+
+<p>回到我们的初始问题：为 ToDo 条目的完成或删除，展示响应结果中的 flash 提醒。</p>
+
+<p>我们想要一次响应结果就带有<code>&lt;turbo-frame&gt;</code>和<code>&lt;turbo-stream&gt;</code>两种更新。如何来做？为其添加一个新的 partial 模板：</p>
+
+<pre><code class="language-erb">&lt;!-- _item_update.html.erb --&gt;
+&lt;%= render item %&gt;
+
+&lt;%= turbo_stream.replace "flash-alerts" do %&gt;
+  &lt;%= render "shared/alerts" %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>对<code>ItemsController</code>添加一点小的改动：</p>
+
+<pre><code class="language-diff">+    flash.now[:notice] = "Item has been updated"
+
+-    render partial: "item", locals: { item }
++    render partial: "item_update", locals: { item }
+</code></pre>
+
+<p>不幸地是，上述代码并未如预期那样正常工作：我们没有看到任何 flash 提醒。</p>
+
+<p>深入研究<a href="https://turbo.hotwire.dev/handbook/streams#streaming-from-http-responses">文档</a>之后，我发现是 Turbo 期望 HTTP 响应具有<code>text/vnd.turbo-stream.html</code> content type 才可激活 stream 元素。好吧，加上它：</p>
+
+<pre><code class="language-diff">-    render partial: "item_update", locals: { item }
++    render partial: "item_update", locals: { item }, content_type: "text/vnd.turbo-stream.html"
+</code></pre>
+
+<p>现在我们得到了相反的情况：flash 消息正常工作，但条目的内容不能更新了😞。是我对 Hotwire 要求太高了么？阅读了下 Turbo 的源码，我发现类似这样把 streams 和 frames 进行混合是<a href="https://github.com/hotwired/turbo/blob/8bce5f17cd697716600d3b34836365ebcdc04b3f/src/observers/stream_observer.ts#L50-L55">不行的</a>。</p>
+
+<p>这说明，有两种方式来实现该功能：</p>
+
+<ul>
+  <li>把 streams 用在所有东西上。</li>
+  <li>把<code>&lt;turbo-stream&gt;</code>置于<code>&lt;turbo-frame&gt;</code>内部。</li>
+</ul>
+
+<p>第二个选项，对我而言，与在常规页面上重用 HTML partials 并以 Turbo 进行更新的想法背道而驰。所以，我选择第一个：</p>
+
+<pre><code class="language-erb">&lt;!-- _item_update.html.erb --&gt;
+&lt;%= turbo_stream.replace dom_id(item) do %&gt;
+  &lt;%= render item %&gt;
+&lt;% end %&gt;
+
+&lt;%= turbo_stream.replace "flash-alerts" do %&gt;
+  &lt;%= render "shared/alerts" %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>任务完成。但付出了什么代价呢？我们不得不为这种用例添加一个新的模板。并且我担心在现实中的应用程序里，这种 partials 的数量会随着应用的进化而增长。</p>
+
+<p><strong>更新（2021-04-13）</strong>：Alex Takitani <a href="https://twitter.com/alex_takitani/status/1381706025875730435?s=20">建议</a>了一种更加优雅的解决方案：使用 layout 来更新 flash 内容。我们可以如下面这样把 application layout 定义为 Turbo Stream 响应：</p>
+
+<pre><code class="language-erb">&lt;!-- layouts/application.turbo_stream.erb --&gt;
+&lt;%= turbo_stream.replace "flash-alerts" do %&gt;
+  &lt;%= render "shared/alerts" %&gt;
+&lt;% end %&gt;
+
+&lt;%= yield %&gt;
+</code></pre>
+
+<p>然后，我们需要从 controller 移除相应的渲染（因为要不然 <a href="https://github.com/hotwired/turbo-rails/issues/25">layout 就不会被用上了</a>）：</p>
+
+<pre><code class="language-diff">def update
+     item.update!(item_params)
+
+     flash.now[:notice] = "Item has been updated"
+-
+-    render partial: "item_update", locals: { item }, content_type: "text/vnd.turbo-stream.html"
+   end
+</code></pre>
+
+<p><strong>注意：</strong>别忘了把<em><code>format: :turbo_stream</code></em>添加到 controller/request specs 测试相应的请求上，以便使得 render 能正常工作。</p>
+
+<p>并且把我们的<code>_item_update</code> partial 转换为<code>update</code>的 Turbo Stream 模板：</p>
+
+<pre><code class="language-erb">&lt;!-- update.turbo_stream.erb --&gt;
+&lt;%= turbo_stream.replace dom_id(item) do %&gt;
+  &lt;%= render item %&gt;
+&lt;% end %&gt;
+</code></pre>
+
+<p>很酷，对吧？这正是 Rails 的方式！</p>
+
+<p>现在，让我们转到一些实时的流广播上。</p>
+
+<p>Turbo Streams 经常在实时更新的语境中被提到（且常常被用来跟 <a href="https://stimulusreflex.com/">StimulusReflex</a> 比较）。</p>
+
+<p>来看看我们能够如何在 Turbo Streams 之上构建列表的同步化：</p>
+
+<p><img src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_streams.av1-17e20a6.gif" alt="turbo_streams.av1-17e20a6" /></p>
+
+<p>在有 Turbo 之前，我不得不添加一个自定义的 Action Cable channel 和一个 Stimulus controller 来处理广播的事情。我也需要处理消息的格式，因为必须区分对条目的删除和完成。换句话说，有不少代码要维护。</p>
+
+<p>而 Turbo Streams 已经照顾好了几乎一切：<code>turbo-rails</code> gem 自带一个通用的<code>Turbo::StreamChannel</code>和一个 helper（<code>#turbo_stream_from</code>），用来从 HTML 中创建一个 subscription：</p>
+
+<pre><code class="language-erb">&lt;!-- worspaces/show.html.erb --&gt;
+&lt;div&gt;
+  &lt;%= turbo_stream_from workspace %&gt;
+  &lt;!-- ... --&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>在 controller 中，我们已经有了<code>#broadcast_new_item</code>和<code>#broadcast_changes</code>这样的“after action” callback 负责对更新进行播发。现在我们所有需要做的就是切换到<code>Turbo::StreamChannel</code>：</p>
+
+<pre><code class="language-diff">def broadcast_changes
+   return if item.errors.any?
+   if item.destroyed?
+-    ListChannel.broadcast_to list, type: "deleted", id: item.id
++    Turbo::StreamsChannel.broadcast_remove_to workspace, target: item
+   else
+-    ListChannel.broadcast_to list, type: "updated", id: item.id, desc: item.desc, completed: item.completed
++    Turbo::StreamsChannel.broadcast_replace_to workspace, target: item, partial: "items/item", locals: { item }
+   end
+ end
+</code></pre>
+
+<p>这次迁移很顺畅，几乎——因为所有检验播发（<code>#have_broadcasted_to</code>）的 controller 单元测试都失败了。</p>
+
+<p>不幸的是，Turbo Rails 没有提供任何测试工具（?），所以我不得不自己写一个，以<a href="https://github.com/rails/rails/pull/33659">自己熟悉的方式</a>：</p>
+
+<pre><code class="language-ruby">module Turbo::HaveBroadcastedToTurboMatcher
+  include Turbo::Streams::StreamName
+
+  def have_broadcasted_turbo_stream_to(*streamables, action:, target:) # rubocop:disable Naming/PredicateName
+    target = target.respond_to?(:to_key) ? ActionView::RecordIdentifier.dom_id(target) : target
+    have_broadcasted_to(stream_name_from(streamables))
+      .with(a_string_matching(%(turbo-stream action="#{action}" target="#{target}")))
+  end
+end
+
+RSpec.configure do |config|
+  config.include Turbo::HaveBroadcastedToTurboMatcher
+end
+</code></pre>
+
+<p>下面是我如何把这个新的匹配器用在测试上：</p>
+
+<pre><code class="language-diff">it "broadcasts a deleted message" do
+-  expect { subject }.to have_broadcasted_to(ListChannel.broadcasting_for(list))
+-    .with(type: "deleted", id: item.id)
++  expect { subject }.to have_broadcasted_turbo_stream_to(
++    workspace, action: :remove, target: item
++  )
+ end
+</code></pre>
+
+<p>到目前为止，使用 Turbo 的实时处理进展顺利！一大堆代码都被移除了。</p>
+
+<p><strong>而我们仍然还是一行 JavaScript 代码都没有写。这也太不真实了吧？</strong></p>
+
+<p>不过是个幻梦吗？何时我会醒来？好吧，就是现在。</p>
+
+<h2 id="beyond-turbo-or-using-stimulus-and-custom-elements">Beyond Turbo, or using Stimulus and custom elements</h2>
+
+<p>在向 Turbo 迁移的过程中，我碰到了好几个场景，使用已有的 API 是不够的，所以我最终不得不编写一些 JavaScript 代码！</p>
+
+<p>场景一：向 dashboard 实时添加新的列表。这跟前面提到的列表中条目的示例有何不同？在于标记。来看一下 dashboard layout：</p>
+
+<pre><code class="language-html">&lt;div id="workspace_1"&gt;
+  &lt;div id="list_1"&gt;...&lt;/div&gt;
+  &lt;div id="list_2"&gt;...&lt;/div&gt;
+  &lt;div id="new_list"&gt;
+    &lt;form&gt;...&lt;/form&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>最后一个元素总是新列表的 form 容器。不管我们何时添加新列表，它都会被插入到<code>#new_list</code>节点之前。还记得 Turbo Streams 仅仅支持五种 actions 不？明白问题所在了吗？下面是我起初使用的代码：</p>
+
+<pre><code class="language-js">handleUpdate(data) {
+  this.formTarget.insertAdjacentHTML("beforebegin", data.html);
+}
+</code></pre>
+
+<p>要使用 Turbo Streams 实现类似的行为，我们需要添加一个 hack，在列表被通过 stream 添加之后立即把其移动到正确的位置。所以，来添加我们自己的 JavaScript 代码吧。</p>
+
+<p>首先来给我们的任务一个正式的定义：“当一个新列表被 append 到 workspace 容器时，它应该出现在那个 new form 元素之前的正确位置上。”。这里的“当”意味着我们需要观察 DOM 并对变更作出反应。是不是听起来很熟悉？没错，我们已经提到过与 Stimulus 有关的 MutationObserver API！用它就对了。</p>
+
+<p>幸运的是，我们不是必须编写高阶的 JavaScript 才能使用该特性；我们可以使用 <a href="https://github.com/stimulus-use/stimulus-use">stimulus-use</a>（抱歉使用这种重言式语法。【译者注：原文是 use stimulus-use，所以作者这么说】）。Stimulus Use 是一个 Stimulus controllers 很有用的行为的集合，以简单的代码片段解决复杂的问题。我们这儿，需要 <a href="https://github.com/stimulus-use/stimulus-use/blob/master/docs/use-mutation.md">useMutation</a> 行为。</p>
+
+<p>如下的 controller 代码相当简洁，含义不言自明：</p>
+
+<pre><code class="language-js">import { Controller } from "stimulus";
+import { useMutation } from "stimulus-use";
+
+export default class extends Controller {
+  static targets = ["lists", "newForm"];
+
+  connect() {
+    [this.observeLists, this.unobserveLists] = useMutation(this, {
+      element: this.listsTarget,
+      childList: true,
+    });
+  }
+
+  mutate(entries) {
+    // There should be only one entry in case of adding a new list via streams
+    const entry = entries[0];
+
+    if (!entry.addedNodes.length) return;
+
+    // Disable observer while we modify the childList
+    this.unobserveLists();
+    // Move newForm to the end of the childList
+    this.listsTarget.append(this.newFormTarget);
+    this.observeLists();
+  }
+}
+</code></pre>
+
+<p>问题就这样解决了。</p>
+
+<p>来讨论下第二个边界场景：实现聊天室功能。</p>
+
+<p>我们有一个非常简单的聊天室附在每个 dashboard 上：用户可以发送临时消息（不会被存储到任何地方）和实时接收它们。消息具有依赖于上下文的不同外观：自己的消息有绿色边框，靠左；其他消息则是灰色，靠右。而我们是向每个所连接的客户端播发相同的 HTML。要如何使得用户看到这种区别呢？这对于聊天室类的应用是一个很常见的问题，且一般而言，它通过要么向每个用户 channel 发送个性化的 HTML，要么增强所收到的 HTML 在客户端来解决。我更喜欢第二种，所以来实现它吧。</p>
+
+<p>要把当前用户的信息传递给 JavaScript，我使用 meta tags：</p>
+
+<pre><code class="language-erb">&lt;!-- layouts/application.html.erb --&gt;
+&lt;head&gt;
+  &lt;% if logged_in? %&gt;
+    &lt;meta name="current-user-name" content="&lt;%= current_user.name %&gt;" data-turbo-track="reload"&gt;
+    &lt;meta name="current-user-id" content="&lt;%= current_user.id %&gt;" data-turbo-track="reload"&gt;
+  &lt;% end %&gt;
+  &lt;!-- ... --&gt;
+&lt;/head&gt;
+</code></pre>
+
+<p>和一个小的 JS helper 来获取这些 values：</p>
+
+<pre><code class="language-js">let user;
+
+export const currentUser = () =&gt; {
+  if (user) return user;
+
+  const id = getMeta("id");
+  const name = getMeta("name");
+
+  user = { id, name };
+  return user;
+};
+
+function getMeta(name) {
+  const element = document.head.querySelector(
+    `meta[name='current-user-${name}']`
+  );
+  if (element) {
+    return element.getAttribute("content");
+  }
+}
+</code></pre>
+
+<p>要播发聊天室消息，我们将会使用<code>Turbo::StreamChannel</code>：</p>
+
+<pre><code class="language-ruby">def create
+  Turbo::StreamsChannel.broadcast_append_to(
+    workspace,
+    target: ActionView::RecordIdentifier.dom_id(workspace, :chat_messages),
+    partial: "chats/message",
+    locals: { message: params[:message], name: current_user.name, user_id: current_user.id }
+  )
+  # ...
+end
+</code></pre>
+
+<p>下面是初始的<code>chat/message</code>模板：</p>
+
+<pre><code class="language-erb">&lt;div class="chat--msg"&gt;
+  &lt;%= message %&gt;
+  &lt;span data-role="author" class="chat--msg--author"&gt;&lt;%= name %&gt;&lt;/span&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>以及前述根据当前用户赋予不同样式的 JS 代码，这些代码我们很快就要去掉：</p>
+
+<pre><code class="language-js">// Don't get attached to it
+appendMessage(html, mine) {
+  this.messagesTarget.insertAdjacentHTML("beforeend", html);
+  const el = this.messagesTarget.lastElementChild;
+  el.classList.add(mine ? "mine" : "theirs");
+
+  if (mine) {
+    const authorElement = el.querySelector('[data-role="author"]');
+    if (authorElement) authorElement.innerText = "You";
+  }
+}
+</code></pre>
+
+<p>现在，当 Turbo 负责更新 HTML 时，我们需要做点不同的事。当然，<code>useMutaion</code>也会在这里被用到。并且这有可能是我将用在<em>现实</em>项目上的。然而，我今天的目标是演示以不同的方式来解决问题。</p>
+
+<p>还记得我们一直在谈论 Custom Elements（哦，那是好几页之前了，抱歉，这说明我们阅读太久了）？它正是令 Turbo 之所以强大的 Web API。我们干嘛不用呢！</p>
+
+<p>让我先分享一个<em>更新后的</em> HTML 模板：</p>
+
+<pre><code class="language-erb">&lt;any-chat-message class="chat--msg" data-author-id="&lt;%= user_id %&gt;&gt;
+  &lt;%= message %&gt;
+  &lt;span data-role="author" class="chat--msg--author"&gt;&lt;%= name %&gt;&lt;/span&gt;
+&lt;/any-chat-message&gt;
+</code></pre>
+
+<p>我们只添加了<code>data-author-id</code>属性，并把<code>&lt;div&gt;</code>替换为自定义 tag ——<code>&lt;any-chat-message&gt;</code>。</p>
+
+<p>现在来对 custom element 进行注册：</p>
+
+<pre><code class="language-js">import { currentUser } from "../utils/current_user";
+
+// This is how you create custom HTML elements with a modern API
+export class ChatMessageElement extends HTMLElement {
+  connectedCallback() {
+    const mine = currentUser().id == this.dataset.authorId;
+
+    this.classList.add(mine ? "mine" : "theirs");
+
+    const authorElement = this.querySelector('[data-role="author"]');
+
+    if (authorElement &amp;&amp; mine) authorElement.innerText = "You";
+  }
+}
+
+customElements.define("any-chat-message", ChatMessageElement);
+</code></pre>
+
+<p>大功告成！现在当一个新的<code>&lt;any-chat-message&gt;</code>元素被添加到页面时，如果它来自于当前用户就自动更新自己。而且甚至我们为此都不再需要 Stimulus 了！</p>
+
+<p>你可以在<a href="https://github.com/anycable/anycable_rails_demo/pull/16">这个 PR</a> 中找到本文有关的全部源代码。</p>
+
+<p>所以，那么零 JavaScript 的 Reactive Rails 到底存在吗？并不。我们移除了很多 JS 代码，但最后不得不用一些新东西来替代。这些新东西跟之前的有所区别：它更加，我得说，<strong><em>实用主义</em></strong>。它也更加高阶，需要对 JavaScript 以及最新浏览器 APIs 有很好的了解，这肯定是要权衡考虑的。</p>
+
+<p>附：我对 CableReady 和 StimulusReflex 也有一个<a href="https://github.com/anycable/anycable_rails_demo/pull/12">类似的 PR</a>。你可以把它跟 Hotwire 的这个 PR 进行比较，在 <a href="https://twitter.com/evilmartians">Twitter</a> 上与我们分享你的观点。</p>
+
+
+</div>
+
+<!-- Rating -->
+
+<div class="rating mt-4 mb-4 d-flex align-items-center">
+    <strong class="mr-1">Rating:</strong> <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+</div>
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Hotwire: 没有JavaScript的Reactive Rails&url=/2021/04/hotwire-reactive-rails-with-no-javascript/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2021/04/hotwire-reactive-rails-with-no-javascript/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2021/04/hotwire-reactive-rails-with-no-javascript/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#hotwire">hotwire</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rails">rails</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#ruby">ruby</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#stimulus">stimulus</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#turbo">turbo</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-turbo-streams/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115651.jpg" alt="Hotwire之使用Turbo Streams焕发活力">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-turbo-streams/">Hotwire之使用Turbo Streams焕发活力</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对 Turbo Streams 的详细说明，原文出自：https://turbo.hotwire.dev/handbook/streams。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">19 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    <script type="application/ld+json">
+    {
+    "@context": "http://schema.org/",
+    "@type": "Review",
+    "itemReviewed": {
+    "@type": "Thing",
+    "name": "Hotwire: 没有JavaScript的Reactive Rails"
+    },
+    "author": {
+    "@type": "Person",
+    "name": "Mr.Z"
+    },
+    "datePublished": "2021-04-24",
+    "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "5",
+    "bestRating": "5"
+    }
+    }
+    </script>
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>写好RSpec的9个技巧 | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>写好RSpec的9个技巧 | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="写好RSpec的9个技巧" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="看到这篇关于 Rspec 的9个技巧，觉得不错，就简略翻译一下，便于今后查阅。" />
+<meta property="og:description" content="看到这篇关于 Rspec 的9个技巧，觉得不错，就简略翻译一下，便于今后查阅。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a012.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-06-30T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-06-30T00:00:00+00:00","datePublished":"2020-06-30T00:00:00+00:00","description":"看到这篇关于 Rspec 的9个技巧，觉得不错，就简略翻译一下，便于今后查阅。","url":"/2020/06/rspec-9-tips/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a012.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/06/rspec-9-tips/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"写好RSpec的9个技巧","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">写好RSpec的9个技巧</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-06-30">30 Jun 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a012.jpg" alt="写好RSpec的9个技巧">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p>看到这篇关于 <a href="https://medium.com/@ntd251/9-tips-to-write-better-rspec-5569b45fb1a1">Rspec 的9个技巧</a>，觉得不错，就简略翻译一下，便于今后查阅。</p>
+
+<p>【以下是正文】</p>
+
+<p>编写好的测试用例跟编写好的代码一样重要。好的 specs 将如同好的文档那样帮助识别 bug。</p>
+
+<p>这儿有 9 个提升 RSpec 的技巧。</p>
+
+<p>有两条原则贯穿这些技巧：</p>
+
+<ul>
+  <li>DRY</li>
+  <li>针对正确的目标在正确的地方使用正确的工具</li>
+</ul>
+
+<p>我们开始吧！！！</p>
+
+<h3 id="1把文件组织放在正确的位置">1、把文件组织放在正确的位置</h3>
+
+<p>对于每个测试用例有三个基本的 block：</p>
+
+<ul>
+  <li>Setup —— <code>before</code>,<code>let</code>,<code>let!</code></li>
+  <li>Assert —— <code>it</code></li>
+  <li>Teardown —— <code>after</code></li>
+</ul>
+
+<p>因此，代码应该放置于对应的合适位置。</p>
+
+<pre><code class="language-ruby"># BAD
+#
+describe '#sync' do
+  it 'updates the local account balance' do
+    local_account.open
+    transfer(1000)
+    expect { local_account.sync }.to change { local_account.balance }.by(1000)
+    widthdraw_all
+    local_account.close
+  end
+end
+
+# GOOD
+#
+describe '#sync' do
+  subject { local_account.sync }
+
+  before do # Setup
+    local_account.open
+    transfer(1000)
+  end
+
+  after do # Teardown
+    widthdraw_all
+    local_account.close
+  end
+
+  it 'updates the local account balance' do # Assert
+    expect { subject }.to change { local_account.balance }.by(1000)
+  end
+end
+</code></pre>
+
+<h3 id="2避免-mock-global-classesmodulesobjects">2、避免 mock global classes/modules/objects</h3>
+
+<p>Global classes/modules/objects 趋向于被用在当前测试空间之外的多个地方。对这些组件的 Mock 将会违背<strong>单元测试的隔离原则</strong>，这会导致相关的边界效应。</p>
+
+<p>在 Mock class 的<code>new</code>方法时，这个原则更为有效。</p>
+
+<pre><code class="language-ruby">
+# BAD
+#
+class UserService
+  attr_reader :user
+
+  def verify_email
+    # ...
+    email_service = EmailService.new(user)
+    email_service.send_confirmation_email
+    # ...
+  end
+end
+
+describe UserService do
+  describe '#verify_email' do
+    before do
+      email_service = double(:email_service)
+      # BAD: Mocking `new` method of EmailService
+      allow(EmailService).to receive(:new).and_return(email_service)
+      allow(email_service).to receive(:send_confirmation_email)
+    end
+  end
+end
+
+
+# GOOD
+#
+class UserService
+  attr_reader :user
+
+  def verify_email
+    email_service = generate_email_service
+    email_service.send_confirmation_email
+  end
+
+  private
+
+  # You can also use memoization if ONLY 1 instance of EmailService is needed
+  def generate_email_service
+    EmailService.new(user)
+  end
+end
+
+describe UserService do
+  describe '#verify_email' do
+    before do
+      email_service = double(:email_service)
+      # GOOD: Mocking its own method `generate_email_service`
+      allow(described_class).to receive(:generate_email_service).and_return(email_service)
+      allow(email_service).to receive(:send_confirmation_email)
+    end
+  end
+end
+</code></pre>
+
+<h3 id="3使用-instance_double-代替-double">3、使用 instance_double 代替 double</h3>
+
+<p>当你要创建一个 class 实例的 mock 时，<code>instance_double</code>是更安全的选择。跟<code>double</code>不同，如果被 mock 的行为被实现为所提供 class 的实例方法，则 <code>instance_double</code>会抛出异常。与<code>double</code>相比，这允许我们捕获更深层次的问题。</p>
+
+<pre><code class="language-ruby">class FootballPlayer
+  def shoot
+    # ...shoot...
+  end
+end
+
+messi = instance_double(FootballPlayer)
+allow(messi).to receive(:shoot) # OK
+allow(messi).to receive(:shoot).with('power') # Wrong numbers of arguments
+allow(messi).to receive(:score) # Player does not implement: score
+
+ronaldo = double('FootballPlayer')
+allow(ronaldo).to receive(:shoot) # OK
+allow(ronaldo).to receive(:shoot).with('power') # OK - but silent failure
+allow(ronaldo).to receive(:score) # OK - but silent failure
+</code></pre>
+
+<h3 id="4对于测试目标使用-describe对于-scenario-使用-context">4、对于测试目标使用 DESCRIBE，对于 scenario 使用 CONTEXT</h3>
+
+<p>这只是一种让你的代码读起来更流利的方式。</p>
+
+<pre><code class="language-ruby">describe UserStore do
+  describe '.create' do
+    context 'when user does not exists' do
+      it 'creates a new user' do
+        # ...
+      end
+
+      describe 'the newly created user' do
+        it 'has the correct attributes' do
+          # ...
+        end
+      end
+    end
+
+    context 'when user already exists' do
+      it 'raises error' do
+        # ...
+      end
+    end
+  end
+end
+</code></pre>
+
+<h3 id="5describe-和-context-的实现内容紧挨着其语句下方写">5、DESCRIBE 和 CONTEXT 的实现内容紧挨着其语句下方写</h3>
+
+<p>这对于确保测试在所 describe 的 context 下进行 set up 很重要。也帮助了在 context 彼此之间进行区分。</p>
+
+<pre><code class="language-ruby">
+describe 'FootballPlayer' do
+  let(:speed) { 50 }
+  let(:shooting) { 50 }
+
+  let(:player) do
+    create(:football_player,
+      speed: speed,
+      shooting: shooting,
+    )
+  end
+
+  describe '#position' do
+    subject { player.position }
+
+    context 'when the player is fast' do
+      let(:speed) { 98 } # implements 'when the user is fast'
+
+      it { is_expected.to eq 'winger' }
+    end
+
+    context 'when the player shoots well' do
+      let(:shooting)  { 90 } # implements 'when the player shoots well'
+
+      it { is_expected.to eq 'striker' }
+    end
+
+    context 'when the player is injured' do
+      before { player.injure } # implements `when the player is injured`
+
+      it { is_expected.to eq 'benched' }
+
+      context 'when the player uses doping' do # both injured and using doping
+        before { player.use_doping }
+
+        it { is_expected.to eq 'midfielder' }
+      end
+    end
+  end
+end
+</code></pre>
+
+<h3 id="6可能的话使用-bulk-方法">6、可能的话，使用 bulk 方法</h3>
+
+<p>这是为了告诉阅读者，所有的 assertion 都是针对同一个 subject。</p>
+
+<p>同时，这也是 DRY 的体现。</p>
+
+<pre><code class="language-ruby"># BAD
+it 'has correct attributes' do
+  expect(user.name).to eq 'john'
+  expect(user.age).to eq 20
+  expect(user.email).to eq 'john@ruby.com'
+  expect(user.gender).to eq 'male'
+  expect(user.country).to eq 'us'
+end
+
+# GOOD
+it 'has correct attributes' do
+  expect(user).to have_attributes(
+    name: 'john',
+    age: 20,
+    email: 'john@ruby.com',
+    gender: 'male',
+    country: 'us',
+  )
+end
+</code></pre>
+
+<h3 id="7理解在-rspec-中-transaction-是如何工作的">7、理解在 RSpec 中 transaction 是如何工作的</h3>
+
+<p>默认情况下，transaction 由每个 example 进行创建和封装。这允许一个 example 内的所有数据库操作进行回滚以确保下一个 example 处于一个干净的状态。</p>
+
+<p>在诸如<code>before(:context)</code>或<code>before(:all)</code>的某些 hook 内创建数据库记录在上述默认 transaction 行为下将不会被回滚。这将导致脏数据及相应的 race conditions。</p>
+
+<pre><code class="language-ruby">ontext 'context 1' do
+  before(:context) do
+    create(:user) # WON'T BE ROLLED-BACK
+  end
+
+  before do
+    create(:user) # will be rolled-back
+  end
+
+  # ...
+end
+
+context 'context 2' do
+  before(:context) do
+    create(:user) # WON'T BE ROLLED-BACK
+  end
+
+  # ...
+end
+
+# BY NOW, THERE ARE 2 USER RECORDS COMMITED TO DATABASE
+</code></pre>
+
+<h3 id="8对于-mock-避免使用-expect">8、对于 mock 避免使用 expect</h3>
+
+<p>尽管 expect 可被用于 mock 目标，但严格意义上 expect 是用于 assertion 的。</p>
+
+<p>这种情况下，使用 allow 才是正确的。</p>
+
+<p>而且，要提醒我们自己一下，mock 是测试的 setup 场景的一部分，而不是 assertion 场景的。</p>
+
+<pre><code class="language-ruby"># BAD: expect...and_return
+it 'returns the sync value' do
+  expect(service).to receive(:sync).and_return(value) # mix between setup and assertion
+  expect(subject).to eq value
+end
+
+# GOOD
+before do
+  allow(service).to receive(:sync).and_return(value) # Set up
+end
+
+describe 'the service' do
+  it 'syncs' do
+    expect(service).to receive(:sync) } # assert
+  end
+end
+
+it { is_expected.to eq value } # assert
+</code></pre>
+
+<h3 id="9对于有类似模式的测试用例使用-configs">9、对于有类似模式的测试用例使用 configs</h3>
+
+<p>这是 DRY 的体现，也让阅读者更易于理解。</p>
+
+<pre><code class="language-ruby">
+# BAD
+#
+describe '.extract_extension' do
+  subject { described_class.extract_extension(filename) }
+
+  context 'when the filename is empty' do
+    let(:filename) { '' }
+    it { is_expected.to eq '' }
+  end
+
+  context 'when the filename is video123.mp4' do
+    let(:filename) { 'video123.mp4' }
+    it { is_expected.to eq 'mp4' }
+  end
+
+  context 'when the filename is video.edited.mp4' do
+    let(:filename) { 'video.edited.mp4' }
+    it { is_expected.to eq 'mp4' }
+  end
+
+  context 'when the filename is video-edited' do
+    let(:filename) { 'video-edited' }
+    it { is_expected.to eq '' }
+  end
+
+  context 'when the filename is .mp4' do
+    let(:filename) { '.mp4' }
+    it { is_expected.to eq '' }
+  end
+end
+
+
+# GOOD
+#
+describe '.extract_extension' do
+  subject { described_class.extract_extension(filename) }
+
+  test_cases = [
+    '' =&gt; '',
+    'video123.mp4' =&gt; 'mp4'
+    'video.edited.mp4' =&gt; 'mp4'
+    'video-edited' =&gt; ''
+    '.mp4' =&gt; ''
+  ]
+
+  test_cases.each do |test_filename, extension|
+    context "when filename = #{test_filename}" do
+      let(:filename) { test_filename }
+      it { is_expected.to eq extension }
+    end
+  end
+end
+</code></pre>
+
+
+</div>
+
+<!-- Rating -->
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=写好RSpec的9个技巧&url=/2020/06/rspec-9-tips/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/06/rspec-9-tips/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/06/rspec-9-tips/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rails">rails</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rspec">rspec</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#ruby">ruby</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>

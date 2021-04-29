@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<link rel="icon" href="/assets/images/logo.png">
+
+<title>Ruby慢测试的“良医圣手” | The Tragedy of XY</title>
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Ruby慢测试的“良医圣手” | The Tragedy of XY</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Ruby慢测试的“良医圣手”" />
+<meta name="author" content="Mr.Z" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 TestProf 这个 Evil Martians 出品的强大 Gem。作者通过详细的范例场景和代码演示，说明了 TestProf 怎样对 Ruby 测试进行性能分析，找出慢测试的痛点，以及如何使用其提供的工具箱对慢测试改进，缩短测试运行时间，进行令人愉悦的 Ruby 开发。" />
+<meta property="og:description" content="本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 TestProf 这个 Evil Martians 出品的强大 Gem。作者通过详细的范例场景和代码演示，说明了 TestProf 怎样对 Ruby 测试进行性能分析，找出慢测试的痛点，以及如何使用其提供的工具箱对慢测试改进，缩短测试运行时间，进行令人愉悦的 Ruby 开发。" />
+<meta property="og:site_name" content="The Tragedy of XY" />
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200721IMG_20200717_170501.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-07-21T00:00:00+00:00" />
+<script type="application/ld+json">
+{"dateModified":"2020-07-21T00:00:00+00:00","datePublished":"2020-07-21T00:00:00+00:00","description":"本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 TestProf 这个 Evil Martians 出品的强大 Gem。作者通过详细的范例场景和代码演示，说明了 TestProf 怎样对 Ruby 测试进行性能分析，找出慢测试的痛点，以及如何使用其提供的工具箱对慢测试改进，缩短测试运行时间，进行令人愉悦的 Ruby 开发。","url":"/2020/07/testprof-doctor-for-slow-ruby-tests/","@type":"BlogPosting","image":"https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200721IMG_20200717_170501.jpg","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"/assets/images/logo.png"},"name":"Mr.Z"},"mainEntityOfPage":{"@type":"WebPage","@id":"/2020/07/testprof-doctor-for-slow-ruby-tests/"},"author":{"@type":"Person","name":"Mr.Z"},"headline":"Ruby慢测试的“良医圣手”","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+<link href="/assets/css/prism.css" rel="stylesheet">
+
+<link href="/assets/css/theme.css" rel="stylesheet">
+
+<script src="/assets/js/jquery.min.js"></script>
+
+</head>
+
+
+
+
+<body>
+	<!-- defer loading of font and font awesome -->
+	<noscript id="deferred-styles">
+		<link href="https://fonts.googleapis.com/css?family=Sen:400,700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+	</noscript>
+
+<!-- Begin Sidebar Navigation
+================================================== -->
+
+<div class="sidebar">
+</div>
+<div class="nav-icon">
+    <div class="hamburger-bar"></div>
+</div>
+<div id="blackover-nav" class="blackover"></div>
+<nav id="menu">
+    <ul>
+        <h3>Navigation</h3>
+        <li><a href="/">Home</a></li>
+        <li><a href="/categories">Categories</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</nav>
+
+<script src="/assets/js/lunr.js"></script>
+
+<style>
+    
+</style>
+
+<div class="wrap-search">
+    <div class="d-flex align-items-center ml-auto">
+        <i class="fas fa-search show-search"></i>
+        <form class="bd-search ml-3" onSubmit="return lunr_search(document.getElementById('lunrsearch').value);">
+            <input type="text" class="form-control bigradius text-small launch-modal-search" id="lunrsearch" name="q" maxlength="255" value="" placeholder="Type and enter..."/>
+        </form>
+    </div>
+</div>
+
+<div id="lunrsearchresults">
+    <ul></ul>
+</div>
+
+<script src="/assets/js/lunrsearchengine.js"></script>
+
+
+<!-- End Sidebar Navigation
+================================================== -->
+
+<div class="site-content ">
+
+<div class="container">
+
+    <!-- Site Logo/Name
+    ================================================== -->
+
+    <a class="navbar-brand" href="/">
+        <img src="/assets/images/logo.png" alt="The Tragedy of XY">
+    </a>
+
+
+    <!-- Site Tag
+    ================================================== -->
+    
+
+    <!-- Content
+    ================================================== -->
+    <div class="main-content">
+        <div class="entry-header">
+    <!-- Post Title -->
+    <h1 class="posttitle">Ruby慢测试的“良医圣手”</h1>
+    <!-- Author & Date  Box -->
+    
+    
+    <div class="d-flex align-items-center mt-4">
+        <div>
+            
+            <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+            
+        </div>            
+        <div>
+        Written by <a target="_blank" class="text-dark" href="https://xfyuan.github.io">Mr.Z</a> on 
+        <span class="post-date"><time class="post-date" datetime="2020-07-21">21 Jul 2020</time></span>           
+        
+        </div>            
+    </div>
+    
+</div>
+
+<!-- Adsense under title if enabled from _config.yml (change your pub id and slot) -->
+
+
+<!-- Featured Image -->
+
+<div class="entry-featured-image">
+    
+    <img class="featured-image lazyimg " src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200721IMG_20200717_170501.jpg" alt="Ruby慢测试的“良医圣手”">
+    
+</div>
+
+
+<!-- Content -->
+<!-- Post, Page Content
+================================================== -->
+<div class="article-post">
+    <!-- Toc if any -->
+    
+    <!-- End Toc -->
+    <p><em>本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 TestProf 这个 Evil Martians 出品的强大 Gem。作者通过详细的范例场景和代码演示，说明了 TestProf 怎样对 Ruby 测试进行性能分析，找出慢测试的痛点，以及如何使用其提供的工具箱对慢测试改进，缩短测试运行时间，进行令人愉悦的 Ruby 开发。</em></p>
+
+<ul>
+  <li>原文链接：<a href="https://evilmartians.com/chronicles/testprof-a-good-doctor-for-slow-ruby-tests">TestProf: a good doctor for slow Ruby tests — Martian Chronicles, Evil Martians’ team blog</a></li>
+  <li>作者：<a href="https://twitter.com/palkan_tula">Vladimir Dementyev</a></li>
+  <li>站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发人员博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。</li>
+</ul>
+
+<p><em>【下面是正文】</em></p>
+
+<h2 id="概述">概述</h2>
+
+<p><strong>编写测试是开发过程的重要部分，尤其是在 Ruby 和 Rails 社区。我们平常不会关注测试用例套件的性能，直到发现自己在对测试“绿点”的等待中已经耗费了太多时间为止。</strong></p>
+
+<h2 id="前言">前言</h2>
+
+<p>我已经花费了许多时间用在分析测试套件的性能上，也开发了一些很有用的技术和工具来让测试跑得更快。我把所有这些集合到了一个称为 <a href="https://github.com/palkan/test-prof">TestProf</a> 的 Gem 中，这是一个 Ruby 测试的分析工具箱。</p>
+
+<h2 id="the-motivation">The Motivation</h2>
+
+<p><strong>慢测试浪费你的时间，降低你的效率。</strong></p>
+
+<p>你可能在扪心自问：“为什么测试性能很重要？”。在给出任何建议之前，让我向你展示一些统计数据吧。</p>
+
+<p>今年早些时候我做过一个小调查，询问了 Ruby 开发者关于其测试偏好的内容。</p>
+
+<p>首先——各位，好消息是——事实证明大多数 Ruby 开发者都确实会编写测试（坦率地说，我并不感到惊讶）。顺便说一句，这就是我之所以如此喜欢 Ruby 社区的原因。</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/writetests-c0e3731.svg" alt="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/writetests-c0e3731.svg" /></p>
+
+<p>根据这个调查，所有测试套件只有四分之一其运行时间超过 10 分钟——同时只有一半是运行少于 5 分钟。</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/howlong-e6897ac.svg" alt="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/howlong-e6897ac.svg" /></p>
+
+<p>看起来情况还不坏，对吧？那让我们只来看拥有超过 1000 个测试用例的情况。</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/howlong1000-b37bf3e.svg" alt="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/howlong1000-b37bf3e.svg" /></p>
+
+<p>现在看起来就差多了：将近一半的测试套件运行都超过了 10 分钟，而几乎 30%——更是超过了 20 分钟。</p>
+
+<p>顺便说一句，我一直工作着的一个典型 Rails 应用有着 6000 ～ 10000 个测试用例。</p>
+
+<p>当然，你不是每次进行一个改动后都必须运行整个测试套件。通常，当我做一个中等大小的功能时，每次提交之前会运行大约 100 个测试用例，而这只花费一分钟左右。但即使这样的“一分钟”也影响到了我的<em>反馈环</em>（参看 Justin Searls 的<a href="https://www.youtube.com/watch?v=VD51AkG8EZw">演讲</a>）从而浪费了我的时间。</p>
+
+<p>尽管如此，在部署周期之内，我们还是必须在使用 CI 服务时运行所有测试。你是否愿意等待好几十分钟（如果队列中有大量的构建，甚至要数小时）来部署一个 hotfix？ 我很怀疑。</p>
+
+<p>并发地构建会有所帮助，但它们是有代价的。看看下面的柱状图：</p>
+
+<p><img src="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/howmanyci-82f3d21.svg" alt="https://cdn.evilmartians.com/front/posts/testprof-a-good-doctor-for-slow-ruby-tests/howmanyci-82f3d21.svg" /></p>
+
+<p>例如，我<a href="https://onboardiq.com/">当前的项目</a>上，我们有 5 个并行构建，而平均（每个 job）RSpec 耗时是 2 分 30 秒于 1250 个测试用例上。这意味着我们的 EPM（examples per minute）等于 500.</p>
+
+<p>在未优化之前，800 个测试用例耗时 4 分钟——这仅仅 200 EPM！现在每次构建我们节省了 3～4 分钟。</p>
+
+<p>所以，毫无疑问，慢测试浪费你的时间，拉低你的工作效率。</p>
+
+<h2 id="the-toolbox">The Toolbox</h2>
+
+<p>好，你已经认识到了自己的测试套件很慢。如何找出它们慢的原因？</p>
+
+<p>让我略过<a href="https://www.youtube.com/watch?v=q52n4p0wkIs">这个介绍视频</a>的所有说辞直接向你介绍 <a href="https://github.com/palkan/test-prof">TestProf</a>——一个 Ruby 测试分析工具箱。</p>
+
+<p>TestProf 旨在帮你识别测试套件的瓶颈，并为你提供修复它们的“配方”。</p>
+
+<p>我来给你展示下自己是如何使用它来分析并且改进测试的。</p>
+
+<h3 id="general-profiling">General Profiling</h3>
+
+<p>在深入挖掘整个测试套件之前，收集一些常规信息通常很有用。</p>
+
+<p>尝试回答如下问题：</p>
+
+<ul>
+  <li>在哪些地方你的测试花费了更多的时间：controllers、models、services 或者 jobs？</li>
+  <li>最耗时间的 module/method 是什么？</li>
+</ul>
+
+<p>并非那么容易，对吧？</p>
+
+<p>要回答第一个问题，你可以使用 TestProf 的 <a href="https://test-prof.evilmartians.io/#/tag_prof.md"><em>Tag Profiler</em></a>，它让你可以收集到根据特别的 RSpec tag 值进行分组的统计信息。RSpec 为测试用例<a href="https://relishapp.com/rspec/rspec-rails/v/3-6/docs/directory-structure">自动添加</a>了<code>type</code>的 tag，所以我们可以这样使用它：</p>
+
+<pre><code class="language-bash">TAG_PROF=type rspec
+
+[TEST PROF INFO] TagProf report for type
+
+          type          time   total  %total   %time           avg
+
+    controller     08:02.721    2822   39.04   34.29     00:00.171
+       service     05:56.686    1363   18.86   25.34     00:00.261
+         model     04:26.176    1711   23.67   18.91     00:00.155
+           job     01:58.766     327    4.52    8.44     00:00.363
+       request     01:06.716     227    3.14    4.74     00:00.293
+          form     00:37.212     218    3.02    2.64     00:00.170
+         query     00:19.186      75    1.04    1.36     00:00.255
+        facade     00:18.415      95    1.31    1.31     00:00.193
+    serializer     00:10.201      19    0.26    0.72     00:00.536
+        policy     00:06.023      65    0.90    0.43     00:00.092
+     presenter     00:05.593      42    0.58    0.40     00:00.133
+        mailer     00:04.974      41    0.57    0.35     00:00.121
+        ...
+</code></pre>
+
+<p>现在要查找瓶颈即可只关注某些测试类型就够了。</p>
+
+<p>你可能已经了解了常规的 Ruby 分析器，例如 <a href="https://github.com/ruby-prof/ruby-prof">RubyProf</a> 和 <a href="https://github.com/tmm1/stackprof">StackProf</a>。</p>
+
+<p>TestProf 帮助你在测试套件上无需任何调整就能运行它们：</p>
+
+<pre><code class="language-bash">TEST_RUBY_PROF=1 bundle exec rake test
+
+# or
+
+TEST_STACK_PROF=1 rspec
+</code></pre>
+
+<p>这些分析器生成的报告可以帮你识别最热的堆栈路径，从而回答第二个问题。</p>
+
+<p>不幸的是，这种类型的分析需要大量资源，让你本来就不那么快的测试套件愈加迟缓。你不得不在测试的一小部分上来运行它，但如何选择是哪一小部分？好吧，只能随机了！</p>
+
+<p>TestProf 包含一个<a href="https://test-prof.evilmartians.io/#/tests_sampling.md">特别的补丁</a>，让你可以运行随机的 RSpec 用例组（或 Minitest 的）：</p>
+
+<pre><code class="language-bash">SAMPLE=10 bundle exec rspec
+</code></pre>
+
+<p>现在尝试在你 controller 测试的一个样例上运行 StackProf（因为根据上面 TestProf 它们是最慢的）看看输出结果。当我在自己的一个项目上这样做之后，看到了如下内容：</p>
+
+<pre><code class="language-bash">%self     calls  name
+20.85       721   &lt;Class::BCrypt::Engine&gt;#__bc_crypt
+ 2.31      4690  *ActiveSupport::Notifications::Instrumenter#instrument
+ 1.12     47489   Arel::Visitors::Visitor#dispatch
+ 1.04    205208   String#to_s
+ 0.87    531377   Module#===
+ 0.87    117109  *Class#new
+</code></pre>
+
+<p>事实证明我们 <a href="https://github.com/Sorcery/sorcery">Sorcery</a> 的 encryption 配置在测试环境跟在生产环境中一样严格。</p>
+
+<p>一个典型的 Rails 应用中，关于时间你会在报告内看到类似这样的一些内容：</p>
+
+<pre><code class="language-bash">TOTAL    (pct)     SAMPLES    (pct)     FRAME
+   205  (48.6%)          96  (22.7%)     ActiveRecord::PostgreSQLAdapter#exec_no_cache
+    41   (9.7%)          22   (5.2%)     ActiveModel::AttributeMethods::#define_proxy_call
+    20   (4.7%)          14   (3.3%)     ActiveRecord::LazyAttributeHash#[]
+</code></pre>
+
+<p>大量<code>ActiveRecord</code>的东西——意味着大量的数据库操作。想知道如何处理？继续往下看。</p>
+
+<h3 id="database-interactions">Database Interactions</h3>
+
+<p>知道你的测试套件在数据库上花费了多少时间吗？先猜猜看，然后使用 TestProf 来计算一下。</p>
+
+<p>我们<a href="https://evilmartians.com/chronicles/fighting-the-hydra-of-n-plus-one-queries">已经扩展了</a> Rails 中的 instrumentation（ActiveSupport 的 <a href="http://api.rubyonrails.org/classes/ActiveSupport/Notifications.html">Notification</a> 和 <a href="http://guides.rubyonrails.org/active_support_instrumentation.html">Instrumentation</a> 功能），所以让我们略过基础来介绍 <a href="https://test-prof.evilmartians.io/#/event_prof.md"><em>Event Profiler</em></a>。</p>
+
+<p>EventProf 在你的测试套件运行中收集检测指标，并提供包含常规信息的报告以及与指定指标有关的前 N 个最慢的组和用例。目前，它自带的仅支持<code>ActiveSupport::Notifications</code>，但其<a href="https://test-prof.evilmartians.io/#/event_prof.md#custom-instrumentation">很容易跟你自己的解决方案集成</a>。</p>
+
+<p>要获取有关数据库使用情况的信息，我们可以用<code>sql.active_record</code>事件。然后报告看起来会是这样（很类似于<code>rspec --profile</code>）：</p>
+
+<pre><code class="language-bash">EVENT_PROF=sql.active_record rspec ...
+
+[TEST PROF INFO] EventProf results for sql.active_record
+
+Total time: 00:05.045
+Total events: 6322
+
+Top 5 slowest suites (by time):
+
+MessagesController (./spec/controllers/messages_controller_spec.rb:3)–00:03.253 (4058 / 100)
+UsersController (./spec/controllers/users_controller_spec.rb:3)–00:01.508 (1574 / 58)
+Confirm (./spec/services/confirm_spec.rb:3)–00:01.255 (1530 / 8)
+RequestJob (./spec/jobs/request_job_spec.rb:3)–00:00.311 (437 / 3)
+ApplyForm (./spec/forms/apply_form_spec.rb:3)–00:00.118 (153 / 5)
+</code></pre>
+
+<p>对于我目前的项目，耗费在 DB 上的时间量大约是 20%——而这已经是在对其进行了大量优化之后！起初，其耗费时间超过了 30%。</p>
+
+<p>这个指标对于每个项目没有一个单一的最优数字。它高度依赖于你的测试风格：编写更多的单元测试还是集成测试。</p>
+
+<p>我们主要编写集成测试，顺便说一句——20%并不差（但还能更好）。</p>
+
+<p>什么是数据库耗时偏高的典型原因呢？一言难尽，我来捋一捋其中的部分：</p>
+
+<ul>
+  <li>无用的数据生成</li>
+  <li>过重的测试准备（<code>before</code>/<code>setup</code> hooks）</li>
+  <li>Factory cascades</li>
+</ul>
+
+<p>第一个是著名的<code>Model.new</code> vs. <code>Model.create</code>问题（或者<code>build_stubbed</code> vs. <code>create</code>在 <a href="https://robots.thoughtbot.com/use-factory-girls-build-stubbed-for-a-faster-test">FactoryBot 中的区别</a>）——你在对 model 的单元测试中可能不需要写入数据库。所以别那样做，好吧？</p>
+
+<p>但如果已经那样做了怎么办？如何找出哪些测试不需要持久化数据？这就该 <a href="https://test-prof.evilmartians.io/#/factory_doctor.md"><em>Factory Doctor</em></a> 登场了。</p>
+
+<p>当你创建不必要的数据时，FactoryDoctor 会通知你：</p>
+
+<pre><code class="language-bash">FDOC=1 rspec
+
+[TEST PROF INFO] FactoryDoctor report
+
+Total (potentially) bad examples: 2
+Total wasted time: 00:13.165
+
+User (./spec/models/user_spec.rb:3)
+  validates name (./spec/user_spec.rb:8)–1 record created, 00:00.114
+  validates email (./spec/user_spec.rb:8)–2 records created, 00:00.514
+</code></pre>
+
+<p>不幸的是，FactoryDoctor 不是魔术师（它还在学习中），有时它也会发生“误诊”的事情。</p>
+
+<p>第二个问题比较棘手。考虑这个例子：</p>
+
+<pre><code class="language-ruby">describe BeatleSearchQuery do
+  # We want to test our searching feature,
+  # so we need some data for every example
+  let!(:paul) { create(:beatle, name: 'Paul') }
+  let!(:ringo) { create(:beatle, name: 'Ringo') }
+  let!(:george) { create(:beatle, name: 'George') }
+  let!(:john) { create(:beatle, name: 'John') }
+
+  # and about 15 examples here
+end
+</code></pre>
+
+<p>你可能会想：“这里用 fixture 就行了呗”。这貌似个好主意，不过当你正在做一个每天都要更改数十个 model 的大型项目时，就不是那么回事儿了。</p>
+
+<p>另外一个考虑是用<code>before(:all)</code> hook 仅生成数据一次。但这里要提请注意——我们不得不手动清理数据库，因为<code>before(:all)</code>是在事务外运行的。</p>
+
+<p>或者，我们可以把整个组都手动包在一个事务里！这正是 TestProf 的 <a href="https://test-prof.evilmartians.io/#/before_all.md"><code>before_all</code></a> helper 所做的：</p>
+
+<pre><code class="language-ruby">describe BeatleSearchQuery do
+  before_all do
+    @paul = create(:beatle, name: 'Paul')
+    @ringo = create(:beatle, name: 'Ringo')
+    @george = create(:beatle, name: 'George')
+    @john = create(:beatle, name: 'John')
+  end
+
+  # and about 15 examples here
+end
+</code></pre>
+
+<p>如果你想要在不同的组（文件）之间共享 context，考虑使用 <a href="https://test-prof.evilmartians.io/#/any_fixture.md"><em>Any Fixture</em></a>，其让你能从代码生成 fixture（比如，使用 factories）。</p>
+
+<h3 id="factory-cascades">Factory Cascades</h3>
+
+<p><em>Factory cascade</em> 是一个非常普遍但很少解决的问题，它会让你的整个测试套件陷入困境。</p>
+
+<p>简而言之，它是通过嵌套 factory 调用而生成过度数据的不可控进程。TestProf 知道如何处理它，我们已经写了一篇专栏文章来单独讨论这个主题——<a href="https://evilmartians.com/chronicles/testprof-2-factory-therapy-for-your-ruby-tests-rspec-minitest">你值得看一下</a>。</p>
+
+<h3 id="background-jobs">Background Jobs</h3>
+
+<p>除去数据库瓶颈之外，当然还有很多其他瓶颈。我们来说说其中一个。</p>
+
+<p>在测试中有一个 <em>inline</em> 后台任务的普遍做法（例如，<a href="https://github.com/mperham/sidekiq/issues/3495"><code>Sidekiq::Testing.inline!</code></a>）。</p>
+
+<p>通常，我们把一些繁重的事情丢进后台任务中，因此无条件地运行所有任务会拖慢运行时间。</p>
+
+<p>TestProf 支持对后台任务耗费时间的分析（目前，仅对 Sidekiq）。只需告诉它要分析<code>sidekiq.inline</code>：</p>
+
+<pre><code class="language-bash">EVENT_PROF=sidekiq.inline bundle exec rspec
+</code></pre>
+
+<p>现在当你知道了所耗费的准确时间之后，接下来要做什么？简单地关闭 inline 模式很可能会破坏很多测试用例——太多太多以至于无法快速修复。</p>
+
+<p>解决方案就是全局关闭 inline 模式，仅在必要时才使用它。如果你在用 RSpec，则可以这样做：</p>
+
+<pre><code class="language-ruby"># Add a shared context
+shared_context "sidekiq:inline", sidekiq: :inline do
+  around(:each) { |ex| Sidekiq::Testing.inline!(&amp;ex) }
+end
+
+# And use it when necessary
+it "do some bg", sidekiq: :inline do
+  # ...
+end
+</code></pre>
+
+<p>那还是得必须把这些 tag 添加到每个失败的用例上，不是么？抱歉，有 TestProf 在，你确实不必。</p>
+
+<p>在 TestProf 的工具箱中，有一个称为 <a href="https://test-prof.evilmartians.io/#/rspec_stamp.md"><em>RSpec Stamp</em></a> 的特殊工具。它可以<em>自动地</em>添加指定的 tag：</p>
+
+<pre><code class="language-bash">RSTAMP=sidekiq:inline rspec
+</code></pre>
+
+<p>顺便说一句，RSpec Stamp 在其之下是用了 <a href="https://ruby-doc.org/stdlib-2.4.0/libdoc/ripper/rdoc/Ripper.html">Ripper</a> 来解析源文件并准确插入 tag 的。</p>
+
+<p>在<a href="https://test-prof.evilmartians.io/#/rspec_stamp.md">我们的指南</a>里可以阅读到关于如何从<code>inline!</code>迁移到<code>fake!</code>的完整说明。</p>
+
+<h2 id="附记">附记</h2>
+
+<p>TestProf 已经发布在 <a href="https://github.com/palkan/test-prof">GitHub</a> 和 <a href="https://rubygems.org/gems/test-prof">rubygems.org</a>，可随时用在你的应用中，帮助你提升测试套件的性能。</p>
+
+<p>本文只是一个 TestProf 的简介，并未涵盖其所有特性。可以跳转到该系列的下一篇：<a href="https://evilmartians.com/chronicles/testprof-2-factory-therapy-for-your-ruby-tests-rspec-minitest">TestProf II: Factory therapy for your Ruby tests</a> 来学习更多关于 TestProf “医生”的工具包，它们能使你的测试更加漂亮优雅，你的 TDD 反馈环更短更快，从而让你成为一个<em>快乐的</em> Ruby 开发者。</p>
+
+<p>这里是一些额外的资源列表：</p>
+
+<ul>
+  <li>TestProf <a href="https://test-prof.evilmartians.io/">文档</a></li>
+  <li>2017 年 <a href="http://railsclub.ru/">RailsClub Moscow</a> 的“Faster Tests” 演讲（<a href="https://www.youtube.com/watch?v=8S7oHjEiVzs">视频</a>[俄语]，<a href="https://speakerdeck.com/palkan/railsclub-moscow-2017-faster-tests">slides</a>）</li>
+  <li>2017 年 <a href="http://rubyconference.by/">RubyConfBy</a> 的“Run Test Run” 演讲（<a href="https://www.youtube.com/watch?v=q52n4p0wkIs">视频</a>，<a href="https://speakerdeck.com/palkan/rubyconfby-minsk-2017-run-test-run">slides</a>）</li>
+  <li><a href="https://github.com/benoittgt">Benoit Tigeot</a> 发表的 <a href="https://medium.com/appaloosa-store-engineering/tips-to-improve-speed-of-your-test-suite-8418b485205c">“Tips to improve speed of your test suite”</a></li>
+</ul>
+
+
+</div>
+
+<!-- Rating -->
+
+<div class="rating mt-4 mb-4 d-flex align-items-center">
+    <strong class="mr-1">Rating:</strong> <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="4">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+</div>
+
+
+<!-- Author Box if enabled from _config.yml -->
+<!-- Author Box -->
+
+
+<div class="d-flex authorbox align-items-center">
+    <div class="col-md-2 mr-4 text-center">
+        
+        <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+        
+    </div>
+    <div class="col-md-10"> 
+        <a target="_blank" class="text-dark h4" href="https://xfyuan.github.io">About Mr.Z</a>   <a target="_blank" href="https://twitter.com/apexy" class="btn-sm"><i class="fab fa-twitter"></i></a>        
+        <span class="author-description d-block mt-2">A Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.</span>            
+    </div>
+</div>
+
+
+
+<!-- Comments if not disabled with comments: false -->
+<!-- Comments
+================================================== -->
+ 
+<div class="comments">
+    <button class="btn btn-dark show-comments">Load Comments</button>         
+    <div id="comments">  
+        <h4 class="mb-4">Comments</h4>                 
+            <section class="disqus">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'xfyuan'; 
+        var disqus_developer = 0;
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = window.location.protocol + '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+     
+    <div class="clearfix"></div>              
+    </div>    
+</div>       
+
+
+<!-- Share -->
+<div class="share">
+    <p>
+        Share
+    </p>
+    <ul>
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://twitter.com/intent/tweet?text=Ruby慢测试的“良医圣手”&url=/2020/07/testprof-doctor-for-slow-ruby-tests/" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="fab fa-twitter"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://facebook.com/sharer.php?u=/2020/07/testprof-doctor-for-slow-ruby-tests/" onclick="window.open(this.href, 'facebook-share', 'width=550,height=435');return false;">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+        </li>
+
+        <li class="ml-1 mr-1">
+            <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url=/2020/07/testprof-doctor-for-slow-ruby-tests/" onclick="window.open(this.href, 'width=550,height=435');return false;">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+        </li>
+
+    </ul>
+</div>
+
+
+<!-- Related Post -->
+<!-- Related Posts
+================================================== -->
+<div class=" related-posts ">  
+
+    
+    <h2 class="text-center mb-4">Explore more like this</h2>
+    
+    
+    <div class="d-flex justify-content-center align-items-center">
+    
+    <!-- Categories -->
+    
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Programming">Programming</a>                
+    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/categories#Translation">Translation</a>                
+    
+
+    <!-- Tags -->  
+    
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rails">rails</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#rspec">rspec</a>               
+                    
+    <a class="smoothscroll badge badge-primary text-capitalize" href="/tags#ruby">ruby</a>               
+    
+
+    </div>
+
+    
+    
+    
+    <div class="blog-grid-container">
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/hotwire-reactive-rails-with-no-javascript/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg" alt="Hotwire: 没有JavaScript的Reactive Rails">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/hotwire-reactive-rails-with-no-javascript/">Hotwire: 没有JavaScript的Reactive Rails</a>
+                
+                <div class="mb-2 mt-2 font-weight-normal">
+                <div class="rating-holder">
+<div class="c-rating c-rating--regular" data-rating-value="5">
+  <button>1</button>
+  <button>2</button>
+  <button>3</button>
+  <button>4</button>
+  <button>5</button>
+</div>
+</div>
+                </div>
+                
+            </h2>
+            <h4 class="card-text">本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 Rails 的最新“魔法”：Hotwire。这也是 Vladimir Dementyev 在 RailsConf 2021 上的演讲内容。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">24 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/04/the-foundation-of-how-tailwindcss-works/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg" alt="Tailwindcss底层基石的理念">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/04/the-foundation-of-how-tailwindcss-works/">Tailwindcss底层基石的理念</a>
+                
+            </h2>
+            <h4 class="card-text">Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上过纯中做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“在 Rails 6 中整合 Stimulus 和 Tailwind CSS”（被前者在演讲中所引用^_^）。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">10 Apr 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+            
+        
+        
+        
+            
+            
+        
+            
+        
+            
+            <!-- begin post -->
+
+
+<div class="blog-grid-item">
+    <div class="card h-100">
+        <div class="maxthumb">
+            <a href="/2021/03/hotwire-build-turbo-application/">
+                
+
+                    
+                        <img class="img-thumb lazyimg" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAACCAQAAAA3fa6RAAAADklEQVR42mNkAANGCAUAACMAA2w/AMgAAAAASUVORK5CYII=" data-src="https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_133340.jpg" alt="Hotwire之构建Turbo应用">
+                    
+
+                
+            </a>
+        </div>
+        <div class="card-body">
+            <h2 class="card-title">
+                <a class="text-dark" href="/2021/03/hotwire-build-turbo-application/">Hotwire之构建Turbo应用</a>
+                
+            </h2>
+            <h4 class="card-text">本文是对构建 Turbo 应用的具体描述，原文出自：https://turbo.hotwire.dev/handbook/building。
+</h4>
+        </div>
+        <div class="card-footer bg-white">
+            <div class="wrapfooter">
+                
+                <span class="meta-footer-thumb">
+                
+                <img class="author-thumb" src="/assets/images/avatar.png" alt="Mr.Z">
+                
+                </span>
+                <span class="author-meta">
+                <span class="post-name"><a target="_blank" href="https://xfyuan.github.io">Mr.Z</a></span> 
+                
+                <span class="post-date">26 Mar 2021</span>
+                </span>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end post -->
+            
+            
+                
+        </div>        
+</div>
+
+<!-- Review with LD-JSON, adapt it for your needs if you like, but make sure you test the generated HTML source code first: 
+https://search.google.com/structured-data/testing-tool/u/0/
+================================================== -->
+
+    <script type="application/ld+json">
+    {
+    "@context": "http://schema.org/",
+    "@type": "Review",
+    "itemReviewed": {
+    "@type": "Thing",
+    "name": "Ruby慢测试的“良医圣手”"
+    },
+    "author": {
+    "@type": "Person",
+    "name": "Mr.Z"
+    },
+    "datePublished": "2020-07-21",
+    "reviewRating": {
+    "@type": "Rating",
+    "ratingValue": "4",
+    "bestRating": "5"
+    }
+    }
+    </script>
+
+    </div>
+
+    
+
+</div>
+
+<!-- Begin Footer
+================================================== -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 text-center text-lg-left">
+                Copyright © 2021 The Tragedy of XY
+            </div>
+            <div class="col-md-6 col-sm-12 text-center text-lg-right">
+                <a target="_blank" href="https://www.wowthemes.net/memoirs-free-jekyll-theme/">Memoirs Jekyll Theme</a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- End Footer
+================================================== -->
+
+</div> <!-- /.site-content -->
+
+<!-- Scripts (if you need bootstrap.js, please add it yourself. I didn't use it for performance reasons, it was not needed in this theme)
+================================================== -->
+
+<script src="/assets/js/prism.js"></script>
+
+<script src="/assets/js/theme.js"></script>
+
+
+<script src="/assets/js/lazyload.js"></script>
+
+
+
+<script id="dsq-count-scr" src="//xfyuan.disqus.com/count.js"></script>
+
+
+</body>
+</html>
