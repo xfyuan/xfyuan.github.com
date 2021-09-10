@@ -1,4 +1,4 @@
-# xfyuan's blog
+# A personal technical blog => The Tragedy of XY
 
 Tech blog just for development
 
