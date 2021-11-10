@@ -14,9 +14,9 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20211110-231856.j
 
 有了它，在你的编辑器内写代码时，就不再只是以前那种常规的语法或者代码片段的简单提示了，而是能够智能地给出整段整段的相关代码提示。换句话说，它是在“帮”你写代码，而你完全可以在它的基础上稍微改改就可以使用，这样的开发效率那就高了不是一星半点了。
 
-看看下面的演示，超级 Cool 是吧～
+看看下面的演示，超级 Cool 吧～
 
-![https://miro.medium.com/max/1400/1*oxlDwTck7wpccg7MEM4l4w.gif](https://miro.medium.com/max/1400/1*oxlDwTck7wpccg7MEM4l4w.gif)
+![https://blog.logrocket.com/wp-content/uploads/2021/08/Copilot-suggests-two-Hooks.gif](https://blog.logrocket.com/wp-content/uploads/2021/08/Copilot-suggests-two-Hooks.gif)
 
 更棒的是， GitHub 官方除了对它自己的编辑器 [VS Code](https://github.com/github/copilot-docs/blob/main/docs/visualstudiocode/gettingstarted.md#getting-started-with-github-copilot-in-visual-studio-code) 支持之外，还推出了针对 [JetBrains](https://github.com/github/copilot-docs/blob/main/docs/jetbrains/gettingstarted.md#getting-started-with-github-copilot-in-jetbrains) 和 [NeoVim](https://github.com/github/copilot.vim#getting-started) 的 Copilot 插件。
 
@@ -31,7 +31,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20211110-231856.j
 
 这就配置好了！
 
-使用同样简单，**见证奇迹的方法只有一种：敲入一定代码后，稍微停顿片刻，等到暗色提示代码显示后，按`tab`键就行。**有时候，你需要做的就是敲几个字母，按下`tab`，再敲几个字母，再按`tab`，不断继续……直到完事。😉
+使用更是容易，**见证奇迹的方法只有一种：敲入一定代码后，稍微停顿片刻，等到暗色提示代码显示后，按`tab`键就行。**有时候，你需要做的就是敲几个字母，按下`tab`，再敲几个字母，再按`tab`，不断继续……直到……世界末日。😉
 
 比如，我想写一个 Ruby 的斐波那契数列的实现方法，先输入`def fibona`后，稍等片刻，GitHub Copilot 就智能地给出了提示：
 
@@ -41,6 +41,6 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20211110-231856.j
 
 ![截屏2021-11-10下午9.46.35](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午9.46.35.png)
 
-打完收工～简直是一种神奇的体验感。
+打完，收工～对于一个 Coder 来说，简直是一种全新的神奇体验。
 
-写代码从此无难事。
+NeoVim + Copilot，写代码从此无难事。
