@@ -12,7 +12,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220424-20002
 
 于是，我新创建了一个区域，把他们，和他们写的 Vim 插件，放置到一起。这是属于他们的特殊的位置。他们，就是 **Legend** ⭐⭐⭐
 
-感谢 [Tim Pope](https://github.com/tpope)，和你的 `vim-fugitive`，`vim-rails`，`vim-fugitive`，`vim-abolish`、`vim-surround`！
+感谢 [Tim Pope](https://github.com/tpope)，和你的 `vim-fugitive`，`vim-rails`，`vim-unimpaired`，`vim-abolish`、`vim-surround`！
 
 感谢[Junegunn Choi](https://github.com/junegunn)，和你的 `fzf.vim`！
 
