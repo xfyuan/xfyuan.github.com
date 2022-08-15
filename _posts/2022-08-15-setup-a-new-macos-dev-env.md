@@ -134,3 +134,11 @@ git clone https://github.com/xfyuan/nvim.git
 至于一些其他常用软件，如微信等，不在本文的范畴之内。
 
 ***后续如果有新的变动，本文都会持续更新。***
+
+#### 参考文章
+
+- [2022最新V2Ray搭建图文教程，V2Ray一键搭建脚本！](https://www.itblogcn.com/article/1501.html)
+- [mac下镜像飞速安装Homebrew](https://zhuanlan.zhihu.com/p/90508170)
+- [M1芯片Mac上Homebrew安装](https://zhuanlan.zhihu.com/p/341831809)
+- [github克隆走v2ray代理的配置](https://www.cuger.top/github%E5%85%8B%E9%9A%86%E8%B5%B0v2ray%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/)
+- [V2Ray 使用自定义 PAC](https://tr0py.github.io/V2Ray-PAC-Solution/)
