@@ -112,15 +112,33 @@ postgresql redis
 
 asdf 具体的使用方法不多说，去看官网就好，很简单。我用 asdf 安装了 ruby、golang、nodejs 环境。前两者都需要设置才能顺利使用。
 
-Ruby 主要需要配置好使用国内的源，用得最多的就是 RubyChina 了。具体做法参考 [RubyChina 官方文档](https://gems.ruby-china.com/)做法就好。
+### Ruby
 
-Go 的问题则是它安装 pkg 时大量使用了 github、google 的 URL，github 的问题上面已经配置好了，但后者国内仍然访问困难，所以也需要改成使用国内的源。在`~/.zshrc`中添加如下一行：
+主要需要配置好使用国内的源，用得最多的就是 RubyChina 了。具体做法参考 [RubyChina 官方文档](https://gems.ruby-china.com/)做法就好。
+
+### Go
+
+的问题则是它安装 pkg 时大量使用了 github、google 的 URL，github 的问题上面已经配置好了，但后者国内仍然访问困难，所以也需要改成使用国内的源。在`~/.zshrc`中添加如下一行：
 
 ```
 export GOPROXY=https://mirrors.aliyun.com/goproxy/
 ```
 
 以使用国内阿里云的源。现在试试用`go get`命令安装一个 pkg，速度果然快多了。👍
+
+### Nodejs
+
+查看现有源
+
+```
+npm config get registry
+```
+
+设置成淘宝源
+
+```
+npm config set registry https://registry.npm.taobao.org
+```
 
 ## 5、配置 NeoVim
 
