@@ -126,18 +126,24 @@ export GOPROXY=https://mirrors.aliyun.com/goproxy/
 
 以使用国内阿里云的源。现在试试用`go get`命令安装一个 pkg，速度果然快多了。👍
 
-### Nodejs
+### Nodejs/Yarn
 
-查看现有源
+Node
 
 ```
+# 查看现有源
 npm config get registry
-```
-
 设置成淘宝源
+npm config set registry https://registry.npm.taobao.org
+```
+
+Yarn
 
 ```
-npm config set registry https://registry.npm.taobao.org
+# 查看现有源
+yarn config get registry
+设置成淘宝源
+yarn config set registry https://registry.npm.taobao.org
 ```
 
 ## 5、配置 NeoVim
