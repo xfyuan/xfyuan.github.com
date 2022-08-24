@@ -9,10 +9,10 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20220823.jpeg"
 rating: 4
 ---
 
-*本文已获得原作者（Yaroslav Shmarov）和 [Bearer](https://www.bearer.com/)授权许可进行翻译。原文对 Rails Hotwire 技术栈核心 Turbo 的成员：Streams 和 Frames 进行了详细的对比。看过本文后对两者各自的区别，以及分别适用于哪种场景，就会有一个清晰的了解了。*
+*本文已获得原作者（Elizabeth Braae）和 [Bearer](https://www.bearer.com/)授权许可进行翻译。原文对 Rails Hotwire 技术栈核心 Turbo 的成员：Streams 和 Frames 进行了详细的对比。看过本文后对两者各自的区别，以及分别适用于哪种场景，就会有一个清晰的了解了。*
 
 - 原文链接：[The difference between Turbo Streams and Turbo Frames](https://www.bearer.com/blog/turbo-streams-and-turbo-frames)
-- 作者：[Yaroslav Shmarov](https://twitter.com/yarotheslav)
+- 作者：[Elizabeth Braae](https://twitter.com/_elsapet)
 - 站点：Bearer 是一家专注于数据保护业务的公司，致力于构建第一流的数据安全平台来帮助用户公司的成长。
 
 *【正文如下】*
