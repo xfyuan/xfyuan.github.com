@@ -250,6 +250,7 @@ img, img:hover {
         border:0;
         border-radius: 1.5rem;
         &:hover {
+           transform: scale(1.05);
            .card-title a {
                 background-size: 100% 100%;
             }
