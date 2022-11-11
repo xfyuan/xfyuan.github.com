@@ -9,7 +9,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221110-01.
 rating: 5
 ---
 
-*本文已获得原作者（**Alexander Baygeldin**、**Travis Turner**）和 Evil Martians 授权许可进行翻译。原文介绍了 使用 ViewComponent 来构建现代 Rails 前端的故事。*
+*本文已获得原作者（**Alexander Baygeldin**、**Travis Turner**）和 Evil Martians 授权许可进行翻译。原文讲述了在单体式模块架构下，使用 ViewComponent 来构建组件化的现代 Rails 前端的故事。*
 
 - 原文链接：[ViewComponent in the Wild I: building modern Rails frontends](https://evilmartians.com/chronicles/viewcomponent-in-the-wild-building-modern-rails-frontends)
 - 作者：**Alexander Baygeldin**、**Travis Turner**
