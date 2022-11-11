@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Translation, Programming ]
 tags: [ruby, rails, hotwire, turbo]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20220823.jpeg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20220823.jpeg"
 rating: 4
 ---
 

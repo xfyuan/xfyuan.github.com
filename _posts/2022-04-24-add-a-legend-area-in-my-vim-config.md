@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Programming ]
 tags: [vim]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220424-200024.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220424-200024.jpg"
 ---
 
 最近整理了一下自己的 Vim/Neovim 配置文件，发现有好几个 Vim 届的传奇性人物的名字，这么多年来，一直存在于我的配置代码中。而我相信，在全世界有许多许多人都会跟我一样，Vim 配置中“永恒”地保留着这些星辰般的名字。对于这样的传奇，我，我们，将永远心怀感激，铭记于心！❤️❤️❤️

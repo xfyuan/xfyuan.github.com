@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Programming ]
 tags: [github]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220402-234938.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220402-234938.jpg"
 ---
 
 最近发现了一个颇有意思的网站：[https://codeprints.dev](https://codeprints.dev)，它可以统计你的 GitHub 账号的历史（比如五年内）提交状况，并用图形化的方式生成一张 GitHub 风格的图片，让你一目了然。

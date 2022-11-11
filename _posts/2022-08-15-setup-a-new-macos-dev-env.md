@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Programming ]
 tags: [mac]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20220815.jpeg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20220815.jpeg"
 ---
 
 由于一些原因，需要把自己 MacBook 的 macOS 重新安装配置一下**工作/开发**环境。以前都是直接用公司的网络环境，Google、GitHub等访问完全不是问题。结果这次自己一番折腾以后，回头一看，发现还真不是太简单的事情。So，总结其中要点以记录之，作为今后自己和别人的参考，遂有此文。
