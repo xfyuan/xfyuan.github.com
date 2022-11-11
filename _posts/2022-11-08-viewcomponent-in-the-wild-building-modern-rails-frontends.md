@@ -5,7 +5,7 @@ author: Mr.Z
 categories: [ Translation, Programming ]
 tags: [ruby, rails, view_component]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221110-01.jpeg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221110-01.jpeg"
 rating: 5
 ---
 
@@ -315,4 +315,3 @@ P.S. 尽管吃饼干会洒落大量碎屑，冰淇淋却不会。（这并非什
 现在，下一步终于要踏上荒野了—— ViewComponent 在生产环境上的使用，让它成为我们自己的！
 
 下周见！🌲🌳🌲🌳🌲
-
