@@ -189,6 +189,8 @@ end
 利用 concerns，使得拥有大型 API 表层的类的方案是有效可行的。如果你在考虑单一职责原则（SRP），就像 Michael Feathers 在 [Working effectively with Legacy code](https://www.oreilly.com/library/view/working-effectively-with/0131177052/) 中说的那样，你必须区分是在接口层还是在实现层违反 SRP：
 
 > *The SRP violation we care more about is violation at the implementation level. Plainly put, we care whether the class really does all of that stuff or whether it just delegates to a couple of other classes. If it delegates, we don’t have a large monolithic class; we just have a class that is a facade, a front end for a bunch of little classes and that can be easier to manage.*
+>
+> 我们更关心的 SRP 违背是实现层的违背。简单地说，我们关心这个类是否真的做了所有这些事情，或者它是否只是委托给其他几个类。如果是委托了，我们就不会有一个庞大的单体类；我们有的只是一个门面类，它不过是一堆小型类的前端而已，就能更易于管理。
 
 在上面的示例中，并没有胖模型去负责做太多的事情。`Recording::Incineration` 或者 `Recording::Copier` 都是只做一件事的内聚式的类。`Recording::Copyabl` 加入了一个高级别的`#copy_to` 方法到 `Recording` 的公共 API，并保持其相关的代码和数据定义跟其他`Recording`的职责相分离。还有，注意下它是如何使用 Ruby 实现良好的、老派的面向对象：继承，对象组合，以及简单的设计模式。
 
@@ -248,10 +250,14 @@ end
 最早的 DDD 书中对滥用 services 提出了警告：
 
 > *Now, the more common mistake is to give up too easily on fitting the behavior into an appropriate object, gradually slipping towards procedural programming.*
+>
+> 现在，更常见的错误是过于轻易地放弃将行为适配到适当的对象中，逐渐滑向过程编程。
 
 而你也可以在  [Implementing Domain Driven Design](https://www.amazon.com/Implementing-Domain-Driven-Design-Vaughn-Vernon/dp/0321834577/ref=sr_1_1?keywords=implementing+domain+driven+design&qid=1667229833&qu=eyJxc2MiOiIxLjM4IiwicXNhIjoiMC45OCIsInFzcCI6IjAuOTcifQ%3D%3D&sr=8-1&ufe=app_do%3Aamzn1.fos.006c50ae-5d4c-4777-9bc0-4513d670b6bc) 中找到同样的建议：
 
 > *Don’t lean too heavily toward modeling a domain concept as a Service. Do so only if the circumstances fit. If we aren’t careful, we might start to treat Services as our modeling “silver bullet.” Using Services overzealously will usually result in the negative consequences of creating an Anemic Domain Model, where all the domain logic resides in Services rather than mostly spread across Entities and Value Objects.*
+>
+> 不要过于倾向于将领域概念建模为一个 Service。仅仅在情况适合时才这样做。如果我们不仔细地话，就可能会开始将 Services 视为建模的“银弹”。过度使用 Services 通常会导致创建贫血领域模型的负面后果，其中所有领域逻辑都驻留在 Services 中，而不是主要分布在实体和值对象中。
 
 两本书中都讨论了隔离应用层所面临的挑战，其均始于区分领域和应用 services 的细微差别。此外，它们承认大多数分层 DDD 架构都是*宽松的*，有时表现层直接访问领域层。最早的 DDD 书中讲述说让 DDD 得以可用的是*领域层* 的*关键性分离*，注意到了一些项目*没有在用户界面和应用层之间做出明确区分*。
 
@@ -270,5 +276,5 @@ end
 
 所以，如果你曾经放弃了纯粹的 Rails 路线，而现在想知道在处理一些屏幕交互时，自己是否真的需要那些额外的样板类，请确信是有一种替代方案的，它不会损害你的应用的可维护性。它不会阻止你了解如何编写软件——并非别无选择——但它可能会让你再次回到快乐之地。
 
-感谢 *[Jeffrey Hardy](http://quotedprintable.com/)* 在我撰写此文时给出了极有价值的建议。他是纯粹 Rails应用架构方案（我仍在学习并极为喜爱）的主要贡献者之一
+感谢 *[Jeffrey Hardy](http://quotedprintable.com/)* 在我撰写此文时给出了极有价值的建议。他是纯粹 Rails应用架构方案（我仍在学习并极为喜爱）的主要贡献者之一。
 
