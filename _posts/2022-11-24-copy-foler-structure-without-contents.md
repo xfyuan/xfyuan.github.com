@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 拷贝目录结构而不包含文件
+title: macOS下拷贝目录的小事
 author: Mr.Z
 categories: [ Programming ]
 tags: [macos]
