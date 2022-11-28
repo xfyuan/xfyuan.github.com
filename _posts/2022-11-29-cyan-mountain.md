@@ -2,8 +2,8 @@
 layout: post
 title: 青山不改，绿水长流
 author: Mr.Z
-categories: [ life ]
-tags: [mountain]
+categories: [ Life ]
+tags: [life]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221129.jpeg"
 ---
