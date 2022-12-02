@@ -130,3 +130,10 @@
         margin-left: 33%;
     }
 }
+
+// fix about page style in mobile device
+@media (max-width: 768px) {
+    .section-content {
+        padding: 0;
+    }
+}
