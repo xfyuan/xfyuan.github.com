@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Rails render path 继承关系一例
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [ruby, rails]
 comments: true

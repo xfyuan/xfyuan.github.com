@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 在Rails中尽早碾碎N+1查询
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, minitest]
 comments: true

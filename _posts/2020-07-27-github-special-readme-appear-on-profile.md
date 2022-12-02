@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GitHub个人页面的新玩法
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [github]
 comments: true

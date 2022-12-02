@@ -1,7 +1,7 @@
 ---
 layout: post
 title: The legend of Vim
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [vim]
 comments: true

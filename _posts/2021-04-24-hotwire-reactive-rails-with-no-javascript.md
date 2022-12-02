@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Hotwire: 没有JavaScript的Reactive Rails"
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, hotwire, turbo, stimulus]
 comments: true

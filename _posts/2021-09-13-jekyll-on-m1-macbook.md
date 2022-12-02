@@ -1,7 +1,7 @@
 ---
 layout: post
 title: M1 Macbook上的Jekyll二三事
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [jekyll, github]
 comments: true

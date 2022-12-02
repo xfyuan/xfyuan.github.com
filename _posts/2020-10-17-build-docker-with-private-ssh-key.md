@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Build Docker时使用SSH Private Key的新玩法
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [docker ]
 comments: true

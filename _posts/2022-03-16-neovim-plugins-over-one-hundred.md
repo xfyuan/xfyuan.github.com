@@ -1,7 +1,7 @@
 ---
 layout: post
 title: NeoVim插件达到100大关:)
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [neovim]
 comments: true

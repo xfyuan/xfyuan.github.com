@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 让你的NeoVim Builtin LSP美轮美奂
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true

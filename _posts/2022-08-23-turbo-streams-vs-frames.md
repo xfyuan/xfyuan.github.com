@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Turbo: Streams vs. Frames"
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, hotwire, turbo]
 comments: true

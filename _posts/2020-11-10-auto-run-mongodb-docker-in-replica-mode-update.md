@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 自动运行MongoDB Docker为Replica模式（新）
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [docker, mongodb]
 comments: true

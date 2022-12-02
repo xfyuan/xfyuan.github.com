@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Tailwindcss底层基石的理念
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [css, tailwindcss]
 comments: true

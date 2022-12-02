@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 《Programming Elixir >= 1.6》第五章：匿名函数
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true

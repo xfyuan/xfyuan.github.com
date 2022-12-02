@@ -1,7 +1,7 @@
 ---
 layout: post
 title: “端口—适配器”模式的概念(1)
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [architecture, ddd, go]
 comments: true

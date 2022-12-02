@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Code is Art
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [github]
 comments: true

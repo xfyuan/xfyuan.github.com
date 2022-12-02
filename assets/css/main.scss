@@ -1,0 +1,132 @@
+---
+# Add a comment to make this file sass-y.
+# Change this file for any custom CSS.
+---
+
+/* We need to add display:inline in order to align the '>>' of the 'read more' link */
+.post-excerpt p {
+    display:inline;
+}
+
+// Import partials from `sass_dir` (defaults to `_sass`)
+@import
+    "syntax",
+    "starsnonscss"
+;
+
+
+.site-title {
+    font-family: Righteous;
+}
+
+// New postbox style!!
+.blog-style {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+    position: relative;
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+
+    .feature-pin {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        width: 60px;
+    }
+
+    &:before {
+        content: '';
+        background: url(/assets/images/dot-bg.png);
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .blog-content {
+        position: relative;
+        z-index: 10;
+        max-width: 60%;
+        padding-bottom: 60px;
+        background: rgba(0,0,0,.4);
+        padding: 30px;
+        margin-bottom: 72px;
+        border-left: 10px solid #fff;
+
+        .blog-date {
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            margin-bottom: 0;
+        }
+
+        .post-stars {
+            background-color: transparent!important;
+        }
+
+        .blog-read-more {
+            color: #fff;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            transition: 1s cubic-bezier(.075,.82,.165,1);
+            &:hover {
+                color: #888;
+            }
+            i {
+                color: #fff;
+                margin-left: 8px;
+                transition: 2s cubic-bezier(.075,.82,.165,1);
+            }
+            &:hover i {
+                margin-left: 15px;
+            }
+        }
+
+        .heading-2 {
+            font-size: 36px;
+            line-height: 44px;
+            a {
+                color: #fff;
+            }
+        }
+        @media (max-width: 768px) {
+            .heading-2 {
+                font-size: 28px;
+                line-height: 36px
+            }
+        }
+        @media (max-width: 481px) {
+            .heading-2 {
+                font-size: 20px;
+                line-height: 24px
+            }
+        }
+    }
+
+    @media (min-width: 768px) and (max-width:991px) {
+        .blog-content {
+            margin-top:470px;
+            max-width: 100%
+        }
+    }
+
+    @media (max-width: 768px) {
+        .blog-content {
+            margin-top:370px;
+            max-width: 100%
+        }
+    }
+}
+
+// each blog title has different indent to be more beautiful!
+@media (min-width: 991px) {
+    .xy-post-item:nth-of-type(odd) .blog-content {
+        margin-left: 33%;
+    }
+}

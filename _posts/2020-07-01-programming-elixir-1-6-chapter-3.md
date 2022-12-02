@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 《Programming Elixir >= 1.6》第三章：不可变性
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true

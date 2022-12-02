@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Set up development environment & workflow using cygwin in windows7
-author: Mr.Z
+author: xfyuan
 excerpt: "使用Cygwin在Windows7下构建开发环境和工作流（上）"
 modified: 2014-04-24
 categories: [ Tool ]

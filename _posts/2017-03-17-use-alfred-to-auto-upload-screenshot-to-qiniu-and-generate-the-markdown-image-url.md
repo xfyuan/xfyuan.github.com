@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 使用 Alfred workflow 上传截图到七牛并自动生成外链URL
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [mac, alfred]
 comments: true

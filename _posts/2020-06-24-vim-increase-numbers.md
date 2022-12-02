@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Vim 批量递增数字的技巧
-author: Mr.Z
+author: xfyuan
 categories: [ Vim ]
 tags: [vim]
 comments: true

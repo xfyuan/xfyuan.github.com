@@ -1,23 +1,22 @@
 ---
 layout: page
-title: Hey, I’m an Chinese software engineer living and working in Chengdu. I love Creating the future in digital worlds, big and small.
+title: Hey, I’m an Chinese software engineer living and working in Chengdu. I love creating the future in digital worlds, big and small.
 permalink: /about
 comments: false
 image: assets/images/avatar.png
-imageshadow: true
 ---
 
-### My favourites:
+### Favourites:
 
 - Vim
-- Ruby
-- Elixir
+- Ruby/Rails/Elixir
 - Soccer
 - HearthStone
 - Detective Story
 
-### My main career:
+### Careers:
 
 - ThoughtWorks
 - Jinshuju.net
 - Sudiyi (HiveBox now)
+- LongBridge

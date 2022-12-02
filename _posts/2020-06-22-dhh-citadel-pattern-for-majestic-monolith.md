@@ -1,7 +1,7 @@
 ---
 layout: post
 title: “雄伟巨石” 可以成为 “城堡”
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, architecture]
 comments: true

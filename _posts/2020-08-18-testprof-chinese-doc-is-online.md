@@ -1,7 +1,7 @@
 ---
 layout: post
 title: TestProf文档中文版翻译完成上线
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec]
 comments: true

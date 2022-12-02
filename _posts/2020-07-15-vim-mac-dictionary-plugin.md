@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 实现在Vim内直接查询macOS词典的Plugin
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [vim]
 comments: true

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 骑鲸之路——Docker模式下的Rails开发环境构筑（翻译）
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, docker]
 comments: true

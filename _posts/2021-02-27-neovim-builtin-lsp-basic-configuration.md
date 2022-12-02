@@ -1,7 +1,7 @@
 ---
 layout: post
 title: NeoVim Builtin LSP的基本配置
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 《Programming Elixir >= 1.6》序言
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true

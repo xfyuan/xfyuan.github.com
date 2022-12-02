@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 博客帮我获得Jetbrains全家桶的一年Open Source Licence
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [jetbrains]
 comments: true

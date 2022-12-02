@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 为什么我偏爱 Ember.js 胜过 Angular 和 React.js
-author: Mr.Z
+author: xfyuan
 categories: [ Frontend ]
 tags: [ember]
 comments: true

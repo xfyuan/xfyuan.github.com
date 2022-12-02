@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ruby慢测试的“良医圣手”
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec]
 comments: true

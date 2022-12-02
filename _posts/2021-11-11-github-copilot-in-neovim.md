@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 在NeoVim上使用GitHub Copilot！
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [neovim, github]
 comments: true

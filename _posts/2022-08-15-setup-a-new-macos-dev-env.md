@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Setup a new macOS development environment
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [mac]
 comments: true

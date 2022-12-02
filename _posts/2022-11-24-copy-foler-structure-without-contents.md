@@ -1,7 +1,7 @@
 ---
 layout: post
 title: macOS下拷贝目录的小事
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [macos]
 comments: true

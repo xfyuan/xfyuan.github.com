@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Hotwire之使用Turbo Drive导航
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [rails, hotwire, turbo]
 comments: true

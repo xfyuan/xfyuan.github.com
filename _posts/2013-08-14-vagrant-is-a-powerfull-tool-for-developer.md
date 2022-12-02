@@ -1,7 +1,7 @@
 ---
 layout: post
 title: A powerful tool for developer, Vagrant
-author: Mr.Z
+author: xfyuan
 excerpt: "程序员的神兵利器－Vagrant"
 modified: 2013-08-14
 categories: [ Tool ]

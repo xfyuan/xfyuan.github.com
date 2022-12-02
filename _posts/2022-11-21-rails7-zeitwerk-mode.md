@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Rails7 的Zeitwerk模式解惑
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails]
 comments: true

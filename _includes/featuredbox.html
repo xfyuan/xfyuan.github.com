@@ -1,0 +1,23 @@
+<!-- begin post -->
+{% assign author = site.authors[post.author] %}
+
+<div class="xy-post-item col-12">
+    <div class="blog-style d-flex align-items-end" style="background-image: url('{% if post.image contains "://" %}{{ post.image }}{% else %}{{ site.baseurl }}/{{ post.image }}{% endif %}" alt="{{ post.title }}')">
+      <img class="feature-pin" src="{{site.baseurl}}/assets/images/pin.png">
+      <div class="container">
+         <div class="light-text blog-content wow slideInLeft" data-wow-duration=".4s" style="visibility: visible; animation-duration: 0.4s; animation-name: slideInLeft;">
+            <ul class="blog-date list-inline">
+               <li class="list-inline-item">{{ post.date | date_to_string }}</li>
+            </ul>
+            {% if post.rating %}
+            <div class="mb-2 mt-2 font-weight-normal">
+            {% include star_rating_postbox.html %}
+            </div>
+            {% endif %}
+            <h2 class="heading-2"> <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a> </h2>
+            <a class="blog-read-more" href="{{ site.baseurl }}{{ post.url }}">Read More <i class="fas fa-angle-right"></i></a>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- end post -->

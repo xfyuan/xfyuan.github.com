@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 命运的獠牙！
-author: Mr.Z
+author: xfyuan
 categories: [ Life ]
 tags: [life]
 comments: true

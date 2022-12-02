@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 把 SF Mono 字体 Patch 为 Nerd Font
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [font]
 comments: true

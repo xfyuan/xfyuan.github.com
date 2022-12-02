@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 让Docker-Compose如虎添翼的DIP
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [docker]
 comments: true

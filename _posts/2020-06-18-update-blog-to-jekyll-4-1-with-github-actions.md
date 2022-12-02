@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 在 Github Actions 支持下升级博客到 Jekyll 4.1
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [jekyll, github]
 comments: true

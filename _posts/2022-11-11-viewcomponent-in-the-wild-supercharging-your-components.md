@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "野生的ViewComponent（下）: 为组件增压加速"
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, view_component]
 comments: true

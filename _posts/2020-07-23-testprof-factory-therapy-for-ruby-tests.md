@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Ruby测试的“工厂疗法”
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec]
 comments: true

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 对 Hey.com 技术栈的期待
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [ruby, rails, stimulus]
 comments: true

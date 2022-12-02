@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 在 Rails 6 中整合 Stimulus 和 Tailwind CSS
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [ruby, rails, stimulus, tailwindcss]
 comments: true

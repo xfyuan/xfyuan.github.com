@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 纯粹的Rails便已足够
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails]
 comments: true

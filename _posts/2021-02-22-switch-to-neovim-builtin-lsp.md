@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 正式切换到NeoVim Builtin LSP了！
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true

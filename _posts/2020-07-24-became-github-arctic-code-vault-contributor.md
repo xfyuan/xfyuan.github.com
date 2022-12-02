@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 成为2020 GitHub北极源代码保险库计划的贡献者
-author: Mr.Z
+author: xfyuan
 categories: [ Programming ]
 tags: [github]
 comments: true

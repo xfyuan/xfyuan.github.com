@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GraphQL on Rails——避免N+1问题
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, graphql]
 comments: true

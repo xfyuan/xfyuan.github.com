@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "野生的ViewComponent（上）: 构建现代Rails前端"
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, view_component]
 comments: true

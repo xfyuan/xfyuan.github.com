@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 行云流水般的NeoVim Builtin LSP操作
-author: Mr.Z
+author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true

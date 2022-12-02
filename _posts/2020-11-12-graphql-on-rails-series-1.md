@@ -1,7 +1,7 @@
 ---
 layout: post
 title: GraphQL on Rails——启程
-author: Mr.Z
+author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, graphql]
 comments: true
