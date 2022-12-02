@@ -82,7 +82,7 @@ unable to access 'https://github.com/xxxxxx/xxxx/': LibreSSL SSL_read: error:02F
 
 在设置前，我们需要先看一下 V2rayU 的 proxy 端口设置情况：
 
-![截屏2022-08-1412.58.48](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2022-08-14 12.58.48.png)
+![截屏2022-08-1412.58.48](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2022-08-14 12.58.48.png)
 
 图中的 sock 和 http 监听端口，可以使用它默认的不变，也可以改成你自己想用的不同端口。这里我们假设就用默认的。
 

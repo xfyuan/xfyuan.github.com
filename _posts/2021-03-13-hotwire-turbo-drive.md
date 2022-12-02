@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [rails, hotwire, turbo]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_140448.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_140448.jpg"
 ---
 
 本文是对 Turbo Drive 的详细说明，原文出自：[https://turbo.hotwire.dev/handbook/drive](https://turbo.hotwire.dev/handbook/drive)。

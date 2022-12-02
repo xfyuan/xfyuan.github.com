@@ -16,4 +16,4 @@ image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220424-200
 
 感谢[Junegunn Choi](https://github.com/junegunn)，和你的 `fzf.vim`！
 
-![截屏2022-04-2419.53.27](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2022-04-24 19.53.27.png)
+![截屏2022-04-2419.53.27](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2022-04-24 19.53.27.png)

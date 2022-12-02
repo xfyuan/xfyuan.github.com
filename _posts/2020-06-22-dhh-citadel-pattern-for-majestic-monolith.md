@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, architecture]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a008.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a008.jpg"
 ---
 
 【[本文首发于 RubyChina 社区](https://ruby-china.org/topics/39735)】DHH 在 2020.04.08 发表了一篇最新博客 **“The Majestic Monolith can become The Citadel”**，继续讨论对微服务的一点看法，提出了一种与微服务相对的**“城堡”**模式。在 Twitter 上也引发了不少关注，搜关键字“The Majestic Monolith”就能看到很多。这是原文链接：https://m.signalvnoise.com/the-majestic-monolith-can-become-the-citadel/

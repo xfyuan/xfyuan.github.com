@@ -7,7 +7,7 @@ modified: 2013-08-15
 categories: [ Tool ]
 tags: [vagrant,chef]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a002.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a002.jpg"
 toc: true
 ---
 

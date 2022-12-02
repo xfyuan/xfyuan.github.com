@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_131702.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_131702.jpg"
 ---
 
 在配置 NeoVim Builtin LSP 的过程中，发现它自带的原生 UI 界面实在简陋了些。虽然功能用起来没问题，但远远够不上赏心悦目的程度。这对于像我这样的“视觉动物”来说，实在是坚决不能容忍的“大罪”了。

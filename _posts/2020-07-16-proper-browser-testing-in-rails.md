@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, docker]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716IMG_20200703_181721.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716IMG_20200703_181721.jpg"
 rating: 5
 ---
 
@@ -222,7 +222,7 @@ end
 
 下面你可以看到一个`#debug`帮助方法如何工作的演示：
 
-![Debugging system tests](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716debug_local.av1-4989ddb.gif)
+![Debugging system tests](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716debug_local.av1-4989ddb.gif)
 
 ### better_rails_system_tests.rb
 
@@ -484,6 +484,6 @@ dip rspec system
 
 最后，让我向你展示一下如何使用 Browserless.io 的 Docker 镜像的 Debug 查看器进行调试：
 
-![Debugging system tests running in Docker](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716debug_docker.av1-c027cb7.gif)
+![Debugging system tests running in Docker](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200716debug_docker.av1-c027cb7.gif)
 
 

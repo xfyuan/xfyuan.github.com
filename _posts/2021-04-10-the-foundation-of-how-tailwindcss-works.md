@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Programming ]
 tags: [css, tailwindcss]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115551.jpg"
 ---
 
 Tailwindcss 从 2019 年开始逐渐在国外的 Web 开发圈子内盛行起来。国内倒是至今仍然不温不火。2020 年的 Ruby China 上***过纯中***做过一次在项目上使用 tailwindcss 体验的有关演讲。我在 2020 年也写过一篇有关的博客“[在 Rails 6 中整合 Stimulus 和 Tailwind CSS](http://xfyuan.github.io/2020/07/integrate-stimulus-and-tailwindcss-with-rails6/)”（被前者在演讲中所引用^_^）。

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [rails, hotwire, turbo]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115651.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115651.jpg"
 ---
 
 本文是对 Turbo Streams 的详细说明，原文出自：[https://turbo.hotwire.dev/handbook/streams](https://turbo.hotwire.dev/handbook/streams)。

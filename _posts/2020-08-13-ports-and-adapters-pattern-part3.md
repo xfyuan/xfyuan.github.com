@@ -6,7 +6,7 @@ categories: [ Programming ]
 tags: [architecture, ddd, go]
 comments: true
 toc: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200813IMG_20200808_181906.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200813IMG_20200808_181906.jpg"
 ---
 
 这是“端口—适配器”模式的概念梳理第三部分。

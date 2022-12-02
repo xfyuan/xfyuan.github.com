@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, minitest]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201027_125936.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201027_125936.jpg"
 ---
 
 *本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了 对于 Rails 中经典的 N+1 问题，我们通常使用的 Bullet 的局限性，以及如何运用 [n_plus_one_control](https://github.com/palkan/n_plus_one_control) 以测试的方式来尽早发现 N+1 查询。*

@@ -14,4 +14,4 @@ image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220402-234
 
 我自己 GitHub 最近5年的情况是这样的：
 
-![76807f8c-c8e0-45f9-9dc3-c62c201435ce](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/76807f8c-c8e0-45f9-9dc3-c62c201435ce.jpeg)
+![76807f8c-c8e0-45f9-9dc3-c62c201435ce](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/76807f8c-c8e0-45f9-9dc3-c62c201435ce.jpeg)

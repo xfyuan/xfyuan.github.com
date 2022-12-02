@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210203_085652.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210203_085652.jpg"
 ---
 
 从 2019 年起，我的 Vim（实际是 NeoVim）都使用 [coc.nvim](https://github.com/neoclide/coc.nvim)作为 LSP（Language Server Protocol，微软的一套标准）。但现在，时代变了。

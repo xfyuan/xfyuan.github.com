@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a013.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a013.jpg"
 ---
 
 《Programming Elixir >= 1.6》第三章介绍了 Elixir 的另一块基石，**不可变性（Immutability）**。我阅读本书之后的个人体会是，Elixir 一共有三大基石：**模式匹配、不可变性和 OTP**，以这三块基石为底，**José Valim（Elixir 的创建者。他的名字是葡萄牙语，应读作：何塞·瓦里姆）**构建起了整个语言的宏伟大厦。

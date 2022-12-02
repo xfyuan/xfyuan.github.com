@@ -6,7 +6,7 @@ categories: [ Programming ]
 tags: [architecture, ddd, go]
 comments: true
 toc: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200812IMG_20200808_181024.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200812IMG_20200808_181024.jpg"
 ---
 
 这是“端口—适配器”模式的概念梳理第二部分。
@@ -30,7 +30,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200812IMG_20200808_1
 
 所以依赖如下图这样：
 
-![20200803ddd-figure5](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure5.png)
+![20200803ddd-figure5](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure5.png)
 
 - 一个驱动者适配器依赖于六边形（它使用一个驱动者端口的接口）。
 - 一个从动者适配器依赖于六边形（它实现一个从动者端口的接口）。

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818WechatIMG5.jpeg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818WechatIMG5.jpeg"
 ---
 
 我在前几篇博客中翻译推荐了关于 [TestProf](https://test-prof.evilmartians.io/) 的一些使用方法和技巧，这个 Evil Martins 出品的 Ruby 测试工具 Gem 的强大和有趣，从中可窥一斑。要想了解和使用 TestProf 的全部功能，当然还是需要去看它的官方文档（地址：[https://test-prof.evilmartians.io](https://test-prof.evilmartians.io)）。顺便说一句，连这个 Gem 文档的网站都秉承了 Evil Martins 的一贯风格，同样的精致，同样的讲究设计感。
@@ -20,11 +20,11 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818WechatIMG5.jpe
 
 今天，TestProf 文档的[中文版](https://test-prof.evilmartians.io/#/zh-cn/)终于正式放出，可供所有 Ruby 开发者查阅了。效果如下：
 
-![20200818testprof-doc-cn-01](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818testprof-doc-cn-01.jpg)
+![20200818testprof-doc-cn-01](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818testprof-doc-cn-01.jpg)
 
 Vladimir 也在 Twitter 上发布了中文版文档上线的消息:)
 
-![20200818testprof-doc-cn-02](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818testprof-doc-cn-02.jpg)
+![20200818testprof-doc-cn-02](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818testprof-doc-cn-02.jpg)
 
 衷心希望 TestProf 的中文文档能够帮助所有国内的 Ruby 开发者把测试写得更加高效，也让编写测试成为一种乐趣，从而让 Ruby/Rails 程序更加完美！
 

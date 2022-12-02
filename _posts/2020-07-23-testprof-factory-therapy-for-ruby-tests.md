@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200723IMG_20200717_185642.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200723IMG_20200717_185642.jpg"
 rating: 4
 ---
 

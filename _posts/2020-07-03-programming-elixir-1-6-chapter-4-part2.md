@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a015.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a015.jpg"
 ---
 
 这是《Programming Elixir >= 1.6》第四章的第二部分。不多说了，直接上正文吧。

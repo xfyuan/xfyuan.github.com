@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115520.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115520.jpg"
 ---
 
 上一篇博客说过，现在官方对 NeoVim Builtin LSP 的配置已经做到了足够简洁易用的地步。这一篇就来看看怎样按照 NeoVim 官方的说明，一步一步把 LSP 给配置为可用于实际开发中。

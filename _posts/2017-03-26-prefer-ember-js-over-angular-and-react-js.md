@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Frontend ]
 tags: [ember]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a006.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a006.jpg"
 ---
 
 前几天看到了这篇文章：[Why I prefer Ember.js over Angular & React.js](http://voidcanvas.com/prefer-ember-js-angular-react-js/)，觉得对于国内期望了解 Ember.js 的开发者来说是一个不错的介绍。于是和该文的作者 [Paul Shan](http://voidcanvas.com/author/paulshan/) 联系取得翻译的授权，翻译了过来。译文如下：

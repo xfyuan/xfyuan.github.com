@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, hotwire, turbo, stimulus]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg"
 rating: 5
 ---
 
@@ -96,7 +96,7 @@ Turbo Frames 带来了页面在局部上的无缝更新（不像 Turbo Drive 是
 
 AnyCable demo 应用（称为 *AnyWork*）允许你创建 dashboards，其带多个 ToDo 列表和一个聊天室。用户可以与不同列表中的条目进行交互：添加、删除以及把其标注为已完成。
 
-![turbo_frames.av1-d92b50b](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_frames.av1-d92b50b.gif)
+![turbo_frames.av1-d92b50b](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_frames.av1-d92b50b.gif)
 
 起初，完成和删除这些条目是通过 AJAX 请求和[一个自定义 Stimulus controller](https://github.com/anycable/anycable_rails_demo/blob/fdb1353b3fa4aae2598b5eaceba838b73d09254e/frontend/controllers/list_controller.js) 来做到的。我决定使用 Turbo Frames 来重写这部分功能以全部使用 HTML。
 
@@ -302,7 +302,7 @@ Turbo Streams 经常在实时更新的语境中被提到（且常常被用来跟
 
 来看看我们能够如何在 Turbo Streams 之上构建列表的同步化：
 
-![turbo_streams.av1-17e20a6](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_streams.av1-17e20a6.gif)
+![turbo_streams.av1-17e20a6](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/turbo_streams.av1-17e20a6.gif)
 
 在有 Turbo 之前，我不得不添加一个自定义的 Action Cable channel 和一个 Stimulus controller 来处理广播的事情。我也需要处理消息的格式，因为必须区分对条目的删除和完成。换句话说，有不少代码要维护。
 

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Programming ]
 tags: [jetbrains]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/2021911-22640.jpeg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/2021911-22640.jpeg"
 ---
 
 我前年趁着 V2ex 搞的 Jetbrains 家买一（年）赠一（年）活动买了它家的 IDEA Ultimate 版本。最近两天，它突然开始弹出窗口提示说还有一个月就要到期了。续费还是不续费，这是个问题。得考虑一下了～
@@ -16,18 +16,18 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/2021911-22640.jpe
 
 申请流程其实相当简单，按照 Jetbrains 家的申请表单一步步填写就好：[https://www.jetbrains.com/shop/eform/opensource](https://www.jetbrains.com/shop/eform/opensource)
 
-![g7PQcw](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/g7PQcw.jpg)
+![g7PQcw](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/g7PQcw.jpg)
 
 因为 Jetbrains 家对申请项目的要求是有一定条件的：
 
-![MDrHOU](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/MDrHOU.png)
+![MDrHOU](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/MDrHOU.png)
 
 所以我理所当然地使用了本博客的 GitHub repository 作为申请的 Project 对象😄。幸运地是，第二天就收到了他们的 Email 回复，效率很是神速。结果则是皆大欢喜——他们通过了我的申请❤️。
 
-![zjhCAc](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/zjhCAc.png)
+![zjhCAc](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/zjhCAc.png)
 
 按照邮件里的说明，点击那个链接，就可以激活自己的账号权限了。
 
 然后，此后的一年内，我就可以使用下面这些 Jetbrains 家的产品进行开源项目的开发，美得很！😍
 
-![GlVrg2](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/GlVrg2.png)
+![GlVrg2](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/GlVrg2.png)

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [jekyll, github]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a007.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a007.jpg"
 toc: true
 ---
 

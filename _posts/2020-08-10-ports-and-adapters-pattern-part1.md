@@ -6,7 +6,7 @@ categories: [ Programming ]
 tags: [architecture, ddd, go]
 comments: true
 toc: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200810IMG_20200727_184307.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200810IMG_20200727_184307.jpg"
 ---
 
 最近看了下 DDD（领域驱动设计）和在 Go 中的应用。目前看来，整洁架构（Clean Architecture）和 “端口-适配器架构”（Ports and Adapters Pattern，又叫六边形架构 Hexagonal Architecture）是相对比较成熟的方案了。而后者的概念比较复杂一些，于是在概念上进行一些梳理和澄清。本文是第一部分。
@@ -57,7 +57,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200810IMG_20200727_1
 
 下图展示了在驱动和从动两侧的一些参与者的示例：
 
-![20200803ddd-drivers](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-drivers.png)
+![20200803ddd-drivers](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-drivers.png)
 
 这些关于主（驱动者）和次（从动者）参与者的概念涉及到了使用场景。
 
@@ -89,7 +89,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200810IMG_20200727_1
 
 下图展示了某些驱动者适配器的示例：
 
-![20200803ddd-figure2](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure2.png)
+![20200803ddd-figure2](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure2.png)
 
 - 一个自动化测试框架：把测试用例转换为对驱动者端口的请求。
 - 一个 CLI：把输入文本转换到 console 中。
@@ -104,7 +104,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200810IMG_20200727_1
 
 下图展示了从动适配器的某些示例：
 
-![20200803ddd-figure3](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure3.png)
+![20200803ddd-figure3](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure3.png)
 
 - 一个 mock 适配器：模仿真实配角的行为。例如，内存数据库。
 - 一个 SQL 适配器：实现一个从动者端口以通过 SQL 数据库持久化数据。
@@ -145,5 +145,5 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200810IMG_20200727_1
 
 一个 Web 接口的简单应用程序，由公司雇员使用来相互分配任务。当一个雇员被分配一个任务时，应用程序向他/她发送一封邮件。
 
-![20200803ddd-figure4](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure4.png)
+![20200803ddd-figure4](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200803ddd-figure4.png)
 

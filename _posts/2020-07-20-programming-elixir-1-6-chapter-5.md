@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [elixir]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200720IMG_20200717_150745.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200720IMG_20200717_150745.jpg"
 ---
 
 函数是 Elixir 的数据转换基石的重要引擎之一。Elixir 函数又分为匿名函数和具名函数。《Programming Elixir >= 1.6》用整个第五章专门讲述了“匿名函数”的概念，可见其重要性。如果是写过 JavaScript 的朋友，对“匿名函数”的概念一定不陌生。而 Elixir 的“匿名函数”到底怎样，看这一章就能完全了解。

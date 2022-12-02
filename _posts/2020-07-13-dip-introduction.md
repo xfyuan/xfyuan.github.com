@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [docker]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200713BeQY9A.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200713BeQY9A.jpg"
 ---
 
 前一篇博客“[骑鲸之路——Docker模式下的Rails开发环境构筑（翻译）](https://xfyuan.github.io/2020/07/dockeerizing-rails-development/)”的文章末尾，作者提到了一个叫 [Dip](https://github.com/bibendi/dip) 的工具，引起了我的兴趣。作为 Evil Martions 的开源作品，品质应该是有保证的，值得一试。我经过几天的试用后，感觉很是“惊艳”，觉得完全把它看作 Docker 本地开发环境的两大杀手级生产力工具：Docker-Compose + Dip，称为“帝国双璧”亦不为过。这篇博客就来简单介绍下 Dip 的使用。

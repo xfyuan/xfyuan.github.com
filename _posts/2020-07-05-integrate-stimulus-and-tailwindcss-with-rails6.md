@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Programming ]
 tags: [ruby, rails, stimulus, tailwindcss]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a017.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a017.jpg"
 ---
 
 上一篇博客提到了 Stimulus。Stimulus 也是 Basecamp 开源发布的一个前端 JS 方案（我个人认为，跟 React、Vuejs这些 JS 框架相比，Stimulus 应该还称不上是一个框架）。Stimulus 的文档很简单，主要就 [Handbook](https://stimulusjs.org/handbook/introduction) 和 [Reference](https://stimulusjs.org/reference/controllers) 两部分，基本两个小时就能看完。

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [docker, mongodb]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201107_133102.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201107_133102.jpg"
 ---
 
 在[前一篇博客《自动运行MongoDB Docker为Replica模式》](https://xfyuan.github.io/2020/09/auto-run-mongodb-docker-in-replica-mode/)中，提到了如何自动实现让 MongoDB 在 docker 中以 Replica 模式运行的做法。但最近发现，当时的做法是有点问题的——如果跟其他 docker 镜像用`docker-compose`搭成环境后，其他的 docker 容器无法正常连接到该 MongoDB 使用。

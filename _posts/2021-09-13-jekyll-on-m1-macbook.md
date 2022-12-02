@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Programming ]
 tags: [jekyll, github]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20210913-225138.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20210913-225138.jpg"
 ---
 
 最近，在 M1 Macbook 上想要把博客运行起来，一番折腾之后，最终顺利搞定。把这过程中碰到的几个问题记录一下。
@@ -53,7 +53,7 @@ TypeError: unable to resolve type 'size_t'
 
 最近几天突然收到好多我的博客 GitHub Action 失败的 Email 通知，点开链接一看，好家伙，已经红了一片～
 
-![zdfeZC](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/zdfeZC.png)
+![zdfeZC](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/zdfeZC.png)
 
 晚上抽点时间查了一下，原来是 Jekyll GitHub Action 版本已经升级了，有几处 Deprecated 调整导致的。
 
@@ -109,4 +109,4 @@ jobs:
 
 如此，GitHub Action 又恢复了正常。
 
-![BlIKnr](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/BlIKnr.png)
+![BlIKnr](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/BlIKnr.png)

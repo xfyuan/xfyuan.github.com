@@ -7,7 +7,7 @@ modified: 2013-08-14
 categories: [ Tool ]
 tags: [vagrant]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a001.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715a001.jpg"
 toc: true
 ---
 

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, docker]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710UngNYW.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710UngNYW.jpg"
 ---
 
 *本文已获得原作者（Vladimir Dementyev）和 Evil Martians 授权许可进行翻译。原文介绍了一套成熟的 Rails 项目的 Docker 化开发环境如何搭建，怎样通过一些配置技巧让其高效运行。也谈到了这种模式下的开发流程和诀窍等问题。关于 Docker 作为开发环境的做法早已不是新鲜事，相关文章更是有非常多了。但本文是一名卓越的 Ruby 开发者在两年开发实践中提炼出的真正经验之谈，解答了之前自己对 Docker 开发环境模式的种种疑惑，因此觉得很有价值，遂成此文。*
@@ -16,7 +16,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710UngNYW.jpg"
 
 *【下面是正文】*
 
-![20200710WutVn8](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710WutVn8.png)
+![20200710WutVn8](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710WutVn8.png)
 
 **这篇文章是对我在 RailsConf 2019 上演讲[“Terraforming legacy Rails applications”](https://speakerdeck.com/palkan/railsconf-2019-terraforming-legacy-rails-applications)的整理。今天我不是要说服你把应用程序开发切换到 Docker（不过你可以去看一下[当时 RailsConf 的视频](https://www.youtube.com/watch?v=-NKpMn6XSjU)了解更多）。我的目的是分享目前自己在 Rails 项目上使用的配置，其诞生于 Evil Martians 的开发工作中。尽情享用它吧！**
 

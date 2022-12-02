@@ -5,12 +5,12 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [rails, hotwire, turbo]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_134511.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_134511.jpg"
 ---
 
 我去年 7 月的博客[对 Hey.com 技术栈的期待](https://xfyuan.github.io/2020/07/dhh-talk-about-heystack/) 中提到了 DHH 在 HEY 中所使用的新技术栈。而在去年 12 月 23 日，DHH 不负所望，如期宣布了他的“NEW MAGIC”：[Hotwire](https://hotwire.dev/)
 
-![LQ2YA5](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/LQ2YA5.png)
+![LQ2YA5](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/LQ2YA5.png)
 
 Hotwire 由 [Turbo](https://turbo.hotwire.dev/)、[Stimulus](https://stimulus.hotwire.dev/) 和 Strada（将于2021公布） 构成。Strada 尚未发布先不论，Stimulus 也是早就发布的技术，并非新事物，所以真正的焦点就是 Turbo 了。这篇博客即是 Turbo 的一个概览。原文出自：[https://turbo.hotwire.dev/handbook/introduction](https://turbo.hotwire.dev/handbook/introduction)
 

@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [vim]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715xotlyj.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715xotlyj.jpg"
 ---
 
 我每天都会使用 Vim。用 Vim 不论编写自己的代码还是阅读别人的代码，这中间自然都会碰到一些不认识的英文词汇，自己就总会习惯性地想随手查一下单词的中文释义。而如何最高效地解决这个问题便成了一个有趣的事情。
@@ -14,7 +14,7 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715xotlyj.jpg"
 
 然后就用上了 macOS 上大名鼎鼎的 Alfred 这个 App。GitHub 上有一个给它写的 workflow，让你可以在 Alfred 的弹出窗口中输入要查的单词，下方自动显示查询结果。这在效率上已经是前进了一大步，基本足够应对绝大多数的场景。但用的时间长了，还是发现它有不足的地方。因为 Alfred 显示查询结果时只能在一行中，而很多时候一个单词的释义内容很长，一行根本显示不完。这时就只能还是再敲一下回车键打开词典查看。比如下图中的 Service 释义，实际内容可远远不止截图中这么一点：
 
-![20200715w8UrRn](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715w8UrRn.png)
+![20200715w8UrRn](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715w8UrRn.png)
 
 前几天，又碰到了这样的场景，多次不断打开又关闭 macOS 自带词典之后，我就在考虑能否换个思路完全解决这个问题？
 
@@ -28,4 +28,4 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200715xotlyj.jpg"
 
 附一个动态效果图：
 
-![vim-mac-dict-plugin-demo](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/20200714vim-mac-dict-plugin-demo.gif)
+![vim-mac-dict-plugin-demo](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200714vim-mac-dict-plugin-demo.gif)

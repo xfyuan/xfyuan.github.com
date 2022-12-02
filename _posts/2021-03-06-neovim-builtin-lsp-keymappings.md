@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Tool ]
 tags: [neovim]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210225_130053.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210225_130053.jpg"
 ---
 
 既然我们的 NeoVim 已经配置好 Builtin LSP 的 Server 和 Client，就该来看看如何使用它的问题了，也就是相关的 Keybinding 设定。好的 Keybinding 设定会让人在使用时运指如飞。
