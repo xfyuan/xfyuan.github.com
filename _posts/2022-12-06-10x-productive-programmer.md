@@ -26,6 +26,6 @@ Alberto Fernández-Capel 在最后总结了这类人（“10倍生产力”）�
 
 > To do good work you need to have time to focus on the work itself. You need to have a solid technical foundation. You need autonomy. You need to make hard decisions about what’s important and what’s accessory. That’s what makes the big difference and can increase your productivity manifold.
 >
-> **要做好工作，你需要花时间专注于工作本身，需要有坚实的技术基础，需要独立自主，需要做出艰难的决定来决定什么是重要的，什么是次要的。这些，就是能够在各个方面提高你生产力并造成巨大差异的原因。**
+> **要做好工作，你需要花时间专注于工作本身，需要有坚实的技术基础，需要自律自主，需要做出艰难的决定来决定什么是重要的，什么是次要的。这些，就是能够在各个方面提高你生产力并造成巨大差异的原因。**
 
 我想，如上所述的这种追求，对于一名开发者而言，值得一直坚持下去。
