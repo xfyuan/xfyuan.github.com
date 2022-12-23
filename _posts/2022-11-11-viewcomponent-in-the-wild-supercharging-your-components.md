@@ -399,7 +399,7 @@ window.Stimulus = Application.start()
 Stimulus.register("hello", HelloController)
 ```
 
-> 想了解更多，请参考我们的另一篇博客：“[Vite-lizing Rails: get live reload and hot replacement with Vite Ruby](https://evilmartians.com/chronicles/vite-lizing-rails-get-live-reload-and-hot-replacement-with-vite-ruby)”
+> 想了解更多，请参考我们的另一篇博客：“[Vite-lizing Rails: get live reload and hot replacement with Vite Ruby](https://evilmartians.com/chronicles/vite-lizing-rails-get-live-reload-and-hot-replacement-with-vite-ruby)”（中文译文：[Vite化的Rails](https://xfyuan.github.io/2022/12/vite-lizing-rails/)）
 
 这样倒是能工作，但是有太多改进可做。首先，我们想要推断 controller 名称并自动把其注册到相对应的 controller 类。再一次地，这严重依赖于你的 assets pipeline 配置，但假如我们使用的是 Vite，那么就可以这样：
 

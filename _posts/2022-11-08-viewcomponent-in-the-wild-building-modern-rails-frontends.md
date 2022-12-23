@@ -95,7 +95,7 @@ React/Vue.js/Svelte/等就是唯一的方式来构建现代、响应式的 Web �
 
 前端开发者习惯于“在组件中思考”。并且，从经验上讲，在后端应用相同的方案，当需要深入后端代码去修复一些视图问题时，极大地减少了他们的学习曲线（而且，说实话，这种必要性迟早会出现）。
 
-> 想了解更多，请参考我们的另一篇博客：“[Vite-lizing Rails: get live reload and hot replacement with Vite Ruby](https://evilmartians.com/chronicles/vite-lizing-rails-get-live-reload-and-hot-replacement-with-vite-ruby)”
+> 想了解更多，请参考我们的另一篇博客：“[Vite-lizing Rails: get live reload and hot replacement with Vite Ruby](https://evilmartians.com/chronicles/vite-lizing-rails-get-live-reload-and-hot-replacement-with-vite-ruby)”（中文译文：[Vite化的Rails](https://xfyuan.github.io/2022/12/vite-lizing-rails/)）
 
 总而言之，Rails 的 asset pipeline 后来已经改进了许多（使用诸如 Propshaft、esbuild、Vite 等等），这不是秘密了。可以肯定地说，在功能和可用性方面，它已经赶上了前端工具。与前端开发者在同一领域中相比，唯一缺失的是正确的设计模式，而我相信 ViewComponent 最终填补了这个缺口。所以，我满怀期望已经能够说服你，后端的视图组件（View Component）完全值得一试！
 
