@@ -1,12 +1,12 @@
 # Site
-name: "The Tragedy of XY"
-title: "The Tragedy of XY"
+name: "TRAGEDXY"
+title: "TRAGEDXY"
 description: "A software engineer's blog."
-logo: 'assets/images/logo.png'
-favicon: 'assets/images/favicon.ico'
-baseurl: ''
-google_analytics: ''
-disqus: 'xfyuan'
+logo: "assets/images/logo.png"
+favicon: "assets/images/favicon.ico"
+baseurl: ""
+google_analytics: ""
+disqus: "xfyuan"
 mailchimp-list:
 include: ["_pages"]
 permalink: /:year/:month/:title/
@@ -16,7 +16,7 @@ authors:
   xfyuan:
     name: xfyuan
     display_name: xfyuan
-    avatar: 'assets/images/avatar.png'
+    avatar: "assets/images/avatar.png"
     gravatar: bc13037f8ea7af96ccde743e6648688f
     email: apexy2007@gmail.com
     web: https://xfyuan.github.io
@@ -37,7 +37,7 @@ jekyll-archives:
     - categories
   layout: archive
   permalinks:
-    category: '/category/:name/'
+    category: "/category/:name/"
 
 # Pagination
 paginate: 6
