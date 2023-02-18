@@ -2,7 +2,7 @@
 layout: post
 title: 在NeoVim上使用GitHub Copilot！
 author: xfyuan
-categories: [ Programming ]
+categories: [Vim]
 tags: [neovim, github]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20211110-231856.jpg"
@@ -10,7 +10,7 @@ image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20211110-231856
 
 最近，GitHub 推出了一个写代码的神器——GitHub Copilot，火遍国内国外，大江南北。GitHub 称其为 **“Your AI pair programmer”** —— “你的人工智能结对编程助手”。
 
-![截屏2021-11-10下午10.23.12](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午10.23.12.png)
+![截屏2021-11-10下午10.23.12](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午 10.23.12.png)
 
 有了它，在你的编辑器内写代码时，就不再只是以前那种常规的语法或者代码片段的简单提示了，而是能够智能地给出整段整段的相关代码提示。换句话说，它是在“帮”你写代码，而你完全可以在它的基础上稍微改改就可以使用，这样的开发效率那就高了不是一星半点了。
 
@@ -35,11 +35,11 @@ image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/20211110-231856
 
 比如，我想写一个 Ruby 的斐波那契数列的实现方法，先输入`def fibona`后，稍等片刻，GitHub Copilot 就智能地给出了提示：
 
-![截屏2021-11-10下午9.46.13](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午9.46.13.png)
+![截屏2021-11-10下午9.46.13](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午 9.46.13.png)
 
 嗯，是我想要的答案，按下`tab`后
 
-![截屏2021-11-10下午9.46.35](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午9.46.35.png)
+![截屏2021-11-10下午9.46.35](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/截屏2021-11-10 下午 9.46.35.png)
 
 打完，收工～对于一个 Coder 来说，简直是一种全新的神奇体验。
 

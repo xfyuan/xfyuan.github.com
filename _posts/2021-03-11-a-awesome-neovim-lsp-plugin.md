@@ -2,7 +2,7 @@
 layout: post
 title: 让你的NeoVim Builtin LSP美轮美奂
 author: xfyuan
-categories: [ Tool ]
+categories: [Vim]
 tags: [neovim]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_131702.jpg"
@@ -33,8 +33,6 @@ image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_13
 - 浮动终端窗口
 
 ![https://user-images.githubusercontent.com/41671631/105658287-2c6ed880-5f01-11eb-8af6-daa6fd23576c.gif](https://user-images.githubusercontent.com/41671631/105658287-2c6ed880-5f01-11eb-8af6-daa6fd23576c.gif)
-
-
 
 确实相当精致！
 

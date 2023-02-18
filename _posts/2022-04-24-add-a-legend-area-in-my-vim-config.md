@@ -2,7 +2,7 @@
 layout: post
 title: The legend of Vim
 author: xfyuan
-categories: [ Programming ]
+categories: [Vim]
 tags: [vim]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/Img20220424-200024.jpg"

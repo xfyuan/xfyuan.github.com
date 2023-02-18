@@ -2,7 +2,7 @@
 layout: post
 title: 行云流水般的NeoVim Builtin LSP操作
 author: xfyuan
-categories: [ Tool ]
+categories: [Vim]
 tags: [neovim]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210225_130053.jpg"
@@ -53,4 +53,4 @@ nnoremap <silent><leader>l, <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 可以看到，我把全部快捷键都定义为以`<leader>l`开头，这样即有规律，便于记忆了。而 FZF 的加持更是如虎添翼，写起代码来行云流水，流畅自如。
 
-下一篇再介绍另一个很棒的 LSP 插件，让人写起代码来更加赏心悦目😄
+下一篇再介绍另一个很棒的 LSP 插件，让人写起代码来更加赏心悦目 😄

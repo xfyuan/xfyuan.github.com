@@ -2,7 +2,7 @@
 layout: post
 title: 懒惰的Neovim
 author: xfyuan
-categories: [Programming]
+categories: [Vim]
 tags: [vim neovim]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20230214.jpeg"

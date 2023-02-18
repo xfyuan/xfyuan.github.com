@@ -2,7 +2,7 @@
 layout: post
 title: NeoVim Builtin LSP的基本配置
 author: xfyuan
-categories: [ Tool ]
+categories: [Vim]
 tags: [neovim]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_115520.jpg"
@@ -36,27 +36,26 @@ EOF
 
 当然了，全部工作其实还没完。但 NeoVim 层面的部分确实已经结束了，算是足够简洁了吧？
 
-*上面我都是使用了 nvim-lspconfig 的默认配置，因为足够了。但如果你想要针对每种语言单独做一些特别的设置，那么可以参考 nvim-lspconfig 的[这个文档](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md)。*
+_上面我都是使用了 nvim-lspconfig 的默认配置，因为足够了。但如果你想要针对每种语言单独做一些特别的设置，那么可以参考 nvim-lspconfig 的[这个文档](https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md)。_
 
 接下来，我还需要在自己系统上把上述三种语言的 LSP Server 安装上，然后 NeoVim 以上所配置好的 LSP Client 就可以正确地连接上它们。
 
-Ruby 的  LSP Server 我使用 Solargraph，通过 Gem 安装：
+Ruby 的 LSP Server 我使用 Solargraph，通过 Gem 安装：
 
 ```bash
 gem install solargraph
 ```
 
-JavaScript 的  LSP Server 我使用 tsserver，通过 npm 安装：
+JavaScript 的 LSP Server 我使用 tsserver，通过 npm 安装：
 
 ```bash
 npm install -g typescript typescript-language-server
 ```
 
-Golang 的  LSP Server 我使用 gopls，通过 go mod 安装：
+Golang 的 LSP Server 我使用 gopls，通过 go mod 安装：
 
 ```bash
 go get golang.org/x/tools/gopls@latest
 ```
 
 全部装好之后，用 NeoVim 打开一个上述三种语言的任意一个项目的代码文件，在 Vim 命令行模式下输入`:LspInfo`，回车，应该就可以看到所有配置成功的 LSP 信息了。
-
