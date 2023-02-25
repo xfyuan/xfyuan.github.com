@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 博客更名为"TRAGEDXY"❤️
+title: 博客更名为「TRAGEDXY」❤️
 author: xfyuan
 categories: [Life]
 tags: [blog]
