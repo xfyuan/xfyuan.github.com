@@ -3,7 +3,7 @@ layout: post
 title: 分形之旅
 author: xfyuan
 categories: [Translation, Programming]
-tags: [ruby, rails]
+tags: [ruby, rails, ddd, 37signals]
 comments: true
 image: "https://dev.37signals.com/assets/images/fractal-journeys/cover.jpg"
 rating: 4

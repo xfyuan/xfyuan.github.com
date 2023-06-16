@@ -3,7 +3,7 @@ layout: post
 title: 等待测试之际
 author: xfyuan
 categories: [Translation, Programming]
-tags: [ruby, rails, testing]
+tags: [ruby, rails, testing, ddd, 37signals]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image2023-0311.jpeg"
 rating: 4

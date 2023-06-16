@@ -3,7 +3,7 @@ layout: post
 title: 纯粹的Rails便已足够
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails]
+tags: [ruby, rails, ddd, 37signals]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221117.jpeg"
 rating: 5
@@ -277,4 +277,3 @@ end
 所以，如果你曾经放弃了纯粹的 Rails 路线，而现在想知道在处理一些屏幕交互时，自己是否真的需要那些额外的样板类，请确信是有一种替代方案的，它不会损害你的应用的可维护性。它不会阻止你了解如何编写软件——并非别无选择——但它可能会让你再次回到快乐之地。
 
 感谢 *[Jeffrey Hardy](http://quotedprintable.com/)* 在我撰写此文时给出了极有价值的建议。他是纯粹 Rails应用架构方案（我仍在学习并极为喜爱）的主要贡献者之一。
-

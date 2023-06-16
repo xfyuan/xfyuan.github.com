@@ -3,7 +3,7 @@ layout: post
 title: 领域驱动，必有勇夫
 author: xfyuan
 categories: [Translation, Programming]
-tags: [ruby, rails]
+tags: [ruby, rails, ddd, 37signals]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20230404.jpeg"
 rating: 4
