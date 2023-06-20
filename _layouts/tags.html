@@ -4,20 +4,48 @@ layout: default
 permalink: "/tags.html"
 ---
 
-<div class="row listrecent">
-{% for tag in site.tags %}
-<div class="section-title col-md-12 mt-4">
-<h2 id="{{ tag[0] | replace: " ","-" }}">Tag: <span class="text-capitalize">{{ tag[0] }}</span></h2>
-</div>
-{% assign pages_list = tag[1] %}
-{% for post in pages_list %}
-{% if post.title != null %}
-{% if group == null or group == post.group %}
-{% include postbox.html %}
-{% endif %}
-{% endif %}
-{% endfor %}
-{% assign pages_list = nil %}
-{% assign group = nil %}
-{% endfor %}
+<div class="section-content">
+    <h2 class="tags-title">Tags:</h2>
+
+    <div class="tags-expo-list">
+        {% for tag in site.tags  %}
+        {% assign tag_size = tag[1].size %}
+        {% assign tag_name = tag[0] %}
+        {% if tag_size < 10 %}
+            {% assign taglist = taglist | append: "0"|append: tag_size|append: ","|append: tag_name |append: "@" %}
+        {% else %}
+        {% assign taglist = taglist | append: tag_size|append: ","|append: tag_name |append: "@" %}
+        {% endif %}
+        {% endfor %}
+        {% assign sorted_taglist = taglist | split: "@" |sort|reverse %}
+        {% for sorted_tag in sorted_taglist %}
+        {% assign sorted_tag_array = sorted_tag | split: "," %}
+        {% if sorted_tag_array[0].size > 1 %}
+            {% assign sorted_tag_size = sorted_tag_array[0] %}
+        {% endif %}
+        <a href="#{{ sorted_tag_array[1] | slugify }}" class="post-tag">{{sorted_tag_array[1]}}<small>({{sorted_tag_size}}) | </small></a>
+        {% endfor %}
+    </div>
+    <hr/>
+    <div class="tags-expo-section">
+        {% for sorted_tag in sorted_taglist %}
+        {% assign sorted_tag_array = sorted_tag | split: "," %}
+        {% if sorted_tag_array[0].size == 2 %}
+            {% assign sorted_tag_size = sorted_tag_array[0] | slice: 1 %}
+        {% endif %}
+        <h3 id="{{ sorted_tag_array[1] | slugify }}">#{{sorted_tag_array[1]}}</h3>
+        <ul>
+            {% for post in site.posts %}
+            {% if post.tags contains sorted_tag_array[1] %}
+            <a class="post-title" href="{{ site.baseurl }}{{ post.url }}">
+            <li>
+                {{ post.title }}
+            <small class="post-date">{{ post.date | date_to_string }}</small>
+            </li>
+            </a>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
 </div>
