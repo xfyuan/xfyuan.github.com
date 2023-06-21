@@ -3,7 +3,7 @@ layout: post
 title: GraphQL on Rails——避免N+1问题
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, graphql]
+tags: [ruby, rails, graphql, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201214_170758.jpg"
 rating: 5
@@ -515,4 +515,3 @@ end
 也别忘了看看我们博客上其他有关 GraphQL 和 N+1 问题的文章：从对初学者友好且带代码的关于以 React 前端构建 Rails GraphQL 应用的教程（三个部分，从[这里](https://evilmartians.com/chronicles/graphql-on-rails-1-from-zero-to-the-first-query)开始），到更加特定用例的 [using GraphQL with Active Storage Direct Upload](https://evilmartians.com/chronicles/active-storage-meets-graphql-direct-uploads)，处理来自 Apollo 的 [persisted queries](https://evilmartians.com/chronicles/persisted-queries-in-graphql-slim-down-apollo-requests-to-your-ruby-application)，以及`graphql-ruby`中的 [reporting non-nullable violations](https://evilmartians.com/chronicles/reporting-non-nullable-violations-in-graphql-ruby-properly)。
 
 我们也有一些 gems 让你在“经典” Rails 应用中处理 N+1 问题更容易，和一些相关文章：[Squash N+1 queries early with n_plus_one_control test matchers for Ruby and Rails](https://evilmartians.com/chronicles/squash-n-plus-one-queries-early-with-n-plus-one-control-test-matchers-for-ruby-and-rails) 和 [Fighting the Hydra of N+1 queries](https://evilmartians.com/chronicles/fighting-the-hydra-of-n-plus-one-queries)。
-

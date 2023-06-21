@@ -3,7 +3,7 @@ layout: post
 title: Vite化的Rails
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, vite]
+tags: [ruby, rails, vite, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221221.jpeg"
 rating: 4
@@ -156,7 +156,7 @@ export default defineConfig({
       # ...
       - vite_dev:/app/public/vite-dev
       - vite_test:/app/public/vite-test
-  
+
   volumes:
     # ...
     vite_dev:
@@ -262,5 +262,3 @@ interaction:
 ## Wrapping things up
 
 旅程至此告一段落了。我们现在拥有了设置好的 Ruby Vite，运行良好的 live reload，hot replacement，以及所期望的实时性，都被完美修复了！随意分享并把其用到你自己的项目中吧——我希望它能派上用场助你一臂之力！
-
-

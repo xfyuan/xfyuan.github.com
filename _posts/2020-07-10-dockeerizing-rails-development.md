@@ -3,7 +3,7 @@ layout: post
 title: 骑鲸之路——Docker模式下的Rails开发环境构筑（翻译）
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, docker]
+tags: [ruby, rails, docker, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200710UngNYW.jpg"
 ---
@@ -592,4 +592,3 @@ redis:
 - Use standard Bundler path (`/usr/local/bundle`) instead of `/bundle`.
 - Use Docker Compose file format v2.4.
 - Add health checking to `postgres` and `redis` services.
-

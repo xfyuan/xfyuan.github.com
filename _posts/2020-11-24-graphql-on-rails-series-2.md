@@ -3,7 +3,7 @@ layout: post
 title: GraphQL on Rails——更新
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, graphql]
+tags: [ruby, rails, graphql, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201121_131305.jpg"
 rating: 4
@@ -1059,4 +1059,3 @@ updateItem({
 ```
 
 这些就是本文的全部内容了！我们学习了 mutation 和 query 之间的区别，学习了在后端如何实现它们，以及如何在前端使用它们。现在，我们的应用支持用户登录和图书馆的管理，所以几乎已准备好发布到 production 了！然而，代码看起来还有些笨拙，有重构的空间——这正是我们将在第三部分中要做的，并添加一些其他改进，例如实时更新和更好的错误处理。敬请关注！
-

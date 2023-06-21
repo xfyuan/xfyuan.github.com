@@ -3,7 +3,7 @@ layout: post
 title: GraphQL on Rails——至臻
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, graphql]
+tags: [ruby, rails, graphql, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20200924_133643.jpg"
 rating: 5
@@ -787,5 +787,3 @@ const Library = () => {
 这就是我们穿越 Ruby-GraphQL-Apollo 世界的令人激动的冒险之旅的终点了。使用一个小的范例应用，我们实践了所有的基础技术，强调了常见的问题，还介绍了一些高级主题。
 
 这可能是一个具有挑战性的练习，但我们确信你将从中受益。无论如何，你现在都有足够的理论和实践来为自己创建利用上 GraphQL 强大威力的 Rails 应用了！
-
-

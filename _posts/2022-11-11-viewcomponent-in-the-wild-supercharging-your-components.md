@@ -3,7 +3,7 @@ layout: post
 title: "野生的ViewComponent（下）: 为组件增压加速"
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, view_component]
+tags: [ruby, rails, view_component, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221112.jpeg"
 rating: 5
@@ -757,7 +757,7 @@ class MailerPreview::Preview < ApplicationViewComponentPreview
   def email_source_path(kind)
     Rails.root.join("app", "views", "mailers", mailer.to_s.underscore, "#{kind}.html.erb")
   end
-  
+
   def mailer_params = nil
 end
 ```
@@ -1166,4 +1166,3 @@ end
 好啦，朋友们，上面就是我想说的全部了！前端世界已经发生过一场革命了，我认为该是也在后端发生的时候了——所以，上船启航吧！🚂
 
 特别感谢，ViewComponent 的作者 [Joel Hawksley](https://github.com/joelhawksley) 抽出时间来审阅本文，和我们的 principal backend engineer [Vladimir Dementyev](https://github.com/palkan) 提出的很多想法，以及当然，还有超棒的 [`view_component-contrib` gem](https://github.com/palkan/view_component-contrib)。
-

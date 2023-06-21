@@ -3,7 +3,7 @@ layout: post
 title: GraphQL on Rails——启程
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, graphql]
+tags: [ruby, rails, graphql, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201113_205558.jpg"
 rating: 4
@@ -820,4 +820,3 @@ items {
 - batch loading（比如，使用 [graphql-batch](https://github.com/Shopify/graphql-batch) gem）
 
 本文就到这儿了！我们学习了关于 GraphQL 的很多东西，完成了配置后端和前端应用程序的常规工作，进行了第一个查询，甚至还发现并修复了第一个 bug。而这只是我们旅程中微小的一步（尽管文章的篇幅并不微小）。我们会很快回来的，届时将推出如何使用 GraphQL 的 mutation 来操作数据，以及 subscription 来使数据保持最新的内容。敬请关注！
-

@@ -3,7 +3,7 @@ layout: post
 title: 在Rails中尽早碾碎N+1查询
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, rspec, minitest]
+tags: [ruby, rails, rspec, minitest, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20201027_125936.jpg"
 ---
@@ -235,4 +235,3 @@ bundle exec rails test
 ```
 
 总结一下，通过[n_plus_one_control](https://github.com/palkan/n_plus_one_control)，你可以通过编写测试并以不同参数运行多次来快速识别出任何一种 N+1 查询的根源。而在你修复所有这些问题后，这种检测就成为一种回归测试——阻止你的代码在将来再出问题的测试！
-

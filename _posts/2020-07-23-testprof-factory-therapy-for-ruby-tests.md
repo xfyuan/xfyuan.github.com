@@ -3,7 +3,7 @@ layout: post
 title: Ruby测试的“工厂疗法”
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, rspec]
+tags: [ruby, rails, rspec, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200723IMG_20200717_185642.jpg"
 rating: 4
@@ -395,4 +395,3 @@ Factories 为你的测试数据生成带来了简单和灵活，但它们非常*
 照顾好你的 factories 吧，定期带它们去看看医生（[TestProf](https://test-prof.evilmartians.io/)）。让测试更快速，开发者就更快乐！
 
 请阅读 [TestProf 介绍文章](https://evilmartians.com/chronicles/testprof-a-good-doctor-for-slow-ruby-tests) 以了解更多该项目和其他使用场景背后的初衷。
-

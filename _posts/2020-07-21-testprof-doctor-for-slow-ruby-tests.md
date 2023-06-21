@@ -3,7 +3,7 @@ layout: post
 title: Ruby慢测试的“良医圣手”
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, rspec]
+tags: [ruby, rails, rspec, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200721IMG_20200717_170501.jpg"
 rating: 4
@@ -312,5 +312,4 @@ TestProf 已经发布在 [GitHub](https://github.com/palkan/test-prof) 和 [ruby
 - TestProf [文档](https://test-prof.evilmartians.io/)
 - 2017 年 [RailsClub Moscow](http://railsclub.ru/) 的“Faster Tests” 演讲（[视频](https://www.youtube.com/watch?v=8S7oHjEiVzs)[俄语]，[slides](https://speakerdeck.com/palkan/railsclub-moscow-2017-faster-tests)）
 - 2017 年 [RubyConfBy](http://rubyconference.by/) 的“Run Test Run” 演讲（[视频](https://www.youtube.com/watch?v=q52n4p0wkIs)，[slides](https://speakerdeck.com/palkan/rubyconfby-minsk-2017-run-test-run)）
-- [Benoit Tigeot](https://github.com/benoittgt) 发表的 [“Tips to improve speed of your test suite”](https://medium.com/appaloosa-store-engineering/tips-to-improve-speed-of-your-test-suite-8418b485205c) 
-
+- [Benoit Tigeot](https://github.com/benoittgt) 发表的 [“Tips to improve speed of your test suite”](https://medium.com/appaloosa-store-engineering/tips-to-improve-speed-of-your-test-suite-8418b485205c)

@@ -3,7 +3,7 @@ layout: post
 title: "Hotwire: 没有JavaScript的Reactive Rails"
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, hotwire, turbo, stimulus]
+tags: [ruby, rails, hotwire, turbo, stimulus, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/IMG_20210220_121324.jpg"
 rating: 5
@@ -556,5 +556,3 @@ customElements.define("any-chat-message", ChatMessageElement);
 所以，那么零 JavaScript 的 Reactive Rails 到底存在吗？并不。我们移除了很多 JS 代码，但最后不得不用一些新东西来替代。这些新东西跟之前的有所区别：它更加，我得说，***实用主义***。它也更加高阶，需要对 JavaScript 以及最新浏览器 APIs 有很好的了解，这肯定是要权衡考虑的。
 
 附：我对 CableReady 和 StimulusReflex 也有一个[类似的 PR](https://github.com/anycable/anycable_rails_demo/pull/12)。你可以把它跟 Hotwire 的这个 PR 进行比较，在 [Twitter](https://twitter.com/evilmartians) 上与我们分享你的观点。
-
-

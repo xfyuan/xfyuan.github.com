@@ -3,7 +3,7 @@ layout: post
 title: "野生的ViewComponent（上）: 构建现代Rails前端"
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, view_component]
+tags: [ruby, rails, view_component, evil martians]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221110-01.jpeg"
 rating: 5
