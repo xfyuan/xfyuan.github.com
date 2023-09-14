@@ -1,4 +1,4 @@
-# TRAGEDXY => A personal technical blog
+# 「TRAGEDXY • 川霁黛熙」=> A personal technical blog
 
 A tech blog just about my own daily development.
 
