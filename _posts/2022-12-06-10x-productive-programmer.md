@@ -2,8 +2,8 @@
 layout: post
 title: 10倍生产力程序员的特质
 author: xfyuan
-categories: [ Programming, Life ]
-tags: [life]
+categories: [Translation, Programming, Life]
+tags: [life, 37signals]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/image20221206.jpeg"
 ---
