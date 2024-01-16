@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ruby慢测试的“良医圣手”
+title: TestProf I：Ruby慢测试的“良医圣手”
 author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, evil martians]

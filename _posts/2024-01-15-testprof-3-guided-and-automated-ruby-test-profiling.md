@@ -5,7 +5,7 @@ author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, evil martians]
 comments: true
-image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20240115.jpg"
+image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20240115.jpg"
 rating: 4
 ---
 
@@ -184,7 +184,7 @@ TestProf 在大约三年前发布了 v1.0，这是一款稳定成熟的软件。
 
 另一个令我们兴奋的新功能是[Vernier](https://github.com/jhawthorn/vernier)集成。Vernier 是下一代 Ruby 采样分析器，具有更好的多线程、GVL 和 GC 事件支持。我们还不知道它在测试分析的上下文中是否具有一定优势，但它与 Firefox Profiler UI 的兼容性看起来很有吸引力。以下是我试图找到测试套件中突然变慢的原因（剧透：它是 `Sentry.capture_message` ）：
 
-![vernier-demo](https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/vernier-demo.gif)
+![vernier-demo](https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/vernier-demo.gif)
 
 那么，TestProf 的下一步是什么？我们对 v2 没有太大的计划（好吧，我有，但还没有时间表）。相反，我们专注于扩展 TestProf 的世界，并带来新的面向测试的工具。一年前，我们还发布了 Mock Suey，这是一个工具包，可使模拟更可靠并避免误报。
 

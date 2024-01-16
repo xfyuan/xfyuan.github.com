@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Ruby测试的“工厂疗法”
+title: TestProf II：Ruby测试的“工厂疗法”
 author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, rspec, evil martians]
