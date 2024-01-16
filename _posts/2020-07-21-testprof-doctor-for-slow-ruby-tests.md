@@ -3,7 +3,7 @@ layout: post
 title: TestProf I：Ruby慢测试的“良医圣手”
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, rspec, evil martians]
+tags: [ruby, rails, rspec, evil martians, testprof]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200721IMG_20200717_170501.jpg"
 rating: 4

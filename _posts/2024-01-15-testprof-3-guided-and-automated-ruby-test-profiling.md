@@ -3,7 +3,7 @@ layout: post
 title: TestProf III：引导式及自动化的Ruby测试分析
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, rspec, evil martians]
+tags: [ruby, rails, rspec, evil martians, testprof]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20240115.jpg"
 rating: 4

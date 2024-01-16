@@ -3,7 +3,7 @@ layout: post
 title: TestProf文档中文版翻译完成上线
 author: xfyuan
 categories: [ Translation, Programming ]
-tags: [ruby, rails, rspec]
+tags: [ruby, rails, rspec, testprof]
 comments: true
 image: "https://gcore.jsdelivr.net/gh/xfyuan/ossimgs@master/20200818WechatIMG5.jpeg"
 ---
