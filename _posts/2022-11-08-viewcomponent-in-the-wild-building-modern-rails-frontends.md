@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "野生的ViewComponent（上）: 构建现代Rails前端"
+title: "狂野的ViewComponent（一）: 构建现代Rails前端"
 author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, view_component, evil martians]

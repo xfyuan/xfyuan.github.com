@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "野生的ViewComponent（下）: 为组件增压加速"
+title: " 狂野的ViewComponent（二）: 为组件增压加速"
 author: xfyuan
 categories: [ Translation, Programming ]
 tags: [ruby, rails, view_component, evil martians]
