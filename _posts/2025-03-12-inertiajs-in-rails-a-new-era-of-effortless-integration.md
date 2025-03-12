@@ -9,11 +9,21 @@ image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20250312.jpg"
 rating: 5
 ---
 
-_本文已获得原作者（**Svyatoslav Kryukov**、**Travis Turner**）和 Evil Martians 授权许可进行翻译。原文讲述了 Inertia.js 这个新兴工具在 Rails 中的集成。对 Monolith 架构的促进，并以具体实例进行了演示。Inertia.js 也是[我在去年在 RubyConf China 上做的讲演主题](https://www.bilibili.com/video/BV1R2cceWEvS/)的核心内容之一，有兴趣的朋友可以去看看。_
+_本文已获得原作者（**Svyatoslav Kryukov**、**Travis Turner**）和 Evil Martians 授权许可进行翻译。原文讲述了 Inertia.js 这个新兴工具在 Rails 中的集成。对 Monolith 架构的促进，并以具体实例进行了演示。_
 
 - 原文链接：[Inertia.js in Rails: a new era of effortless integration](https://evilmartians.com/chronicles/inertiajs-in-rails-a-new-era-of-effortless-integration)
 - 作者：Svyatoslav Kryukov、**Travis Turner**
 - 站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发者博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。
+
+Inertia.js 也是我去年在 RubyConf China 2024 上做的讲演主题的核心内容之一，下面是 B 站和 YouTube 的视频地址，有兴趣的朋友可以去看看:
+
+#### Bilibili
+
+<iframe src="//player.bilibili.com/player.html?isOutside=true&aid=113808513172219&bvid=BV1R2cceWEvS&cid=27810661447&p=1&autoplay=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="560" height="315"></iframe>
+
+#### Youtube
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2Qbj3jmksOQ?si=AqG8WEBGCnHlaP7o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 _【正文如下】_
 
