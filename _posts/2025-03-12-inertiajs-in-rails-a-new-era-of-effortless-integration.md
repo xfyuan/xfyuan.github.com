@@ -3,7 +3,7 @@ layout: post
 title: Monolith的新时代
 author: xfyuan
 categories: [Translation, Programming]
-tags: [ruby, rails, inertia's, frontend, evil martians]
+tags: [ruby, rails, inertiajs, frontend, evil martians]
 comments: true
 image: "https://cdn.jsdelivr.net/gh/xfyuan/ossimgs@master/uPic/img20250312.jpg"
 rating: 5
