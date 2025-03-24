@@ -15,7 +15,7 @@ _本文已获得原作者（**Vladimir Dementyev**、**Travis Turner**）和 Evi
 - 作者：[Vladimir Dementyev](https://twitter.com/palkan_tula)、**Travis Turner**
 - 站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发者博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。
 
-_【译者注】_
+_【序】_
 
 今天恰好是炉石传说最新一个扩展包“漫游翡翠梦境”发布的日子。
 
