@@ -15,6 +15,8 @@ _本文已获得原作者（**Svyatoslav Kryukov**、**Travis Turner**）和 Evi
 - 作者：Svyatoslav Kryukov、**Travis Turner**
 - 站点：Evil Martians ——位于纽约和俄罗斯的 Ruby on Rails 开发者博客。 它发布了许多优秀的文章，并且是不少 gem 的赞助商。
 
+_【序】_
+
 Inertia.js 也是我去年在 RubyConf China 2024 上做的讲演主题的核心内容之一，下面是 B 站和 YouTube 的视频地址，有兴趣的朋友可以去看看:
 
 #### Bilibili
