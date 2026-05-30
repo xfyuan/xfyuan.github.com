@@ -1,0 +1,8 @@
+{
+  "name": "xy-blog",
+  "compatibility_date": "2026-05-31",
+  "pages_build_output_dir": "./dist",
+  "assets": {
+    "directory": "./_site/"
+  }
+}
